@@ -10,4 +10,24 @@ export const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full',
   },
+  {
+    path: 'sign-in',
+    loadComponent: () => import('./sign-in/sign-in.page').then( m => m.SignInPage)
+  },
+  {
+    path: 'pages/home',
+    loadComponent: () => import('./pages/home/home.page').then( m => m.HomePage)
+  },
+  {
+    path: 'pages/all-jobs',
+    loadComponent: () => import('./pages/all-jobs/all-jobs.page').then( m => m.AllJobsPage)
+  },
+  {
+    path: 'pages/job-detail',
+    loadComponent: () => import('./pages/job-detail/job-detail.page').then( m => m.JobDetailPage)
+  },
+  {
+    path: 'pages/apply-job',
+    loadComponent: () => import('./pages/apply-job/apply-job.page').then( m => m.ApplyJobPage)
+  },
 ];

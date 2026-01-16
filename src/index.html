@@ -17,10 +17,23 @@
   <!-- add to homescreen for ios -->
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <script>
+      if (localStorage.toggled === "dark-theme") {
+          document.documentElement.classList.add('dark-theme');
+      }
+  </script>
 </head>
 
 <body>
   <app-root></app-root>
+
+  <!-- LEGACY JS (GLOBAL SCOPE) -->
+  <script src="assets/js/jquery.min.js"></script>
+  <script src="assets/js/bootstrap.min.js"></script>
+  <script src="assets/js/swiper-bundle.min.js"></script>
+  <script src="assets/js/carousel.js"></script>
+  <script src="assets/js/main.js"></script>
+
 </body>
 
 </html>

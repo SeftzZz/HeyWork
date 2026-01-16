@@ -1,0 +1,1152 @@
+<ion-content [fullscreen]="true">
+  
+  <div class="header-avt fixed-top">
+      <a href="setup-profile.html" class="box-avt">
+          <div class="avt">
+              <img src="assets/images/avt/avt-1.jpg" alt="avt">
+          </div>
+          <div class="content">
+              <span class="body-4 text-dark-4">Welcome back!</span>
+              <h4 class="name">
+                  Hello! Smith
+                  <img class="icon" src="assets/images/icon/hello.png" alt="">
+              </h4>
+          </div>
+      </a>
+
+      <div class="right">
+          <a class="box-icon" href="#notification" data-bs-toggle="offcanvas" aria-controls="offcanvasBottom">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 6.44043V9.77043" stroke="#1A1528" stroke-width="1.5" stroke-miterlimit="10"
+                      stroke-linecap="round" />
+                  <path
+                      d="M12.0199 2C8.3399 2 5.3599 4.98 5.3599 8.66V10.76C5.3599 11.44 5.0799 12.46 4.7299 13.04L3.4599 15.16C2.6799 16.47 3.2199 17.93 4.6599 18.41C9.4399 20 14.6099 20 19.3899 18.41C20.7399 17.96 21.3199 16.38 20.5899 15.16L19.3199 13.04C18.9699 12.46 18.6899 11.43 18.6899 10.76V8.66C18.6799 5 15.6799 2 12.0199 2Z"
+                      stroke="#1A1528" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" />
+                  <path
+                      d="M15.3299 18.8203C15.3299 20.6503 13.8299 22.1503 11.9999 22.1503C11.0899 22.1503 10.2499 21.7703 9.64992 21.1703C9.04992 20.5703 8.66992 19.7303 8.66992 18.8203"
+                      stroke="#1A1528" stroke-width="1.5" stroke-miterlimit="10" />
+              </svg>
+          </a>
+          <a class="box-icon" (click)="openSidebar()">
+              <svg width="22" height="22" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g opacity="1">
+                      <path d="M2.5 10H17.5" stroke="#1A1528" stroke-width="1.5" stroke-linecap="round"
+                          stroke-linejoin="round" />
+                      <path d="M2.5 5H17.5" stroke="#1A1528" stroke-width="1.5" stroke-linecap="round"
+                          stroke-linejoin="round" />
+                      <path d="M2.5 15H17.5" stroke="#1A1528" stroke-width="1.5" stroke-linecap="round"
+                          stroke-linejoin="round" />
+                  </g>
+              </svg>
+          </a>
+      </div>
+  </div>
+  <div class="app-content style-2">
+      <div class="tf-container">
+          <div class="search-box">
+              <a href="search-result.html" class="icon-left">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <g opacity="0.5">
+                          <path
+                              d="M9.58317 17.4998C13.9554 17.4998 17.4998 13.9554 17.4998 9.58317C17.4998 5.21092 13.9554 1.6665 9.58317 1.6665C5.21092 1.6665 1.6665 5.21092 1.6665 9.58317C1.6665 13.9554 5.21092 17.4998 9.58317 17.4998Z"
+                              stroke="#121927" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                          <path d="M18.3332 18.3332L16.6665 16.6665" stroke="#121927" stroke-width="1.5"
+                              stroke-linecap="round" stroke-linejoin="round" />
+                      </g>
+                  </svg>
+              </a>
+              <input type="text" class="search-field" placeholder="Search...">
+              <span class="right-icon" data-bs-target="#filter" data-bs-toggle="offcanvas"
+                  aria-controls="offcanvasRight">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M8.60851 13.8269H3.35791" stroke="#2869FE" stroke-width="1.5" stroke-linecap="round"
+                          stroke-linejoin="round" />
+                      <path d="M10.9507 5.75072H16.2013" stroke="#2869FE" stroke-width="1.5" stroke-linecap="round"
+                          stroke-linejoin="round" />
+                      <path fill-rule="evenodd" clip-rule="evenodd"
+                          d="M7.27207 5.70521C7.27207 4.6255 6.39027 3.75 5.30278 3.75C4.2153 3.75 3.3335 4.6255 3.3335 5.70521C3.3335 6.78492 4.2153 7.66042 5.30278 7.66042C6.39027 7.66042 7.27207 6.78492 7.27207 5.70521Z"
+                          stroke="#2869FE" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                      <path fill-rule="evenodd" clip-rule="evenodd"
+                          d="M16.6666 13.7951C16.6666 12.7153 15.7855 11.8398 14.698 11.8398C13.6098 11.8398 12.728 12.7153 12.728 13.7951C12.728 14.8748 13.6098 15.7503 14.698 15.7503C15.7855 15.7503 16.6666 14.8748 16.6666 13.7951Z"
+                          stroke="#2869FE" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+
+              </span>
+          </div>
+          <div class="mt-24 banner-box">
+              <div class="content">
+                  <h5 class="title">Let’s find a new job <br> suitable for you</h5>
+                  <a (click)="goJobDetail()" class="btn-more">Learn More</a>
+              </div>
+              <div class="img-box">
+                  <img src="assets/images/banner/banner-1.png" alt="">
+              </div>
+              <div class="circle-animation">
+                  <div class="circle"></div>
+                  <div class="circle"></div>
+                  <div class="circle"></div>
+                  <div class="circle"></div>
+                  <div class="circle"></div>
+              </div>
+          </div>
+          <div class="mt-24">
+              <h4>Browse By Category</h4>
+              <div dir="ltr" class="mt-20 swiper tf-sw" data-preview="4" data-space="20">
+                  <div class="swiper-wrapper">
+                      <div class="swiper-slide">
+                          <div class="category-job">
+                              <a (click)="goAllJobs()" class="box-img">
+                                  <img src="assets/images/category/company.png" alt="img">
+                              </a>
+                              <a class="title" (click)="goAllJobs()">Company</a>
+                          </div>
+                      </div>
+                      <div class="swiper-slide">
+                          <div class="category-job">
+                              <a (click)="goAllJobs()" class="box-img">
+                                  <img src="assets/images/category/pull-time.png" alt="img">
+                              </a>
+                              <a class="title" (click)="goAllJobs()">Full Time</a>
+                          </div>
+                      </div>
+                      <div class="swiper-slide">
+                          <div class="category-job">
+                              <a (click)="goAllJobs()" class="box-img">
+                                  <img src="assets/images/category/part-time.png" alt="img">
+                              </a>
+                              <a class="title" (click)="goAllJobs()">Part Time</a>
+                          </div>
+                      </div>
+                      <div class="swiper-slide">
+                          <div class="category-job">
+                              <a (click)="goAllJobs()" class="box-img">
+                                  <img src="assets/images/category/freelancer.png" alt="img">
+                              </a>
+                              <a class="title" (click)="goAllJobs()">Freelance</a>
+                          </div>
+                      </div>
+                      <div class="swiper-slide">
+                          <div class="category-job">
+                              <a (click)="goAllJobs()" class="box-img">
+                                  <img src="assets/images/category/company.png" alt="img">
+                              </a>
+                              <a class="title" (click)="goAllJobs()">Company</a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <div class="mt-24">
+              <div class="fl-title d-flex justify-content-between align-items-center">
+                  <h4>Most Popular</h4>
+                  <a (click)="goAllJobs()" class="button-1">See All</a>
+              </div>
+              <div dir="ltr" class="mt-24 swiper tf-sw-2 sw-lr" data-preview="1.2" data-space="20">
+                  <div class="swiper-wrapper">
+                      <div class="swiper-slide">
+                          <div class="card-job bg-primary-pest">
+                              <div class="top">
+                                  <div class="inner-left">
+                                      <div class="logo-box">
+                                          <img src="assets/images/jobs/google.png" alt="">
+                                      </div>
+                                      <div class="info">
+                                          <p class="body-2">Google LLC</p>
+                                          <h6 class="title"><a (click)="goJobDetail()">Sr. UX Designer</a></h6>
+                                      </div>
+                                  </div>
+                                  <span class="tag-archive check-icon">
+                                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                          xmlns="http://www.w3.org/2000/svg">
+                                          <path d="M6.1665 6.0332C7.35317 6.46654 8.6465 6.46654 9.83317 6.0332Z"
+                                              fill="white" />
+                                          <path d="M6.1665 6.0332C7.35317 6.46654 8.6465 6.46654 9.83317 6.0332"
+                                              stroke="white" stroke-width="1.5" stroke-linecap="round"
+                                              stroke-linejoin="round" />
+                                          <path
+                                              d="M11.2134 1.3335H4.78671C3.36671 1.3335 2.21338 2.4935 2.21338 3.90683V13.3002C2.21338 14.5002 3.07338 15.0068 4.12671 14.4268L7.38005 12.6202C7.72671 12.4268 8.28671 12.4268 8.62671 12.6202L11.88 14.4268C12.9334 15.0135 13.7934 14.5068 13.7934 13.3002V3.90683C13.7867 2.4935 12.6334 1.3335 11.2134 1.3335Z"
+                                              stroke="white" stroke-width="1.5" stroke-linecap="round"
+                                              stroke-linejoin="round" />
+                                          <path
+                                              d="M11.2134 1.3335H4.78671C3.36671 1.3335 2.21338 2.4935 2.21338 3.90683V13.3002C2.21338 14.5002 3.07338 15.0068 4.12671 14.4268L7.38005 12.6202C7.72671 12.4268 8.28671 12.4268 8.62671 12.6202L11.88 14.4268C12.9334 15.0135 13.7934 14.5068 13.7934 13.3002V3.90683C13.7867 2.4935 12.6334 1.3335 11.2134 1.3335Z"
+                                              stroke="white" stroke-width="1.5" stroke-linecap="round"
+                                              stroke-linejoin="round" />
+                                      </svg>
+                                  </span>
+                              </div>
+                              <div class="list-tag">
+                                  <span class="tag body-6">Design</span>
+                                  <span class="tag body-6">Full Time</span>
+                                  <span class="tag body-6">In House</span>
+                              </div>
+                              <div class="bottom">
+                                  <div class="inner">
+                                      <h6>$195,000/</h6>
+                                      <span class="body-6">Year</span>
+                                  </div>
+                                  <a (click)="goJobDetail()" class="btn-apply">
+                                      Apply
+                                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                          xmlns="http://www.w3.org/2000/svg">
+                                          <path d="M9.62012 3.95312L13.6668 7.99979L9.62012 12.0465" stroke="white"
+                                              stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                                              stroke-linejoin="round" />
+                                          <path d="M2.3335 8H13.5535" stroke="white" stroke-width="1.5"
+                                              stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                                      </svg>
+                                  </a>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="swiper-slide">
+                          <div class="card-job bg-secondary-violet">
+                              <div class="top">
+                                  <div class="inner-left">
+                                      <div class="logo-box">
+                                          <img src="assets/images/jobs/microsoft.png" alt="">
+                                      </div>
+                                      <div class="info">
+                                          <p class="body-2">Microsoft</p>
+                                          <h6 class="title"><a (click)="goJobDetail()">Lead Designer</a></h6>
+                                      </div>
+                                  </div>
+                                  <span class="tag-archive check-icon">
+                                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                          xmlns="http://www.w3.org/2000/svg">
+                                          <path d="M6.1665 6.0332C7.35317 6.46654 8.6465 6.46654 9.83317 6.0332Z"
+                                              fill="white" />
+                                          <path d="M6.1665 6.0332C7.35317 6.46654 8.6465 6.46654 9.83317 6.0332"
+                                              stroke="white" stroke-width="1.5" stroke-linecap="round"
+                                              stroke-linejoin="round" />
+                                          <path
+                                              d="M11.2134 1.3335H4.78671C3.36671 1.3335 2.21338 2.4935 2.21338 3.90683V13.3002C2.21338 14.5002 3.07338 15.0068 4.12671 14.4268L7.38005 12.6202C7.72671 12.4268 8.28671 12.4268 8.62671 12.6202L11.88 14.4268C12.9334 15.0135 13.7934 14.5068 13.7934 13.3002V3.90683C13.7867 2.4935 12.6334 1.3335 11.2134 1.3335Z"
+                                              stroke="white" stroke-width="1.5" stroke-linecap="round"
+                                              stroke-linejoin="round" />
+                                          <path
+                                              d="M11.2134 1.3335H4.78671C3.36671 1.3335 2.21338 2.4935 2.21338 3.90683V13.3002C2.21338 14.5002 3.07338 15.0068 4.12671 14.4268L7.38005 12.6202C7.72671 12.4268 8.28671 12.4268 8.62671 12.6202L11.88 14.4268C12.9334 15.0135 13.7934 14.5068 13.7934 13.3002V3.90683C13.7867 2.4935 12.6334 1.3335 11.2134 1.3335Z"
+                                              stroke="white" stroke-width="1.5" stroke-linecap="round"
+                                              stroke-linejoin="round" />
+                                      </svg>
+                                  </span>
+                              </div>
+                              <div class="list-tag">
+                                  <span class="tag body-6">Design</span>
+                                  <span class="tag body-6">Full Time</span>
+                                  <span class="tag body-6">In House</span>
+                              </div>
+                              <div class="bottom">
+                                  <div class="inner">
+                                      <h6>$195,000/</h6>
+                                      <span class="body-6">Year</span>
+                                  </div>
+                                  <a (click)="goJobDetail()" class="btn-apply">
+                                      Apply
+                                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                          xmlns="http://www.w3.org/2000/svg">
+                                          <path d="M9.62012 3.95312L13.6668 7.99979L9.62012 12.0465" stroke="white"
+                                              stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                                              stroke-linejoin="round" />
+                                          <path d="M2.3335 8H13.5535" stroke="white" stroke-width="1.5"
+                                              stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                                      </svg>
+                                  </a>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <div class="mt-24">
+              <div class="fl-title d-flex justify-content-between align-items-center">
+                  <h4>Most Popular</h4>
+                  <a (click)="goAllJobs()" class="button-1">See All</a>
+              </div>
+              <div class="mt-20 list-jobs">
+                  <div class="job-item">
+                      <a (click)="goJobDetail()" class="logo"><img src="assets/images/jobs/apple.png" alt=""></a>
+                      <div class="content">
+                          <div class="info">
+                              <h5><a (click)="goJobDetail()">Sr. Product Designer</a></h5>
+                              <ul class="list-info">
+                                  <li class="item">
+                                      <i class="icon icon-company"></i>
+                                      <span class="body-4">Apple</span>
+                                  </li>
+                                  <li class="dot"></li>
+                                  <li class="item">
+                                      <i class="icon icon-map"></i>
+                                      <span class="body-4">United States</span>
+                                  </li>
+                              </ul>
+                          </div>
+                          <span class="more">
+                              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                  xmlns="http://www.w3.org/2000/svg">
+                                  <g opacity="0.6">
+                                      <path
+                                          d="M12 3.75C12.6858 3.75 13.25 4.31421 13.25 5C13.25 5.68579 12.6858 6.25 12 6.25C11.3142 6.25 10.75 5.68579 10.75 5C10.75 4.31421 11.3142 3.75 12 3.75Z"
+                                          fill="#121927" stroke="#121927" stroke-width="1.5" />
+                                      <path
+                                          d="M12 17.75C12.6858 17.75 13.25 18.3142 13.25 19C13.25 19.6858 12.6858 20.25 12 20.25C11.3142 20.25 10.75 19.6858 10.75 19C10.75 18.3142 11.3142 17.75 12 17.75Z"
+                                          fill="#121927" stroke="#121927" stroke-width="1.5" />
+                                      <path
+                                          d="M12 10.75C12.6858 10.75 13.25 11.3142 13.25 12C13.25 12.6858 12.6858 13.25 12 13.25C11.3142 13.25 10.75 12.6858 10.75 12C10.75 11.3142 11.3142 10.75 12 10.75Z"
+                                          fill="#121927" stroke="#121927" stroke-width="1.5" />
+                                  </g>
+                              </svg>
+                          </span>
+                      </div>
+                  </div>
+                  <div class="job-item">
+                      <a (click)="goJobDetail()" class="logo"><img src="assets/images/jobs/amplitude.png" alt=""></a>
+                      <div class="content">
+                          <div class="info">
+                              <h5><a (click)="goJobDetail()">Sr. UI/UX Designer</a></h5>
+                              <ul class="list-info">
+                                  <li class="item">
+                                      <i class="icon icon-company"></i>
+                                      <span class="body-4">Amplitude</span>
+                                  </li>
+                                  <li class="dot"></li>
+                                  <li class="item">
+                                      <i class="icon icon-map"></i>
+                                      <span class="body-4">Singapore</span>
+                                  </li>
+                              </ul>
+                          </div>
+                          <span class="more">
+                              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                  xmlns="http://www.w3.org/2000/svg">
+                                  <g opacity="0.6">
+                                      <path
+                                          d="M12 3.75C12.6858 3.75 13.25 4.31421 13.25 5C13.25 5.68579 12.6858 6.25 12 6.25C11.3142 6.25 10.75 5.68579 10.75 5C10.75 4.31421 11.3142 3.75 12 3.75Z"
+                                          fill="#121927" stroke="#121927" stroke-width="1.5" />
+                                      <path
+                                          d="M12 17.75C12.6858 17.75 13.25 18.3142 13.25 19C13.25 19.6858 12.6858 20.25 12 20.25C11.3142 20.25 10.75 19.6858 10.75 19C10.75 18.3142 11.3142 17.75 12 17.75Z"
+                                          fill="#121927" stroke="#121927" stroke-width="1.5" />
+                                      <path
+                                          d="M12 10.75C12.6858 10.75 13.25 11.3142 13.25 12C13.25 12.6858 12.6858 13.25 12 13.25C11.3142 13.25 10.75 12.6858 10.75 12C10.75 11.3142 11.3142 10.75 12 10.75Z"
+                                          fill="#121927" stroke="#121927" stroke-width="1.5" />
+                                  </g>
+                              </svg>
+                          </span>
+                      </div>
+                  </div>
+                  <div class="job-item">
+                      <a (click)="goJobDetail()" class="logo"><img src="assets/images/jobs/adobe.png" alt=""></a>
+                      <div class="content">
+                          <div class="info">
+                              <h5><a (click)="goJobDetail()">Software Developer</a></h5>
+                              <ul class="list-info">
+                                  <li class="item">
+                                      <i class="icon icon-company"></i>
+                                      <span class="body-4">Adobe</span>
+                                  </li>
+                                  <li class="dot"></li>
+                                  <li class="item">
+                                      <i class="icon icon-map"></i>
+                                      <span class="body-4">New York City</span>
+                                  </li>
+                              </ul>
+                          </div>
+                          <span class="more">
+                              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                  xmlns="http://www.w3.org/2000/svg">
+                                  <g opacity="0.6">
+                                      <path
+                                          d="M12 3.75C12.6858 3.75 13.25 4.31421 13.25 5C13.25 5.68579 12.6858 6.25 12 6.25C11.3142 6.25 10.75 5.68579 10.75 5C10.75 4.31421 11.3142 3.75 12 3.75Z"
+                                          fill="#121927" stroke="#121927" stroke-width="1.5" />
+                                      <path
+                                          d="M12 17.75C12.6858 17.75 13.25 18.3142 13.25 19C13.25 19.6858 12.6858 20.25 12 20.25C11.3142 20.25 10.75 19.6858 10.75 19C10.75 18.3142 11.3142 17.75 12 17.75Z"
+                                          fill="#121927" stroke="#121927" stroke-width="1.5" />
+                                      <path
+                                          d="M12 10.75C12.6858 10.75 13.25 11.3142 13.25 12C13.25 12.6858 12.6858 13.25 12 13.25C11.3142 13.25 10.75 12.6858 10.75 12C10.75 11.3142 11.3142 10.75 12 10.75Z"
+                                          fill="#121927" stroke="#121927" stroke-width="1.5" />
+                                  </g>
+                              </svg>
+                          </span>
+                      </div>
+                  </div>
+                  <div class="job-item">
+                      <a (click)="goJobDetail()" class="logo"><img src="assets/images/jobs/wings.png" alt=""></a>
+                      <div class="content">
+                          <div class="info">
+                              <h5><a (click)="goJobDetail()">Lead Digital Marketar</a></h5>
+                              <ul class="list-info">
+                                  <li class="item">
+                                      <i class="icon icon-company"></i>
+                                      <span class="body-4">wings</span>
+                                  </li>
+                                  <li class="dot"></li>
+                                  <li class="item">
+                                      <i class="icon icon-map"></i>
+                                      <span class="body-4">Anywhere (Remote)</span>
+                                  </li>
+                              </ul>
+                          </div>
+                          <span class="more">
+                              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                  xmlns="http://www.w3.org/2000/svg">
+                                  <g opacity="0.6">
+                                      <path
+                                          d="M12 3.75C12.6858 3.75 13.25 4.31421 13.25 5C13.25 5.68579 12.6858 6.25 12 6.25C11.3142 6.25 10.75 5.68579 10.75 5C10.75 4.31421 11.3142 3.75 12 3.75Z"
+                                          fill="#121927" stroke="#121927" stroke-width="1.5" />
+                                      <path
+                                          d="M12 17.75C12.6858 17.75 13.25 18.3142 13.25 19C13.25 19.6858 12.6858 20.25 12 20.25C11.3142 20.25 10.75 19.6858 10.75 19C10.75 18.3142 11.3142 17.75 12 17.75Z"
+                                          fill="#121927" stroke="#121927" stroke-width="1.5" />
+                                      <path
+                                          d="M12 10.75C12.6858 10.75 13.25 11.3142 13.25 12C13.25 12.6858 12.6858 13.25 12 13.25C11.3142 13.25 10.75 12.6858 10.75 12C10.75 11.3142 11.3142 10.75 12 10.75Z"
+                                          fill="#121927" stroke="#121927" stroke-width="1.5" />
+                                  </g>
+                              </svg>
+                          </span>
+                      </div>
+                  </div>
+                  <div class="job-item">
+                      <a (click)="goJobDetail()" class="logo"><img src="assets/images/jobs/airbnb.png" alt=""></a>
+                      <div class="content">
+                          <div class="info">
+                              <h5><a (click)="goJobDetail()">Full Stack Developer</a></h5>
+                              <ul class="list-info">
+                                  <li class="item">
+                                      <i class="icon icon-company"></i>
+                                      <span class="body-4">Airbnb</span>
+                                  </li>
+                                  <li class="dot"></li>
+                                  <li class="item">
+                                      <i class="icon icon-map"></i>
+                                      <span class="body-4">United Kingdom</span>
+                                  </li>
+                              </ul>
+                          </div>
+                          <span class="more">
+                              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                  xmlns="http://www.w3.org/2000/svg">
+                                  <g opacity="0.6">
+                                      <path
+                                          d="M12 3.75C12.6858 3.75 13.25 4.31421 13.25 5C13.25 5.68579 12.6858 6.25 12 6.25C11.3142 6.25 10.75 5.68579 10.75 5C10.75 4.31421 11.3142 3.75 12 3.75Z"
+                                          fill="#121927" stroke="#121927" stroke-width="1.5" />
+                                      <path
+                                          d="M12 17.75C12.6858 17.75 13.25 18.3142 13.25 19C13.25 19.6858 12.6858 20.25 12 20.25C11.3142 20.25 10.75 19.6858 10.75 19C10.75 18.3142 11.3142 17.75 12 17.75Z"
+                                          fill="#121927" stroke="#121927" stroke-width="1.5" />
+                                      <path
+                                          d="M12 10.75C12.6858 10.75 13.25 11.3142 13.25 12C13.25 12.6858 12.6858 13.25 12 13.25C11.3142 13.25 10.75 12.6858 10.75 12C10.75 11.3142 11.3142 10.75 12 10.75Z"
+                                          fill="#121927" stroke="#121927" stroke-width="1.5" />
+                                  </g>
+                              </svg>
+                          </span>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+
+      </div>
+
+  </div>
+
+  <div class="menubar-footer footer-fixed">
+      <ul class="inner-bar">
+          <li class="active">
+              <a href="index.html">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path
+                          d="M20.0402 6.82018L14.2802 2.79018C12.7102 1.69018 10.3002 1.75018 8.79023 2.92018L3.78023 6.83018C2.78023 7.61018 1.99023 9.21018 1.99023 10.4702V17.3702C1.99023 19.9202 4.06023 22.0002 6.61023 22.0002H17.3902C19.9402 22.0002 22.0102 19.9302 22.0102 17.3802V10.6002C22.0102 9.25018 21.1402 7.59018 20.0402 6.82018ZM12.7502 18.0002C12.7502 18.4102 12.4102 18.7502 12.0002 18.7502C11.5902 18.7502 11.2502 18.4102 11.2502 18.0002V15.0002C11.2502 14.5902 11.5902 14.2502 12.0002 14.2502C12.4102 14.2502 12.7502 14.5902 12.7502 15.0002V18.0002Z"
+                          fill="#2869FE" />
+                  </svg>
+              </a>
+          </li>
+          <li>
+              <a href="application.html">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <g opacity="0.6">
+                          <path d="M8 12.2002H15" stroke="#121927" stroke-width="1.5" stroke-miterlimit="10"
+                              stroke-linecap="round" stroke-linejoin="round" />
+                          <path d="M8 16.2002H12.38" stroke="#121927" stroke-width="1.5" stroke-miterlimit="10"
+                              stroke-linecap="round" stroke-linejoin="round" />
+                          <path d="M10 6H14C16 6 16 5 16 4C16 2 15 2 14 2H10C9 2 8 2 8 4C8 6 9 6 10 6Z"
+                              stroke="#121927" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                              stroke-linejoin="round" />
+                          <path
+                              d="M16 4.02002C19.33 4.20002 21 5.43002 21 10V16C21 20 20 22 15 22H9C4 22 3 20 3 16V10C3 5.44002 4.67 4.20002 8 4.02002"
+                              stroke="#121927" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                              stroke-linejoin="round" />
+                      </g>
+                  </svg>
+              </a>
+          </li>
+          <li class="action-add"><a (click)="goApplyJob()">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M6 12H18" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                          stroke-linejoin="round" />
+                      <path d="M12 18V6" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                          stroke-linejoin="round" />
+                  </svg>
+
+              </a></li>
+          <li>
+              <a href="message.html">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <g opacity="0.6">
+                          <path
+                              d="M8.5 19H8C4 19 2 18 2 13V8C2 4 4 2 8 2H16C20 2 22 4 22 8V13C22 17 20 19 16 19H15.5C15.19 19 14.89 19.15 14.7 19.4L13.2 21.4C12.54 22.28 11.46 22.28 10.8 21.4L9.3 19.4C9.14 19.18 8.77 19 8.5 19Z"
+                              stroke="#121927" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                              stroke-linejoin="round" />
+                          <path d="M15.9965 11H16.0054" stroke="#121927" stroke-width="2" stroke-linecap="round"
+                              stroke-linejoin="round" />
+                          <path d="M11.9955 11H12.0045" stroke="#121927" stroke-width="2" stroke-linecap="round"
+                              stroke-linejoin="round" />
+                          <path d="M7.99451 11H8.00349" stroke="#121927" stroke-width="2" stroke-linecap="round"
+                              stroke-linejoin="round" />
+                      </g>
+                  </svg>
+              </a>
+          </li>
+          <li>
+              <a href="profile.html">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <g opacity="0.6">
+                          <path
+                              d="M12.1601 10.87C12.0601 10.86 11.9401 10.86 11.8301 10.87C9.45006 10.79 7.56006 8.84 7.56006 6.44C7.56006 3.99 9.54006 2 12.0001 2C14.4501 2 16.4401 3.99 16.4401 6.44C16.4301 8.84 14.5401 10.79 12.1601 10.87Z"
+                              stroke="#121927" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                          <path
+                              d="M7.16021 14.56C4.74021 16.18 4.74021 18.82 7.16021 20.43C9.91021 22.27 14.4202 22.27 17.1702 20.43C19.5902 18.81 19.5902 16.17 17.1702 14.56C14.4302 12.73 9.92021 12.73 7.16021 14.56Z"
+                              stroke="#121927" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                      </g>
+                  </svg>
+
+              </a>
+          </li>
+      </ul>
+
+  </div>
+
+
+  <!-- notification  -->
+  <div class="offcanvas offcanvas-end full" id="notification">
+      <div class="header fixed-top">
+          <div class="left">
+              <a href="javascript:void(0);" data-bs-dismiss="offcanvas" class="icon">
+                  <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M6.88986 12.2951L1.60986 7.00008L6.88986 1.70508" stroke="#121927" stroke-width="1.5"
+                          stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+              </a>
+          </div>
+          <h3>Notification</h3>
+          <div class="right">
+              <a href="#" class="icon search-box">
+                  <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path
+                          d="M8.1175 14.8234C11.8211 14.8234 14.8234 11.8211 14.8234 8.1175C14.8234 4.41395 11.8211 1.41162 8.1175 1.41162C4.41395 1.41162 1.41162 4.41395 1.41162 8.1175C1.41162 11.8211 4.41395 14.8234 8.1175 14.8234Z"
+                          stroke="#121927" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                      <path d="M15.5294 15.5294L14.1177 14.1177" stroke="#121927" stroke-width="1.5"
+                          stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+              </a>
+          </div>
+      </div>
+      <div class="overflow-auto app-content style-4">
+          <div class="tf-container">
+              <div class="list-noti">
+                  <div class="box-noti">
+                      <a (click)="goJobDetail()" class="box-icon">
+                          <img src="assets/images/icon/google.png" alt="">
+                      </a>
+                      <div class="content">
+                          <div class="title">
+                              <div class="h7 text-dark"><a (click)="goJobDetail()">Product Design</a> <span
+                                      class="dot"></span><span class="body-6 text-dark-4">Google LLC</span></div>
+                          </div>
+                          <p class="desc body-4 text-dark-4">Congratulations, your application on Google has been
+                              accepted <span class="dot away"></span><span class="body-6 text-dark-4">5 mins
+                                  ago</span></p>
+                      </div>
+                      <div class="more">
+                          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                              xmlns="http://www.w3.org/2000/svg">
+                              <path
+                                  d="M9.99984 3.25C10.5023 3.25 10.9165 3.66421 10.9165 4.16667C10.9165 4.66912 10.5023 5.08333 9.99984 5.08333C9.49738 5.08333 9.08317 4.66912 9.08317 4.16667C9.08317 3.66421 9.49738 3.25 9.99984 3.25Z"
+                                  fill="#121927" stroke="#121927" stroke-width="1.5" />
+                              <path
+                                  d="M9.99984 14.9165C10.5023 14.9165 10.9165 15.3307 10.9165 15.8332C10.9165 16.3356 10.5023 16.7498 9.99984 16.7498C9.49738 16.7498 9.08317 16.3356 9.08317 15.8332C9.08317 15.3307 9.49738 14.9165 9.99984 14.9165Z"
+                                  fill="#121927" stroke="#121927" stroke-width="1.5" />
+                              <path
+                                  d="M9.99984 9.0835C10.5023 9.0835 10.9165 9.49771 10.9165 10.0002C10.9165 10.5026 10.5023 10.9168 9.99984 10.9168C9.49738 10.9168 9.08317 10.5026 9.08317 10.0002C9.08317 9.49771 9.49738 9.0835 9.99984 9.0835Z"
+                                  fill="#121927" stroke="#121927" stroke-width="1.5" />
+                          </svg>
+                      </div>
+                  </div>
+                  <div class="box-noti">
+                      <a (click)="goJobDetail()" class="box-icon">
+                          <img src="assets/images/icon/slack.png" alt="">
+                      </a>
+                      <div class="content">
+                          <div class="title">
+                              <div class="h7 text-dark"><a (click)="goJobDetail()">Apps Design</a> <span
+                                      class="dot"></span><span class="body-6 text-dark-4">Slack</span></div>
+                          </div>
+                          <p class="desc body-4 text-dark-4">New job avaolable on <strong>Slack</strong>, (position -
+                              <strong>Mobile Apps Designer</strong> ) <span class="dot away"></span><span
+                                  class="body-6 text-dark-4">30 mins ago</span>
+                          </p>
+                      </div>
+                      <div class="more">
+                          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                              xmlns="http://www.w3.org/2000/svg">
+                              <path
+                                  d="M9.99984 3.25C10.5023 3.25 10.9165 3.66421 10.9165 4.16667C10.9165 4.66912 10.5023 5.08333 9.99984 5.08333C9.49738 5.08333 9.08317 4.66912 9.08317 4.16667C9.08317 3.66421 9.49738 3.25 9.99984 3.25Z"
+                                  fill="#121927" stroke="#121927" stroke-width="1.5" />
+                              <path
+                                  d="M9.99984 14.9165C10.5023 14.9165 10.9165 15.3307 10.9165 15.8332C10.9165 16.3356 10.5023 16.7498 9.99984 16.7498C9.49738 16.7498 9.08317 16.3356 9.08317 15.8332C9.08317 15.3307 9.49738 14.9165 9.99984 14.9165Z"
+                                  fill="#121927" stroke="#121927" stroke-width="1.5" />
+                              <path
+                                  d="M9.99984 9.0835C10.5023 9.0835 10.9165 9.49771 10.9165 10.0002C10.9165 10.5026 10.5023 10.9168 9.99984 10.9168C9.49738 10.9168 9.08317 10.5026 9.08317 10.0002C9.08317 9.49771 9.49738 9.0835 9.99984 9.0835Z"
+                                  fill="#121927" stroke="#121927" stroke-width="1.5" />
+                          </svg>
+                      </div>
+                  </div>
+                  <div class="box-noti">
+                      <a (click)="goJobDetail()" class="box-icon">
+                          <img src="assets/images/icon/zapier.png" alt="">
+                      </a>
+                      <div class="content">
+                          <div class="title">
+                              <div class="h7 text-dark"><a (click)="goJobDetail()">UI/UX Design</a> <span
+                                      class="dot"></span><span class="body-6 text-dark-4">Zapier</span></div>
+                          </div>
+                          <p class="desc body-4 text-dark-4">New job avaolable on <strong>Zapier</strong>, (position -
+                              <strong>Application Designer</strong> ) <span class="dot away"></span><span
+                                  class="body-6 text-dark-4">10 hr ago</span>
+                          </p>
+                      </div>
+                      <div class="more">
+                          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                              xmlns="http://www.w3.org/2000/svg">
+                              <path
+                                  d="M9.99984 3.25C10.5023 3.25 10.9165 3.66421 10.9165 4.16667C10.9165 4.66912 10.5023 5.08333 9.99984 5.08333C9.49738 5.08333 9.08317 4.66912 9.08317 4.16667C9.08317 3.66421 9.49738 3.25 9.99984 3.25Z"
+                                  fill="#121927" stroke="#121927" stroke-width="1.5" />
+                              <path
+                                  d="M9.99984 14.9165C10.5023 14.9165 10.9165 15.3307 10.9165 15.8332C10.9165 16.3356 10.5023 16.7498 9.99984 16.7498C9.49738 16.7498 9.08317 16.3356 9.08317 15.8332C9.08317 15.3307 9.49738 14.9165 9.99984 14.9165Z"
+                                  fill="#121927" stroke="#121927" stroke-width="1.5" />
+                              <path
+                                  d="M9.99984 9.0835C10.5023 9.0835 10.9165 9.49771 10.9165 10.0002C10.9165 10.5026 10.5023 10.9168 9.99984 10.9168C9.49738 10.9168 9.08317 10.5026 9.08317 10.0002C9.08317 9.49771 9.49738 9.0835 9.99984 9.0835Z"
+                                  fill="#121927" stroke="#121927" stroke-width="1.5" />
+                          </svg>
+                      </div>
+                  </div>
+                  <div class="box-noti">
+                      <a (click)="goJobDetail()" class="box-icon">
+                          <img src="assets/images/icon/google.png" alt="">
+                      </a>
+                      <div class="content">
+                          <div class="title">
+                              <div class="h7 text-dark"><a (click)="goJobDetail()">Product Design</a> <span
+                                      class="dot"></span><span class="body-6 text-dark-4">Google LLC</span></div>
+                          </div>
+                          <p class="desc body-4 text-dark-4">A strong interview strategy can boost your chances of
+                              success <span class="dot away"></span><span class="body-6 text-dark-4">18 hr ago</span>
+                          </p>
+                      </div>
+                      <div class="more">
+                          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                              xmlns="http://www.w3.org/2000/svg">
+                              <path
+                                  d="M9.99984 3.25C10.5023 3.25 10.9165 3.66421 10.9165 4.16667C10.9165 4.66912 10.5023 5.08333 9.99984 5.08333C9.49738 5.08333 9.08317 4.66912 9.08317 4.16667C9.08317 3.66421 9.49738 3.25 9.99984 3.25Z"
+                                  fill="#121927" stroke="#121927" stroke-width="1.5" />
+                              <path
+                                  d="M9.99984 14.9165C10.5023 14.9165 10.9165 15.3307 10.9165 15.8332C10.9165 16.3356 10.5023 16.7498 9.99984 16.7498C9.49738 16.7498 9.08317 16.3356 9.08317 15.8332C9.08317 15.3307 9.49738 14.9165 9.99984 14.9165Z"
+                                  fill="#121927" stroke="#121927" stroke-width="1.5" />
+                              <path
+                                  d="M9.99984 9.0835C10.5023 9.0835 10.9165 9.49771 10.9165 10.0002C10.9165 10.5026 10.5023 10.9168 9.99984 10.9168C9.49738 10.9168 9.08317 10.5026 9.08317 10.0002C9.08317 9.49771 9.49738 9.0835 9.99984 9.0835Z"
+                                  fill="#121927" stroke="#121927" stroke-width="1.5" />
+                          </svg>
+                      </div>
+                  </div>
+                  <div class="box-noti">
+                      <a (click)="goJobDetail()" class="box-icon">
+                          <img src="assets/images/icon/treehouse.png" alt="">
+                      </a>
+                      <div class="content">
+                          <div class="title">
+                              <div class="h7 text-dark"><a (click)="goJobDetail()">UX Researcher</a> <span
+                                      class="dot"></span><span class="body-6 text-dark-4">Treehouse</span></div>
+                          </div>
+                          <p class="desc body-4 text-dark-4">Congratulations, your application on Google has been
+                              accepted<span class="dot away"></span><span class="body-6 text-dark-4">1 day ago</span>
+                          </p>
+                      </div>
+                      <div class="more">
+                          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                              xmlns="http://www.w3.org/2000/svg">
+                              <path
+                                  d="M9.99984 3.25C10.5023 3.25 10.9165 3.66421 10.9165 4.16667C10.9165 4.66912 10.5023 5.08333 9.99984 5.08333C9.49738 5.08333 9.08317 4.66912 9.08317 4.16667C9.08317 3.66421 9.49738 3.25 9.99984 3.25Z"
+                                  fill="#121927" stroke="#121927" stroke-width="1.5" />
+                              <path
+                                  d="M9.99984 14.9165C10.5023 14.9165 10.9165 15.3307 10.9165 15.8332C10.9165 16.3356 10.5023 16.7498 9.99984 16.7498C9.49738 16.7498 9.08317 16.3356 9.08317 15.8332C9.08317 15.3307 9.49738 14.9165 9.99984 14.9165Z"
+                                  fill="#121927" stroke="#121927" stroke-width="1.5" />
+                              <path
+                                  d="M9.99984 9.0835C10.5023 9.0835 10.9165 9.49771 10.9165 10.0002C10.9165 10.5026 10.5023 10.9168 9.99984 10.9168C9.49738 10.9168 9.08317 10.5026 9.08317 10.0002C9.08317 9.49771 9.49738 9.0835 9.99984 9.0835Z"
+                                  fill="#121927" stroke="#121927" stroke-width="1.5" />
+                          </svg>
+                      </div>
+                  </div>
+                  <div class="box-noti">
+                      <a (click)="goJobDetail()" class="box-icon">
+                          <img src="assets/images/icon/microsoft.png" alt="">
+                      </a>
+                      <div class="content">
+                          <div class="title">
+                              <div class="h7 text-dark"><a (click)="goJobDetail()">Product Design</a> <span
+                                      class="dot"></span><span class="body-6 text-dark-4">Microsoft</span></div>
+                          </div>
+                          <p class="desc body-4 text-dark-4">Congratulations, your application on Microsoft has been
+                              accepted<span class="dot away"></span><span class="body-6 text-dark-4">1 week ago</span>
+                          </p>
+                      </div>
+                      <div class="more">
+                          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                              xmlns="http://www.w3.org/2000/svg">
+                              <path
+                                  d="M9.99984 3.25C10.5023 3.25 10.9165 3.66421 10.9165 4.16667C10.9165 4.66912 10.5023 5.08333 9.99984 5.08333C9.49738 5.08333 9.08317 4.66912 9.08317 4.16667C9.08317 3.66421 9.49738 3.25 9.99984 3.25Z"
+                                  fill="#121927" stroke="#121927" stroke-width="1.5" />
+                              <path
+                                  d="M9.99984 14.9165C10.5023 14.9165 10.9165 15.3307 10.9165 15.8332C10.9165 16.3356 10.5023 16.7498 9.99984 16.7498C9.49738 16.7498 9.08317 16.3356 9.08317 15.8332C9.08317 15.3307 9.49738 14.9165 9.99984 14.9165Z"
+                                  fill="#121927" stroke="#121927" stroke-width="1.5" />
+                              <path
+                                  d="M9.99984 9.0835C10.5023 9.0835 10.9165 9.49771 10.9165 10.0002C10.9165 10.5026 10.5023 10.9168 9.99984 10.9168C9.49738 10.9168 9.08317 10.5026 9.08317 10.0002C9.08317 9.49771 9.49738 9.0835 9.99984 9.0835Z"
+                                  fill="#121927" stroke="#121927" stroke-width="1.5" />
+                          </svg>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <ion-modal
+    [isOpen]="showSidebar"
+    cssClass="sidebar-modal-left"
+    backdropDismiss="true"
+    (didDismiss)="onSidebarDismiss()"
+  >
+    <ng-template>
+      <div class="modal-content modal-sidebar">
+          <div class="sidebar-header">
+              <a href="index.html" class="sidebar-logo">
+                  <img src="assets/images/logo/logo-1.png" alt="img">
+              </a>
+              <p>Jobko - Job Finder Mobile App </p>
+          </div>
+          <div class="sidebar-content">
+              <div class="d-flex gap-10 align-items-center pb-20 line-bt">
+                  <div class="avatar avt-40">
+                      <img src="assets/images/avt/avt-1.jpg" alt="img">
+                  </div>
+                  <div class="content-right">
+                      <p class="text-1">Good morning</p>
+                      <h6 class="fw-7">Hello! Smith</h6>
+                  </div>
+              </div>
+              <ul class="pt-20 pb-20">
+                  <li class="text-sm-start text-uppercase fw-7 text-dark">Main menu</li>
+                  <li class="mt-18 sub-menu" id="accordionExample">
+                      <a href="index.html" class="nav-link-item no-page">
+                          <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                              viewBox="0 0 20 20" fill="none">
+                              <path
+                                  d="M7.62043 17.3185V14.7628C7.62042 14.1152 8.14704 13.589 8.79935 13.5849H11.1945C11.8497 13.5849 12.3809 14.1123 12.3809 14.7628V17.3111C12.3809 17.8728 12.8373 18.3293 13.4031 18.3334H15.0372C15.8003 18.3354 16.5329 18.0357 17.0733 17.5007C17.6136 16.9656 17.9173 16.239 17.9173 15.4813V8.22162C17.9173 7.60957 17.644 7.02901 17.1712 6.63633L11.6198 2.22864C10.6494 1.45768 9.26346 1.48259 8.32181 2.2879L2.88983 6.63633C2.3946 7.01743 2.09861 7.59972 2.08398 8.22162V15.4739C2.08398 17.0532 3.37347 18.3334 4.96413 18.3334H6.56089C6.83329 18.3354 7.09522 18.2293 7.28855 18.0388C7.48187 17.8482 7.59059 17.589 7.59058 17.3185H7.62043Z"
+                                  fill="#D3D5DA" />
+                          </svg>
+                          <span>Home</span>
+                      </a>
+
+
+                  </li>
+                  <li class="mt-16">
+                      <a href="javascript:void(0);" class="nav-link-item btn-choose-page">
+                          <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                              viewBox="0 0 20 20" fill="none">
+                              <path opacity="0.4"
+                                  d="M15.6734 7.51758C15.2971 7.51758 14.7987 7.50925 14.1782 7.50925C12.6649 7.50925 11.4206 6.25675 11.4206 4.72925V2.04925C11.4206 1.83841 11.2523 1.66675 11.0436 1.66675H6.6357C4.57865 1.66675 2.91602 3.35508 2.91602 5.42425V14.4034C2.91602 16.5742 4.65787 18.3334 6.80733 18.3334H13.3712C15.4209 18.3334 17.0827 16.6559 17.0827 14.5851V7.89258C17.0827 7.68091 16.9152 7.51008 16.7056 7.51091C16.3533 7.51341 15.9308 7.51758 15.6734 7.51758Z"
+                                  fill="#D3D5DA" />
+                              <path opacity="0.4"
+                                  d="M13.4029 2.13947C13.1538 1.88031 12.7188 2.05864 12.7188 2.41781V4.61531C12.7188 5.53697 13.4779 6.29531 14.3996 6.29531C14.9804 6.30197 15.7871 6.30364 16.4721 6.30197C16.8229 6.30114 17.0013 5.88197 16.7579 5.62864C15.8788 4.71447 14.3046 3.07614 13.4029 2.13947Z"
+                                  fill="#D3D5DA" />
+                              <path fill-rule="evenodd" clip-rule="evenodd"
+                                  d="M7.47742 9.48986H10.2983C10.6408 9.48986 10.9191 9.21236 10.9191 8.86986C10.9191 8.52736 10.6408 8.24902 10.2983 8.24902H7.47742C7.13492 8.24902 6.85742 8.52736 6.85742 8.86986C6.85742 9.21236 7.13492 9.48986 7.47742 9.48986ZM7.47751 13.6517H12.0142C12.3567 13.6517 12.635 13.3742 12.635 13.0317C12.635 12.6892 12.3567 12.4109 12.0142 12.4109H7.47751C7.13501 12.4109 6.85751 12.6892 6.85751 13.0317C6.85751 13.3742 7.13501 13.6517 7.47751 13.6517Z"
+                                  fill="#D3D5DA" />
+                          </svg>
+                          <span>Pages</span>
+                      </a>
+                  </li>
+                  <li class="mt-16">
+                      <a href="javascript:void(0);" class="nav-link-item btn-choose-component">
+                          <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                              viewBox="0 0 20 20" fill="none">
+                              <path opacity="0.4"
+                                  d="M13.3947 1.66675H16.2164C17.3849 1.66675 18.3318 2.62162 18.3318 3.80005V6.64552C18.3318 7.82395 17.3849 8.77882 16.2164 8.77882H13.3947C12.2262 8.77882 11.2793 7.82395 11.2793 6.64552V3.80005C11.2793 2.62162 12.2262 1.66675 13.3947 1.66675Z"
+                                  fill="#D3D5DA" />
+                              <path fill-rule="evenodd" clip-rule="evenodd"
+                                  d="M3.78145 1.66675H6.60309C7.77165 1.66675 8.71853 2.62162 8.71853 3.80005V6.64552C8.71853 7.82395 7.77165 8.77882 6.60309 8.77882H3.78145C2.6129 8.77882 1.66602 7.82395 1.66602 6.64552V3.80005C1.66602 2.62162 2.6129 1.66675 3.78145 1.66675ZM3.78145 11.2213H6.60309C7.77165 11.2213 8.71853 12.1762 8.71853 13.3546V16.2001C8.71853 17.3777 7.77165 18.3334 6.60309 18.3334H3.78145C2.6129 18.3334 1.66602 17.3777 1.66602 16.2001V13.3546C1.66602 12.1762 2.6129 11.2213 3.78145 11.2213ZM16.2172 11.2213H13.3956C12.227 11.2213 11.2802 12.1762 11.2802 13.3546V16.2001C11.2802 17.3777 12.227 18.3334 13.3956 18.3334H16.2172C17.3858 18.3334 18.3327 17.3777 18.3327 16.2001V13.3546C18.3327 12.1762 17.3858 11.2213 16.2172 11.2213Z"
+                                  fill="#D3D5DA" />
+                          </svg>
+                          <span>Components</span>
+                      </a>
+                  </li>
+
+                  <li class="mt-16">
+                      <a href="profile.html" class="nav-link-item no-page">
+                          <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                              viewBox="0 0 20 20" fill="none">
+                              <path
+                                  d="M9.99815 12.6455C6.40398 12.6455 3.33398 13.2122 3.33398 15.4788C3.33398 17.7463 6.38482 18.333 9.99815 18.333C13.5923 18.333 16.6623 17.7672 16.6623 15.4997C16.6623 13.2322 13.6123 12.6455 9.99815 12.6455Z"
+                                  fill="#D3D5DA" />
+                              <path opacity="0.4"
+                                  d="M9.99789 10.4865C12.4462 10.4865 14.4079 8.524 14.4079 6.0765C14.4079 3.629 12.4462 1.6665 9.99789 1.6665C7.55039 1.6665 5.58789 3.629 5.58789 6.0765C5.58789 8.524 7.55039 10.4865 9.99789 10.4865Z"
+                                  fill="#D3D5DA" />
+                          </svg>
+                          <span>Profile</span>
+                      </a>
+                  </li>
+
+                  <li class="mt-16">
+                      <a (click)="logout()" class="nav-link-item no-page">
+                          <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                              viewBox="0 0 20 20" fill="none">
+                              <path opacity="0.4"
+                                  d="M1.66602 5.37258C1.66602 3.33008 3.35788 1.66675 5.43646 1.66675H9.57072C11.6451 1.66675 13.3327 3.32508 13.3327 5.36425V14.6276C13.3327 16.6709 11.6408 18.3334 9.56139 18.3334H5.42883C3.35364 18.3334 1.66602 16.6751 1.66602 14.6359V13.8526V5.37258Z"
+                                  fill="#D3D5DA" />
+                              <path
+                                  d="M18.149 9.54579L15.7775 7.12162C15.5324 6.87162 15.138 6.87162 14.8937 7.12329C14.6502 7.37495 14.651 7.78079 14.8953 8.03079L16.1947 9.35828H14.9489H7.95696C7.61203 9.35828 7.33203 9.64579 7.33203 9.99995C7.33203 10.355 7.61203 10.6416 7.95696 10.6416H16.1947L14.8953 11.9691C14.651 12.2191 14.6502 12.625 14.8937 12.8766C15.0162 13.0025 15.1761 13.0658 15.3368 13.0658C15.4959 13.0658 15.6558 13.0025 15.7775 12.8783L18.149 10.455C18.2667 10.3341 18.3333 10.1708 18.3333 9.99995C18.3333 9.82995 18.2667 9.66662 18.149 9.54579Z"
+                                  fill="#D3D5DA" />
+                          </svg>
+                          <span>Logout</span>
+                      </a>
+                  </li>
+              </ul>
+              <ul class="pt-20">
+                  <li class="text-sm-start text-uppercase fw-7 text-2">Setting</li>
+
+                  <li class="mt-16">
+                      <div class="nav-mode">
+                          <label for="switchCheckTheme" class="flex-grow-1 text-dark">Dark mode</label>
+                          <input class="tf-switch-check toggle-theme lg" id="switchCheckTheme" type="checkbox">
+                      </div>
+                  </li>
+                  <li class="mt-16">
+                      <div class="nav-mode">
+                          <label for="switchRTLTheme" class="flex-grow-1 text-dark">RTL</label>
+                          <input class="tf-switch-check toggle-rtl lg" id="switchRTLTheme" type="checkbox">
+                      </div>
+                  </li>
+              </ul>
+          </div>
+      </div>
+    </ng-template>
+  </ion-modal>
+
+  <!-- modal Page -->
+  <div class="modal fade modalLeft" id="modalPage">
+      <div class="modal-dialog" role="document">
+          <div class="modal-content modal-second">
+              <div class="header line-bt header-st2">
+                  <div class="left" data-bs-dismiss="modal">
+                      <a href="javascript:void(0);" class="icon"><i class="icon-arr-left"></i></a>
+                  </div>
+                  <h4>Pages</h4>
+              </div>
+              <div class="overflow-auto pb-32">
+                  <div class="tf-container">
+                      <ul>
+                          <li><a (click)="logout()" class="nav-link-item pt-16 pb-16 line-bt no-page">
+                                  <span>Boarding</span>
+                              </a></li>
+                          <li><a href="onboarding-1.html" class="nav-link-item pt-16 pb-16 line-bt no-page">
+                                  <span>Boarding 01</span>
+                              </a></li>
+                          <li><a href="onboarding-2.html" class="nav-link-item pt-16 pb-16 line-bt no-page">
+                                  <span>Boarding 02</span>
+                              </a></li>
+                          <li><a href="sign-in.html" class="nav-link-item pt-16 pb-16 line-bt no-page">
+                                  <span>Sign In</span>
+                              </a></li>
+                          <li><a href="sign-up.html" class="nav-link-item pt-16 pb-16 line-bt no-page">
+                                  <span>Sign Up</span>
+                              </a></li>
+                          <li><a href="forgot-pass.html" class="nav-link-item pt-16 pb-16 line-bt no-page">
+                                  <span>Forgot Password</span>
+                              </a></li>
+                          <li><a href="otp.html" class="nav-link-item pt-16 pb-16 line-bt no-page">
+                                  <span>Verification</span>
+                              </a></li>
+                          <li><a href="new-pass.html" class="nav-link-item pt-16 pb-16 line-bt no-page">
+                                  <span>Reset Password</span>
+                              </a></li>
+                          <li><a href="index.html" class="nav-link-item pt-16 pb-16 line-bt no-page">
+                                  <span>Home</span>
+                              </a></li>
+                          <li><a href="setup-profile.html" class="nav-link-item pt-16 pb-16 line-bt no-page">
+                                  <span>Set Up Profile</span>
+                              </a></li>
+                          <li><a href="interest.html" class="nav-link-item pt-16 pb-16 line-bt no-page">
+                                  <span>Interest</span>
+                              </a></li>
+                          <li><a href="confirm-new-account.html" class="nav-link-item pt-16 pb-16 line-bt no-page">
+                                  <span>Confirm New Account</span>
+                              </a></li>
+                          <li><a href="successfully-created-acount.html"
+                                  class="nav-link-item pt-16 pb-16 line-bt no-page">
+                                  <span>Success Acount</span>
+                              </a></li>
+                          <li><a (click)="goJobDetail()" class="nav-link-item pt-16 pb-16 line-bt no-page">
+                                  <span>Job Details</span>
+                              </a></li>
+                          <li><a routerLink="pages/all-jobs" class="nav-link-item pt-16 pb-16 line-bt no-page">
+                                  <span>All Job</span>
+                              </a></li>
+                          <li><a (click)="goApplyJob()" class="nav-link-item pt-16 pb-16 line-bt no-page">
+                                  <span>Apply Job</span>
+                              </a></li>
+                          <li><a href="successfully-applied.html" class="nav-link-item pt-16 pb-16 line-bt no-page">
+                                  <span>Success Applied</span>
+                              </a></li>
+                          <li><a href="search-job.html" class="nav-link-item pt-16 pb-16 line-bt no-page">
+                                  <span>Search Job</span>
+                              </a></li>
+                          <li><a href="application.html" class="nav-link-item pt-16 pb-16 line-bt no-page">
+                                  <span>Your Applications</span>
+                              </a></li>
+                          <li><a href="job-details-tracking.html" class="nav-link-item pt-16 pb-16 line-bt no-page">
+                                  <span>Job Details Tracking</span>
+                              </a></li>
+                          <li><a href="empty-notification.html" class="nav-link-item pt-16 pb-16 line-bt no-page">
+                                  <span>Empty Notification</span>
+                              </a></li>
+                          <li><a href="message.html" class="nav-link-item pt-16 pb-16 line-bt no-page">
+                                  <span>Message</span>
+                              </a></li>
+                          <li><a href="message-inbox.html" class="nav-link-item pt-16 pb-16 line-bt no-page">
+                                  <span>Message Inbox</span>
+                              </a></li>
+                          <li><a href="group-message.html" class="nav-link-item pt-16 pb-16 line-bt no-page">
+                                  <span>Group Message</span>
+                              </a></li>
+                          <li><a href="profile.html" class="nav-link-item pt-16 pb-16 line-bt no-page">
+                                  <span>Profile</span>
+                              </a></li>
+                          <li><a href="skill-view.html" class="nav-link-item pt-16 pb-16 line-bt no-page">
+                                  <span>Skill Test</span>
+                              </a></li>
+                          <li><a href="skill-assasment.html" class="nav-link-item pt-16 pb-16 line-bt no-page">
+                                  <span>Skill Assasment</span>
+                              </a></li>
+                          <li><a href="work-experience.html" class="nav-link-item pt-16 pb-16 line-bt no-page">
+                                  <span>Work Experience</span>
+                              </a></li>
+                          <li><a href="education.html" class="nav-link-item pt-16 pb-16 line-bt no-page">
+                                  <span>Education</span>
+                              </a></li>
+                          <li><a href="awards.html" class="nav-link-item pt-16 pb-16 line-bt no-page">
+                                  <span>Awards</span>
+                              </a></li>
+                          <li><a href="text-success.html" class="nav-link-item pt-16 pb-16 line-bt no-page">
+                                  <span>Success</span>
+                              </a></li>
+                      </ul>
+                  </div>
+              </div>
+
+          </div>
+      </div>
+  </div>
+
+  <!-- modal component -->
+  <div class="modal fade modalLeft" id="modalComponent">
+      <div class="modal-dialog" role="document">
+          <div class="modal-content modal-second">
+              <div class="header line-bt header-st2">
+                  <div class="left" data-bs-dismiss="modal">
+                      <a href="javascript:void(0);" class="icon"><i class="icon-arr-left"></i></a>
+                  </div>
+                  <h4>Components</h4>
+              </div>
+              <div class="overflow-auto pb-32">
+                  <div class="tf-container">
+                      <ul>
+                          <li><a href="ui-alert.html" class="nav-link-item pt-16 pb-16 line-bt no-page">
+                                  <span>Alert</span>
+                              </a></li>
+                          <li><a href="ui-avatar.html" class="nav-link-item pt-16 pb-16 line-bt no-page">
+                                  <span>Avatar</span>
+                              </a></li>
+                          <li><a href="ui-button.html" class="nav-link-item pt-16 pb-16 line-bt no-page">
+                                  <span>Button</span>
+                              </a></li>
+                          <li><a href="ui-radio.html" class="nav-link-item pt-16 pb-16 line-bt no-page">
+                                  <span>Radio button</span>
+                              </a></li>
+                          <li><a href="ui-input.html" class="nav-link-item pt-16 pb-16 line-bt no-page">
+                                  <span>Input</span>
+                              </a></li>
+                          <li><a href="ui-badge.html" class="nav-link-item pt-16 pb-16 line-bt no-page">
+                                  <span>Badge</span>
+                              </a></li>
+                          <li><a href="ui-dropdown.html" class="nav-link-item pt-16 pb-16 line-bt no-page">
+                                  <span>Dropdown</span>
+                              </a></li>
+
+                          <li><a href="ui-modal.html" class="nav-link-item pt-16 pb-16 line-bt no-page">
+                                  <span>Modal</span>
+                              </a></li>
+
+                          <li><a href="ui-progressbar.html" class="nav-link-item pt-16 pb-16 line-bt no-page">
+                                  <span>Progressbar</span>
+                              </a></li>
+
+                          <li><a href="ui-typography.html" class="nav-link-item pt-16 pb-16 line-bt no-page">
+                                  <span>Typography</span>
+                              </a></li>
+
+                          <li><a href="ui-switch.html" class="nav-link-item pt-16 pb-16 line-bt no-page">
+                                  <span>Switch</span>
+                              </a></li>
+                          <li><a href="ui-stepper.html" class="nav-link-item pt-16 pb-16 line-bt no-page">
+                                  <span>Stepper</span>
+                              </a></li>
+                          <li><a href="ui-spinner.html" class="nav-link-item pt-16 pb-16 line-bt no-page">
+                                  <span>Spinner</span>
+                              </a></li>
+                          <li><a href="ui-rangle-slider.html" class="nav-link-item pt-16 pb-16 line-bt no-page">
+                                  <span>Range slider</span>
+                              </a></li>
+
+
+                          <li><a href="ui-language.html" class="nav-link-item pt-16 pb-16 no-page">
+                                  <span>Language</span>
+                              </a></li>
+                      </ul>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <!-- filter -->
+  <div class="offcanvas offcanvas-end full" id="filter">
+      <div class="header fixed-top">
+          <div class="left">
+              <a href="javascript:void(0);" data-bs-dismiss="offcanvas" class="icon">
+                  <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M0.818024 0.817993L7.18198 7.18195" stroke="#121927" stroke-width="1.5"
+                          stroke-linecap="round" stroke-linejoin="round" />
+                      <path d="M0.818016 7.18195L7.18198 0.817993" stroke="#121927" stroke-width="1.5"
+                          stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+              </a>
+          </div>
+          <h3>Set Filters</h3>
+      </div>
+      <div class="overflow-auto app-content style-3">
+          <div class="tf-container">
+              <form action="https://jobko.vercel.app/jobko/search-result.html">
+                  <div class="form-field">
+                      <h6 class="label">Category</h6>
+                      <div class="ip-select mt-12">
+                          <span class="icon">
+                              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                  xmlns="http://www.w3.org/2000/svg">
+                                  <g opacity="0.6">
+                                      <path
+                                          d="M6.6666 18.3333H13.3333C16.6833 18.3333 17.2833 16.9917 17.4583 15.3583L18.0833 8.69167C18.3083 6.65833 17.7249 5 14.1666 5H5.83327C2.27494 5 1.6916 6.65833 1.9166 8.69167L2.5416 15.3583C2.7166 16.9917 3.3166 18.3333 6.6666 18.3333Z"
+                                          stroke="#121927" stroke-width="1.5" stroke-miterlimit="10"
+                                          stroke-linecap="round" stroke-linejoin="round" />
+                                      <path
+                                          d="M6.66675 4.99984V4.33317C6.66675 2.85817 6.66675 1.6665 9.33341 1.6665H10.6667C13.3334 1.6665 13.3334 2.85817 13.3334 4.33317V4.99984"
+                                          stroke="#121927" stroke-width="1.5" stroke-miterlimit="10"
+                                          stroke-linecap="round" stroke-linejoin="round" />
+                                      <path
+                                          d="M11.6666 10.8333V11.6667C11.6666 11.675 11.6666 11.675 11.6666 11.6833C11.6666 12.5917 11.6583 13.3333 9.99992 13.3333C8.34992 13.3333 8.33325 12.6 8.33325 11.6917V10.8333C8.33325 10 8.33325 10 9.16659 10H10.8333C11.6666 10 11.6666 10 11.6666 10.8333Z"
+                                          stroke="#121927" stroke-width="1.5" stroke-miterlimit="10"
+                                          stroke-linecap="round" stroke-linejoin="round" />
+                                      <path d="M18.0417 9.1665C16.1167 10.5665 13.9167 11.3998 11.6667 11.6832"
+                                          stroke="#121927" stroke-width="1.5" stroke-miterlimit="10"
+                                          stroke-linecap="round" stroke-linejoin="round" />
+                                      <path d="M2.18335 9.3916C4.05835 10.6749 6.17502 11.4499 8.33335 11.6916"
+                                          stroke="#121927" stroke-width="1.5" stroke-miterlimit="10"
+                                          stroke-linecap="round" stroke-linejoin="round" />
+                                  </g>
+                              </svg>
+                          </span>
+                          <div class="nice-select tf-select" tabindex="0">
+                              <span class="current">Choose your category</span>
+                              <ul class="list">
+                                  <li data-value="design" class="option selected">Design</li>
+                                  <li data-value="dev" class="option">Development</li>
+                                  <li data-value="marketing" class="option">Marketing</li>
+                                  <li data-value="photography" class="option">Photography</li>
+                                  <li data-value="writing" class="option">Writing</li>
+                                  <li data-value="business" class="option">Business</li>
+                                  <li data-value="finance" class="option">Finance</li>
+                              </ul>
+                          </div>
+                          <span class="icon icon-right">
+                              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                  xmlns="http://www.w3.org/2000/svg">
+                                  <path
+                                      d="M16.6001 7.4585L11.1668 12.8918C10.5251 13.5335 9.47515 13.5335 8.83348 12.8918L3.40015 7.4585"
+                                      stroke="#121927" stroke-width="1.25" stroke-miterlimit="10"
+                                      stroke-linecap="round" stroke-linejoin="round" />
+                              </svg>
+                          </span>
+                      </div>
+                  </div>
+                  <div class="mt-24 form-field">
+                      <h6 class="label">Location</h6>
+                      <fieldset class="input-icon mt-12">
+                          <span class="icon">
+                              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                  xmlns="http://www.w3.org/2000/svg">
+                                  <g opacity="0.6">
+                                      <path
+                                          d="M9.9999 11.1917C11.4358 11.1917 12.5999 10.0276 12.5999 8.5917C12.5999 7.15576 11.4358 5.9917 9.9999 5.9917C8.56396 5.9917 7.3999 7.15576 7.3999 8.5917C7.3999 10.0276 8.56396 11.1917 9.9999 11.1917Z"
+                                          stroke="#121927" stroke-width="1.5" />
+                                      <path
+                                          d="M3.01675 7.07484C4.65842 -0.141827 15.3501 -0.133494 16.9834 7.08317C17.9417 11.3165 15.3084 14.8998 13.0001 17.1165C11.3251 18.7332 8.67508 18.7332 6.99175 17.1165C4.69175 14.8998 2.05842 11.3082 3.01675 7.07484Z"
+                                          stroke="#121927" stroke-width="1.5" />
+                                  </g>
+                              </svg>
+                          </span>
+                          <input type="text" placeholder="Write your location" class="form-control">
+                      </fieldset>
+                  </div>
+                  <div class="mt-24">
+                      <div class="d-flex justify-content-between">
+                          <div class="h7">Min. Salary</div>
+                          <div class="h7">Max. Salary</div>
+                      </div>
+                      <div class="slider-salary mt-40">
+                          <div id="salary-chart" class="salary-chart"></div>
+                          <div id="salary-val"></div>
+                      </div>
+                  </div>
+                  <div class="mt-60">
+                      <h6>Job Type</h6>
+                      <ul class="list-type flat-cb-list mt-24">
+                          <li class="type-item cb-item">Company</li>
+                          <li class="type-item cb-item">Contract Based</li>
+                          <li class="type-item cb-item">Freelance</li>
+                          <li class="type-item cb-item">Full Time</li>
+                          <li class="type-item cb-item">Part Time</li>
+                      </ul>
+                  </div>
+                  <div class="fixed-button">
+                      <button type="submit" class="tf-btn primary">Apply Filter</button>
+                  </div>
+              </form>
+          </div>
+      </div>
+  </div>
+</ion-content>

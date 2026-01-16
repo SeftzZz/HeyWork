@@ -1,0 +1,72 @@
+<ion-content [fullscreen]="true">
+  <div class="header fixed-top">
+      <div class="left">
+          <a (click)="goBack()" class="icon back-btn">
+              <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M6.88986 12.2951L1.60986 7.00008L6.88986 1.70508" stroke="#121927" stroke-width="1.5"
+                      stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+          </a>
+      </div>
+      <h3>Apply Job</h3>
+  </div>
+  <div class="app-content style-3">
+      <div class="tf-container">
+          <form action="https://jobko.vercel.app/jobko/successfully-applied.html" class="mt-10">
+              <div class="form-field form-2">
+                  <div class="label h7">Full Name</div>
+                  <fieldset class="mt-12">
+                      <input type="text" placeholder="Type your full name" class="form-control">
+                  </fieldset>
+              </div>
+              <div class="form-field form-2 mt-24">
+                  <div class="label h7">Website, Blog, or Portfolio</div>
+                  <fieldset class="mt-12">
+                      <input type="text" placeholder="Type your portfolio address" class="form-control">
+                  </fieldset>
+              </div>
+              <div class="form-field form-2 mt-24">
+                  <div class="label h7">Upload CV</div>
+                  <div class="box-uploadfile mt-12">
+                      <label class="uploadfile">
+                          <input type="file" class="ip-file">
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                              xmlns="http://www.w3.org/2000/svg">
+                              <g opacity="0.6">
+                                  <path
+                                      d="M9 10C10.1046 10 11 9.10457 11 8C11 6.89543 10.1046 6 9 6C7.89543 6 7 6.89543 7 8C7 9.10457 7.89543 10 9 10Z"
+                                      stroke="#121927" stroke-width="1.5" stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                                  <path d="M13 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22H15C20 22 22 20 22 15V10"
+                                      stroke="#121927" stroke-width="1.5" stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                                  <path d="M18 8V2L20 4" stroke="#121927" stroke-width="1.5" stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                                  <path d="M18 2L16 4" stroke="#121927" stroke-width="1.5" stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                                  <path
+                                      d="M2.66992 18.9501L7.59992 15.6401C8.38992 15.1101 9.52992 15.1701 10.2399 15.7801L10.5699 16.0701C11.3499 16.7401 12.6099 16.7401 13.3899 16.0701L17.5499 12.5001C18.3299 11.8301 19.5899 11.8301 20.3699 12.5001L21.9999 13.9001"
+                                      stroke="#121927" stroke-width="1.5" stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                              </g>
+                          </svg>
+                          <div class="text body-4">Format DOC, PDF, JPG</div>
+                          <div class="file button-1 text-primary">Browse Files</div>
+                      </label>
+                  </div>
+              </div>
+              <div class="form-field mt-24">
+                  <div class="label h7">Motivational Letter</div>
+                  <fieldset class="mt-12">
+                      <textarea placeholder="Write something..."></textarea>
+                  </fieldset>
+              </div>
+              <div class="fixed-button">
+                  <button class="tf-btn primary">Apply This Job</button>
+              </div>
+          </form>
+
+      </div>
+
+  </div>
+</ion-content>
