@@ -30,4 +30,20 @@ export const routes: Routes = [
     path: 'pages/apply-job',
     loadComponent: () => import('./pages/apply-job/apply-job.page').then( m => m.ApplyJobPage)
   },
+  {
+    path: 'pages/application',
+    loadComponent: () => import('./pages/application/application.page').then( m => m.ApplicationPage)
+  },
+  {
+    path: 'pages/message',
+    loadComponent: () => import('./pages/message/message.page').then( m => m.MessagePage)
+  },
+  {
+    path: 'pages/message-inbox',
+    loadComponent: () => import('./pages/message-inbox/message-inbox.page').then( m => m.MessageInboxPage)
+  },
+  {
+    path: 'profile',
+    loadComponent: () => import('./pages/profile/profile.page').then( m => m.ProfilePage)
+  },
 ];

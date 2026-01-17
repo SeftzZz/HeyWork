@@ -54,10 +54,23 @@ export class HomePage implements OnInit {
 
   logout() {
     this.showSidebar = false; // trigger dismiss
+    this.onSidebarDismiss();
   }
 
   onSidebarDismiss() {
     // NAVIGATE SETELAH MODAL BENAR2 TUTUP
     this.nav.navigateRoot('/sign-in');
+  }
+
+  goApplication() {
+    this.nav.navigateForward('/pages/application');
+  }
+
+  goHome() {
+    this.nav.navigateForward('/pages/home');
+  }
+
+  goMessage() {
+    this.nav.navigateForward('/pages/message');
   }
 }

@@ -1,0 +1,361 @@
+<ion-content [fullscreen]="true">
+  <div class="header justify-content-between fixed-top">
+      <a (click)="goBack()" class="icon back-btn">
+          <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M6.88986 12.2951L1.60986 7.00008L6.88986 1.70508" stroke="#121927" stroke-width="1.5"
+                  stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+      </a>
+      <h3>Message</h3>
+      <div class="box-right">
+          <a href="#">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g opacity="0.7">
+                      <path
+                          d="M11.5 21C16.7467 21 21 16.7467 21 11.5C21 6.25329 16.7467 2 11.5 2C6.25329 2 2 6.25329 2 11.5C2 16.7467 6.25329 21 11.5 21Z"
+                          stroke="#121927" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                      <path d="M22 22L20 20" stroke="#121927" stroke-width="1.5" stroke-linecap="round"
+                          stroke-linejoin="round" />
+                  </g>
+              </svg>
+          </a>
+          <a href="#attachments" data-bs-toggle="offcanvas">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                      d="M8.00016 2.75C8.31928 2.75 8.5835 3.01421 8.5835 3.33333C8.5835 3.65245 8.31928 3.91667 8.00016 3.91667C7.68104 3.91667 7.41683 3.65245 7.41683 3.33333C7.41683 3.01421 7.68104 2.75 8.00016 2.75Z"
+                      fill="#121927" stroke="#121927" stroke-width="1.5" />
+                  <path
+                      d="M8.00016 12.0835C8.31928 12.0835 8.5835 12.3477 8.5835 12.6668C8.5835 12.9859 8.31928 13.2502 8.00016 13.2502C7.68104 13.2502 7.41683 12.9859 7.41683 12.6668C7.41683 12.3477 7.68104 12.0835 8.00016 12.0835Z"
+                      fill="#121927" stroke="#121927" stroke-width="1.5" />
+                  <path
+                      d="M8.00016 7.4165C8.31928 7.4165 8.5835 7.68072 8.5835 7.99984C8.5835 8.31896 8.31928 8.58317 8.00016 8.58317C7.68104 8.58317 7.41683 8.31896 7.41683 7.99984C7.41683 7.68072 7.68104 7.4165 8.00016 7.4165Z"
+                      fill="#121927" stroke="#121927" stroke-width="1.5" />
+              </svg>
+          </a>
+      </div>
+  </div>
+  <div class="app-content style-2">
+      <div class="tf-container">
+          <div class="wrap-mess">
+              <a (click)="goMessageInbox()" class="message-box">
+                  <div class="avatar avt-status avt-44">
+                      <img src="assets/images/avt/avt-2.jpg" alt="">
+                      <span class="status"></span>
+                  </div>
+                  <div class="info">
+                      <div class="h7 text-dark">Floyd Miles</div>
+                      <p class="body-4 text-dark-4">Great I will have a look the te...</p>
+                  </div>
+                  <div class="status">
+                      <span class="body-5 text-dark-4">Just Now</span>
+                      <span class="count">2</span>
+                  </div>
+              </a>
+              <a (click)="goMessageInbox()" class="message-box">
+                  <div class="avatar avt-status avt-44">
+                      <img src="assets/images/avt/avt-3.jpg" alt="">
+                      <span class="status"></span>
+                  </div>
+                  <div class="info">
+                      <div class="h7 text-dark">Floyd Miles</div>
+                      <p class="body-4 text-dark-4">Thank you. Have a nice day</p>
+                  </div>
+                  <div class="status text-end">
+                      <span class="body-5 text-dark-4">10 min ago</span>
+                      <span class="check-disable">
+                          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                              xmlns="http://www.w3.org/2000/svg">
+                              <path
+                                  d="M8.00016 14.6668C11.6668 14.6668 14.6668 11.6668 14.6668 8.00016C14.6668 4.3335 11.6668 1.3335 8.00016 1.3335C4.3335 1.3335 1.3335 4.3335 1.3335 8.00016C1.3335 11.6668 4.3335 14.6668 8.00016 14.6668Z"
+                                  stroke="#121927" stroke-linecap="round" stroke-linejoin="round" />
+                              <path d="M5.1665 7.99995L7.05317 9.88661L10.8332 6.11328" stroke="#121927"
+                                  stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                      </span>
+                  </div>
+              </a>
+              <a (click)="goMessageInbox()" class="message-box">
+                  <div class="avatar avt-status avt-44">
+                      <img src="assets/images/avt/avt-4.jpg" alt="">
+                      <span class="status disabled"></span>
+                  </div>
+                  <div class="info">
+                      <div class="h7 text-dark">Floyd Miles</div>
+                      <p class="body-4 text-dark-4 d-flex align-items-center gap-4">
+                          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"
+                              xmlns="http://www.w3.org/2000/svg">
+                              <g opacity="0.6">
+                                  <path
+                                      d="M6 7.75C7.105 7.75 8 6.855 8 5.75V3C8 1.895 7.105 1 6 1C4.895 1 4 1.895 4 3V5.75C4 6.855 4.895 7.75 6 7.75Z"
+                                      stroke="#121927" stroke-width="0.75" stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                                  <path
+                                      d="M2.17529 4.8252V5.6752C2.17529 7.7852 3.89029 9.5002 6.00029 9.5002C8.11029 9.5002 9.82529 7.7852 9.82529 5.6752V4.8252"
+                                      stroke="#121927" stroke-width="0.75" stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                                  <path d="M5.30518 3.21506C5.75518 3.05006 6.24518 3.05006 6.69518 3.21506"
+                                      stroke="#121927" stroke-width="0.75" stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                                  <path d="M5.6001 4.27516C5.8651 4.20516 6.1401 4.20516 6.4051 4.27516"
+                                      stroke="#121927" stroke-width="0.75" stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                                  <path d="M6 9.5V11" stroke="#121927" stroke-width="0.75" stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                              </g>
+                          </svg>
+                          Sent a voice message
+                      </p>
+                  </div>
+                  <div class="status text-end">
+                      <span class="body-5 text-dark-4">10 min ago</span>
+                      <span class="check">
+                          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                              xmlns="http://www.w3.org/2000/svg">
+                              <path
+                                  d="M8.00016 14.6668C11.6668 14.6668 14.6668 11.6668 14.6668 8.00016C14.6668 4.3335 11.6668 1.3335 8.00016 1.3335C4.3335 1.3335 1.3335 4.3335 1.3335 8.00016C1.3335 11.6668 4.3335 14.6668 8.00016 14.6668Z"
+                                  stroke="#7C66FF" stroke-linecap="round" stroke-linejoin="round" />
+                              <path d="M5.1665 7.99995L7.05317 9.88661L10.8332 6.11328" stroke="#7C66FF"
+                                  stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                      </span>
+                  </div>
+              </a>
+              <a (click)="goMessageInbox()" class="message-box">
+                  <div class="avatar avt-status avt-44">
+                      <img src="assets/images/avt/avt-5.jpg" alt="">
+                      <span class="status"></span>
+                  </div>
+                  <div class="info">
+                      <div class="h7 text-dark">Floyd Miles</div>
+                      <p class="body-4 text-dark-4">It looks like very beautiful</p>
+                  </div>
+                  <div class="status text-end">
+                      <span class="body-5 text-dark-4">1 hr ago</span>
+                      <span class="check">
+                          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                              xmlns="http://www.w3.org/2000/svg">
+                              <path
+                                  d="M8.00016 14.6668C11.6668 14.6668 14.6668 11.6668 14.6668 8.00016C14.6668 4.3335 11.6668 1.3335 8.00016 1.3335C4.3335 1.3335 1.3335 4.3335 1.3335 8.00016C1.3335 11.6668 4.3335 14.6668 8.00016 14.6668Z"
+                                  stroke="#7C66FF" stroke-linecap="round" stroke-linejoin="round" />
+                              <path d="M5.1665 7.99995L7.05317 9.88661L10.8332 6.11328" stroke="#7C66FF"
+                                  stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                      </span>
+                  </div>
+              </a>
+              <a (click)="goMessageInbox()" class="message-box">
+                  <div class="avatar avt-status avt-44">
+                      <img src="assets/images/avt/avt-6.jpg" alt="">
+                      <span class="status disabled"></span>
+                  </div>
+                  <div class="info">
+                      <div class="h7 text-dark">Floyd Miles</div>
+                      <p class="body-4 text-dark-4"> Great. Nice to meet you !</p>
+                  </div>
+                  <div class="status text-end">
+                      <span class="body-5 text-dark-4">3 hr ago</span>
+                      <span class="check">
+                          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                              xmlns="http://www.w3.org/2000/svg">
+                              <path
+                                  d="M8.00016 14.6668C11.6668 14.6668 14.6668 11.6668 14.6668 8.00016C14.6668 4.3335 11.6668 1.3335 8.00016 1.3335C4.3335 1.3335 1.3335 4.3335 1.3335 8.00016C1.3335 11.6668 4.3335 14.6668 8.00016 14.6668Z"
+                                  stroke="#7C66FF" stroke-linecap="round" stroke-linejoin="round" />
+                              <path d="M5.1665 7.99995L7.05317 9.88661L10.8332 6.11328" stroke="#7C66FF"
+                                  stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                      </span>
+                  </div>
+              </a>
+              <a (click)="goMessageInbox()" class="message-box">
+                  <div class="avatar avt-status avt-44">
+                      <img src="assets/images/avt/avt-7.jpg" alt="">
+                      <span class="status disabled"></span>
+                  </div>
+                  <div class="info">
+                      <div class="h7 text-dark">Floyd Miles</div>
+                      <p class="body-4 text-dark-4 d-flex align-items-center gap-4">
+                          Awesome idea. I love it.
+                          <img class="icon" src="assets/images/icon/emoji.png" alt="">
+                      </p>
+                  </div>
+                  <div class="status text-end">
+                      <span class="body-5 text-dark-4">8h ago</span>
+                      <span class="check">
+                          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                              xmlns="http://www.w3.org/2000/svg">
+                              <path
+                                  d="M8.00016 14.6668C11.6668 14.6668 14.6668 11.6668 14.6668 8.00016C14.6668 4.3335 11.6668 1.3335 8.00016 1.3335C4.3335 1.3335 1.3335 4.3335 1.3335 8.00016C1.3335 11.6668 4.3335 14.6668 8.00016 14.6668Z"
+                                  stroke="#7C66FF" stroke-linecap="round" stroke-linejoin="round" />
+                              <path d="M5.1665 7.99995L7.05317 9.88661L10.8332 6.11328" stroke="#7C66FF"
+                                  stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                      </span>
+                  </div>
+              </a>
+              <a (click)="goMessageInbox()" class="message-box">
+                  <div class="avatar avt-status avt-44">
+                      <img src="assets/images/avt/avt-8.jpg" alt="">
+                      <span class="status"></span>
+                  </div>
+                  <div class="info">
+                      <div class="h7 text-dark">Floyd Miles</div>
+                      <p class="body-4 text-dark-4"> You are most welcome.</p>
+                  </div>
+                  <div class="status text-end">
+                      <span class="body-5 text-dark-4">1 d ago</span>
+                      <span class="check">
+                          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                              xmlns="http://www.w3.org/2000/svg">
+                              <path
+                                  d="M8.00016 14.6668C11.6668 14.6668 14.6668 11.6668 14.6668 8.00016C14.6668 4.3335 11.6668 1.3335 8.00016 1.3335C4.3335 1.3335 1.3335 4.3335 1.3335 8.00016C1.3335 11.6668 4.3335 14.6668 8.00016 14.6668Z"
+                                  stroke="#7C66FF" stroke-linecap="round" stroke-linejoin="round" />
+                              <path d="M5.1665 7.99995L7.05317 9.88661L10.8332 6.11328" stroke="#7C66FF"
+                                  stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                      </span>
+                  </div>
+              </a>
+          </div>
+      </div>
+  </div>
+  <div class="menubar-footer footer-fixed">
+      <ul class="inner-bar">
+          <li>
+              <a (click)="goHome()">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <g opacity="0.6">
+                          <path
+                              d="M9.02 2.84016L3.63 7.04016C2.73 7.74016 2 9.23016 2 10.3602V17.7702C2 20.0902 3.89 21.9902 6.21 21.9902H17.79C20.11 21.9902 22 20.0902 22 17.7802V10.5002C22 9.29016 21.19 7.74016 20.2 7.05016L14.02 2.72016C12.62 1.74016 10.37 1.79016 9.02 2.84016Z"
+                              stroke="#121927" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                          <path d="M12 17.9902V14.9902" stroke="#121927" stroke-width="1.5" stroke-linecap="round"
+                              stroke-linejoin="round" />
+                      </g>
+                  </svg>
+              </a>
+          </li>
+          <li>
+              <a (click)="goApplication()">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <g opacity="0.6">
+                          <path d="M8 12.2002H15" stroke="#121927" stroke-width="1.5" stroke-miterlimit="10"
+                              stroke-linecap="round" stroke-linejoin="round" />
+                          <path d="M8 16.2002H12.38" stroke="#121927" stroke-width="1.5" stroke-miterlimit="10"
+                              stroke-linecap="round" stroke-linejoin="round" />
+                          <path d="M10 6H14C16 6 16 5 16 4C16 2 15 2 14 2H10C9 2 8 2 8 4C8 6 9 6 10 6Z"
+                              stroke="#121927" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                              stroke-linejoin="round" />
+                          <path
+                              d="M16 4.02002C19.33 4.20002 21 5.43002 21 10V16C21 20 20 22 15 22H9C4 22 3 20 3 16V10C3 5.44002 4.67 4.20002 8 4.02002"
+                              stroke="#121927" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                              stroke-linejoin="round" />
+                      </g>
+                  </svg>
+              </a>
+          </li>
+          <li class="action-add"><a (click)="goApplyJob()">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M6 12H18" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                          stroke-linejoin="round" />
+                      <path d="M12 18V6" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                          stroke-linejoin="round" />
+                  </svg>
+
+              </a></li>
+          <li class="active">
+              <a (click)="goMessage()">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path
+                          d="M17 2H7C4.24 2 2 4.23 2 6.98V12.96V13.96C2 16.71 4.24 18.94 7 18.94H8.5C8.77 18.94 9.13 19.12 9.3 19.34L10.8 21.33C11.46 22.21 12.54 22.21 13.2 21.33L14.7 19.34C14.89 19.09 15.19 18.94 15.5 18.94H17C19.76 18.94 22 16.71 22 13.96V6.98C22 4.23 19.76 2 17 2ZM8 12C7.44 12 7 11.55 7 11C7 10.45 7.45 10 8 10C8.55 10 9 10.45 9 11C9 11.55 8.56 12 8 12ZM12 12C11.44 12 11 11.55 11 11C11 10.45 11.45 10 12 10C12.55 10 13 10.45 13 11C13 11.55 12.56 12 12 12ZM16 12C15.44 12 15 11.55 15 11C15 10.45 15.45 10 16 10C16.55 10 17 10.45 17 11C17 11.55 16.56 12 16 12Z"
+                          fill="#2869FE" />
+                  </svg>
+              </a>
+          </li>
+          <li>
+              <a href="profile.html">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <g opacity="0.6">
+                          <path
+                              d="M12.1601 10.87C12.0601 10.86 11.9401 10.86 11.8301 10.87C9.45006 10.79 7.56006 8.84 7.56006 6.44C7.56006 3.99 9.54006 2 12.0001 2C14.4501 2 16.4401 3.99 16.4401 6.44C16.4301 8.84 14.5401 10.79 12.1601 10.87Z"
+                              stroke="#121927" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                          <path
+                              d="M7.16021 14.56C4.74021 16.18 4.74021 18.82 7.16021 20.43C9.91021 22.27 14.4202 22.27 17.1702 20.43C19.5902 18.81 19.5902 16.17 17.1702 14.56C14.4302 12.73 9.92021 12.73 7.16021 14.56Z"
+                              stroke="#121927" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                      </g>
+                  </svg>
+
+              </a>
+          </li>
+      </ul>
+
+  </div>
+
+  <!-- Attachments -->
+  <div class="offcanvas offcanvas-bottom canvas-attachment" tabindex="-1" id="attachments">
+      <div class="offcanvas-header">
+          <h3 class="offcanvas-title fw-bold">Attachments</h3>
+          <span class="close-popup" data-bs-dismiss="offcanvas" aria-label="Close">
+              <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M0.818024 0.817993L7.18198 7.18195" stroke="#121927" stroke-width="1.5"
+                      stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M0.818016 7.18195L7.18198 0.817993" stroke="#121927" stroke-width="1.5"
+                      stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+          </span>
+      </div>
+      <div class="offcanvas-body">
+          <div class="box-latest">
+              <div class="h7 text-dark-4">LATEST PHOTOS</div>
+              <div class="mt-16 d-flex gap-14">
+                  <a href="#" class="img-latest">
+                      <img src="assets/images/blog/blog1.jpg" alt="img-latest">
+                  </a>
+                  <a href="#" class="img-latest">
+                      <img src="assets/images/blog/blog2.jpg" alt="img-latest">
+                  </a>
+                  <a href="#" class="img-latest">
+                      <img src="assets/images/blog/blog3.jpg" alt="img-latest">
+                  </a>
+
+              </div>
+          </div>
+          <div class="mt-24">
+              <div class="h7 text-dark-4">OTHER FILES</div>
+              <div class="mt-20 list-file-mess">
+                  <a href="#" class="item">
+                      <span class="icon icon-document-download"></span>
+                      <div class="content">
+                          <p class="body-2">Project Brief v1.docx</p>
+                          <span class="body-3 text-dark-4">132.5 KB</span>
+                      </div>
+                  </a>
+                  <a href="#" class="item">
+                      <span class="icon icon-task-square"></span>
+                      <div class="content">
+                          <p class="body-2">32 Excel Sheets</p>
+                          <span class="body-3 text-dark-4">12.5 MB</span>
+                      </div>
+                  </a>
+                  <a href="#" class="item">
+                      <span class="icon icon-document-text"></span>
+                      <div class="content">
+                          <p class="body-2">60 PDF presentations</p>
+                          <span class="body-3 text-dark-4">28.5 MB</span>
+                      </div>
+                  </a>
+                  <a href="#" class="item">
+                      <span class="icon icon-video-square"></span>
+                      <div class="content">
+                          <p class="body-2">Explanation Video.mp4</p>
+                          <span class="body-3 text-dark-4">80 MB</span>
+                      </div>
+                  </a>
+
+              </div>
+          </div>
+
+
+
+      </div>
+  </div>
+
+</ion-content>
