@@ -1,23 +1,22 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Preferences } from '@capacitor/preferences';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class SignInService {
-
-  API = 'http://heyworkapi.fpp/public/api/auth';
 
   constructor(private http: HttpClient) {}
 
   async login(data: any) {
     const res: any = await this.http
-      .post(`${this.API}/login`, data)
+      .post(`${environment.api_url}/authLogin`, data)
       .toPromise();
 
     await Preferences.set({
       key: 'token',
       value: res.token
-    });
+    });    
 
     return res;
   }
@@ -26,7 +25,7 @@ export class SignInService {
     const googleToken = 'GOOGLE_ID_TOKEN';
 
     const res: any = await this.http
-      .post(`${this.API}/auth/google`, { token: googleToken })
+      .post(`${environment.api_url}/auth/google`, { token: googleToken })
       .toPromise();
 
     await Preferences.set({
@@ -39,7 +38,7 @@ export class SignInService {
     const fbToken = 'FACEBOOK_ACCESS_TOKEN';
 
     const res: any = await this.http
-      .post(`${this.API}/auth/facebook`, { token: fbToken })
+      .post(`${environment.api_url}/auth/facebook`, { token: fbToken })
       .toPromise();
 
     await Preferences.set({

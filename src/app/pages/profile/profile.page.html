@@ -1,13 +1,260 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>profile</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">profile</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div class="header fixed-top">
+      <div class="left">
+          <a (click)="goBack()" class="icon back-btn">
+              <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M6.88986 12.2951L1.60986 7.00008L6.88986 1.70508" stroke="#121927" stroke-width="1.5"
+                      stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+          </a>
+      </div>
+      <h3>Profile</h3>
+      <div class="right">
+          <a href="search-result.html" class="icon-noline">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                      d="M11.5 21C16.7467 21 21 16.7467 21 11.5C21 6.25329 16.7467 2 11.5 2C6.25329 2 2 6.25329 2 11.5C2 16.7467 6.25329 21 11.5 21Z"
+                      stroke="#121927" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M22 22L20 20" stroke="#121927" stroke-width="1.5" stroke-linecap="round"
+                      stroke-linejoin="round" />
+              </svg>
+          </a>
+          <a href="#" class="icon-noline">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                      d="M12 3.75C12.6858 3.75 13.25 4.31421 13.25 5C13.25 5.68579 12.6858 6.25 12 6.25C11.3142 6.25 10.75 5.68579 10.75 5C10.75 4.31421 11.3142 3.75 12 3.75Z"
+                      fill="#121927" stroke="#121927" stroke-width="1.5" />
+                  <path
+                      d="M12 17.75C12.6858 17.75 13.25 18.3142 13.25 19C13.25 19.6858 12.6858 20.25 12 20.25C11.3142 20.25 10.75 19.6858 10.75 19C10.75 18.3142 11.3142 17.75 12 17.75Z"
+                      fill="#121927" stroke="#121927" stroke-width="1.5" />
+                  <path
+                      d="M12 10.75C12.6858 10.75 13.25 11.3142 13.25 12C13.25 12.6858 12.6858 13.25 12 13.25C11.3142 13.25 10.75 12.6858 10.75 12C10.75 11.3142 11.3142 10.75 12 10.75Z"
+                      fill="#121927" stroke="#121927" stroke-width="1.5" />
+              </svg>
+          </a>
+      </div>
+  </div>
+  <div class="app-content pb-0 app-fullheight">
+      <div class="tf-container">
+          <div class="box-profile text-center">
+              <div class="avatar">
+                  <img src="assets/images/avt/avt-1.jpg" alt="avt">
+              </div>
+              <div class="content">
+                  <h4 class="name">Jonathan Smith</h4>
+                  <p class="text-mail body-4">jonathansmith@gmail.com</p>
+                  <a href="#" class="button-1 text-primary-violet">Active Looking</a>
+              </div>
+          </div>
+          <div class="mt-22 wrap-count">
+              <div class="count-item">
+                  <div class="box-count bg-rgba-violet">
+                      <div class="h1 text-secondary-violet">36</div>
+                  </div>
+                  <span class="text-dark body-2 fw-medium">Applied</span>
+              </div>
+              <div class="count-item">
+                  <div class="box-count bg-rgba-pink">
+                      <div class="h1 text-secondary-pink">20</div>
+                  </div>
+                  <span class="text-dark body-2 fw-medium">Reviewed</span>
+              </div>
+              <div class="count-item">
+                  <div class="box-count bg-rgba-green-2">
+                      <div class="h1 text-secondary-green">36</div>
+                  </div>
+                  <span class="text-dark body-2 fw-medium">Contacted</span>
+              </div>
+          </div>
+      </div>
+      <div class="mt-24 wrapper-box">
+          <ul class="list-profile">
+              <li>
+                  <a href="personal-information.html" class="item">
+                      <span class="box-icon"><i class="icon icon-profile-fill"></i></span>
+                      <div class="content">
+                          <h6 class="title">Personal Information</h6>
+                          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                              xmlns="http://www.w3.org/2000/svg">
+                              <g opacity="0.6">
+                                  <path
+                                      d="M7.42505 16.6004L12.8584 11.1671C13.5 10.5254 13.5 9.47539 12.8584 8.83372L7.42505 3.40039"
+                                      stroke="white" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                              </g>
+                          </svg>
+                      </div>
+                  </a>
+              </li>
+              <li>
+                  <a href="skill-view.html" class="item">
+                      <span class="box-icon"><i class="icon icon-teacher"></i></span>
+                      <div class="content">
+                          <h6 class="title">Skill</h6>
+                          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                              xmlns="http://www.w3.org/2000/svg">
+                              <g opacity="0.6">
+                                  <path
+                                      d="M7.42505 16.6004L12.8584 11.1671C13.5 10.5254 13.5 9.47539 12.8584 8.83372L7.42505 3.40039"
+                                      stroke="white" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                              </g>
+                          </svg>
+                      </div>
+                  </a>
+              </li>
+              <li>
+                  <a href="work-experience.html" class="item">
+                      <span class="box-icon"><i class="icon icon-briefcase"></i></span>
+                      <div class="content">
+                          <h6 class="title">Work Experience</h6>
+                          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                              xmlns="http://www.w3.org/2000/svg">
+                              <g opacity="0.6">
+                                  <path
+                                      d="M7.42505 16.6004L12.8584 11.1671C13.5 10.5254 13.5 9.47539 12.8584 8.83372L7.42505 3.40039"
+                                      stroke="white" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                              </g>
+                          </svg>
+                      </div>
+                  </a>
+              </li>
+              <li>
+                  <a href="education.html" class="item">
+                      <span class="box-icon"><i class="icon icon-teacher"></i></span>
+                      <div class="content">
+                          <h6 class="title">Education</h6>
+                          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                              xmlns="http://www.w3.org/2000/svg">
+                              <g opacity="0.6">
+                                  <path
+                                      d="M7.42505 16.6004L12.8584 11.1671C13.5 10.5254 13.5 9.47539 12.8584 8.83372L7.42505 3.40039"
+                                      stroke="white" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                              </g>
+                          </svg>
+                      </div>
+                  </a>
+              </li>
+              <li>
+                  <a href="awards.html" class="item">
+                      <span class="box-icon"><i class="icon icon-medal-star"></i></span>
+                      <div class="content">
+                          <h6 class="title">Awards</h6>
+                          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                              xmlns="http://www.w3.org/2000/svg">
+                              <g opacity="0.6">
+                                  <path
+                                      d="M7.42505 16.6004L12.8584 11.1671C13.5 10.5254 13.5 9.47539 12.8584 8.83372L7.42505 3.40039"
+                                      stroke="white" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                              </g>
+                          </svg>
+                      </div>
+                  </a>
+              </li>
+              <li>
+                  <a href="onboarding.html" class="item">
+                      <span class="box-icon"><i class="icon icon-logout"></i></span>
+                      <div class="content">
+                          <h6 class="title">Log out</h6>
+                          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                              xmlns="http://www.w3.org/2000/svg">
+                              <g opacity="0.6">
+                                  <path
+                                      d="M7.42505 16.6004L12.8584 11.1671C13.5 10.5254 13.5 9.47539 12.8584 8.83372L7.42505 3.40039"
+                                      stroke="white" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                              </g>
+                          </svg>
+                      </div>
+                  </a>
+              </li>
+          </ul>
+          <div class="menubar-footer style-2 footer-fixed">
+              <ul class="inner-bar">
+                  <li>
+                      <a (click)="goHome()">
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                              xmlns="http://www.w3.org/2000/svg">
+                              <g opacity="0.6">
+                                  <path
+                                      d="M9.02 2.84016L3.63 7.04016C2.73 7.74016 2 9.23016 2 10.3602V17.7702C2 20.0902 3.89 21.9902 6.21 21.9902H17.79C20.11 21.9902 22 20.0902 22 17.7802V10.5002C22 9.29016 21.19 7.74016 20.2 7.05016L14.02 2.72016C12.62 1.74016 10.37 1.79016 9.02 2.84016Z"
+                                      stroke="#121927" stroke-width="1.5" stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                                  <path d="M12 17.9902V14.9902" stroke="#121927" stroke-width="1.5"
+                                      stroke-linecap="round" stroke-linejoin="round" />
+                              </g>
+                          </svg>
+                      </a>
+                  </li>
+                  <li>
+                      <a (click)="goApplication()">
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                              xmlns="http://www.w3.org/2000/svg">
+                              <g opacity="0.6">
+                                  <path d="M8 12.2002H15" stroke="#121927" stroke-width="1.5" stroke-miterlimit="10"
+                                      stroke-linecap="round" stroke-linejoin="round" />
+                                  <path d="M8 16.2002H12.38" stroke="#121927" stroke-width="1.5"
+                                      stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                                  <path d="M10 6H14C16 6 16 5 16 4C16 2 15 2 14 2H10C9 2 8 2 8 4C8 6 9 6 10 6Z"
+                                      stroke="#121927" stroke-width="1.5" stroke-miterlimit="10"
+                                      stroke-linecap="round" stroke-linejoin="round" />
+                                  <path
+                                      d="M16 4.02002C19.33 4.20002 21 5.43002 21 10V16C21 20 20 22 15 22H9C4 22 3 20 3 16V10C3 5.44002 4.67 4.20002 8 4.02002"
+                                      stroke="#121927" stroke-width="1.5" stroke-miterlimit="10"
+                                      stroke-linecap="round" stroke-linejoin="round" />
+                              </g>
+                          </svg>
+                      </a>
+                  </li>
+                  <li class="action-add"><a (click)="goApplyJob()">
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                              xmlns="http://www.w3.org/2000/svg">
+                              <path d="M6 12H18" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                                  stroke-linejoin="round" />
+                              <path d="M12 18V6" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                                  stroke-linejoin="round" />
+                          </svg>
+
+                      </a></li>
+                  <li>
+                      <a (click)="goMessage()">
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                              xmlns="http://www.w3.org/2000/svg">
+                              <g opacity="0.6">
+                                  <path
+                                      d="M8.5 19H8C4 19 2 18 2 13V8C2 4 4 2 8 2H16C20 2 22 4 22 8V13C22 17 20 19 16 19H15.5C15.19 19 14.89 19.15 14.7 19.4L13.2 21.4C12.54 22.28 11.46 22.28 10.8 21.4L9.3 19.4C9.14 19.18 8.77 19 8.5 19Z"
+                                      stroke="#121927" stroke-width="1.5" stroke-miterlimit="10"
+                                      stroke-linecap="round" stroke-linejoin="round" />
+                                  <path d="M15.9965 11H16.0054" stroke="#121927" stroke-width="2"
+                                      stroke-linecap="round" stroke-linejoin="round" />
+                                  <path d="M11.9955 11H12.0045" stroke="#121927" stroke-width="2"
+                                      stroke-linecap="round" stroke-linejoin="round" />
+                                  <path d="M7.99451 11H8.00349" stroke="#121927" stroke-width="2"
+                                      stroke-linecap="round" stroke-linejoin="round" />
+                              </g>
+                          </svg>
+                      </a>
+                  </li>
+                  <li class="active">
+                      <a (click)="goProfile()">
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                              xmlns="http://www.w3.org/2000/svg">
+                              <path
+                                  d="M12 2C9.38 2 7.25 4.13 7.25 6.75C7.25 9.32 9.26 11.4 11.88 11.49C11.96 11.48 12.04 11.48 12.1 11.49C12.12 11.49 12.13 11.49 12.15 11.49C12.16 11.49 12.16 11.49 12.17 11.49C14.73 11.4 16.74 9.32 16.75 6.75C16.75 4.13 14.62 2 12 2Z"
+                                  fill="#2869FE" />
+                              <path
+                                  d="M17.08 14.1499C14.29 12.2899 9.73996 12.2899 6.92996 14.1499C5.65996 14.9999 4.95996 16.1499 4.95996 17.3799C4.95996 18.6099 5.65996 19.7499 6.91996 20.5899C8.31996 21.5299 10.16 21.9999 12 21.9999C13.84 21.9999 15.68 21.5299 17.08 20.5899C18.34 19.7399 19.04 18.5999 19.04 17.3599C19.03 16.1299 18.34 14.9899 17.08 14.1499Z"
+                                  fill="#2869FE" />
+                          </svg>
+                      </a>
+                  </li>
+              </ul>
+
+          </div>
+      </div>
+
+  </div>
 </ion-content>

@@ -43,4 +43,8 @@ export class MessagePage implements OnInit {
   goMessageInbox() {
     this.nav.navigateForward('/pages/message-inbox');
   }
+
+  goProfile() {
+    this.nav.navigateForward('/pages/profile');
+  }
 }
