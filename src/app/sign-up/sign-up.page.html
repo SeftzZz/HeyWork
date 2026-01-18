@@ -16,7 +16,7 @@
               <img class="logo-white" src="assets/images/logo/logoHW-light.png" alt="">
           </div>
           <p class="mt-16 body-2 text-dark-4">Give creadential to sign in your account</p>
-          <form action="https://jobko.vercel.app/jobko/setup-profile.html">
+          <form (ngSubmit)="register()" #f="ngForm">
               <div class="mt-32 form-field form-2">
                   <h6 class="label">Full Name</h6>
                   <fieldset class="input-icon mt-12">
@@ -28,7 +28,14 @@
                               </g>
                           </svg>                               
                       </span>
-                      <input type="text" placeholder="Type your full name" class="form-control">
+                      <input
+                        type="text"
+                        placeholder="Type your full name"
+                        class="form-control"
+                        name="name"
+                        [(ngModel)]="form.name"
+                        required
+                      >
                   </fieldset>
               </div>
               <div class="mt-20 form-field form-2">
@@ -42,7 +49,14 @@
                               </g>
                           </svg>                            
                       </span>
-                      <input type="text" placeholder="Type your email" class="form-control">
+                      <input
+                        type="email"
+                        placeholder="Type your email"
+                        class="form-control"
+                        name="email"
+                        [(ngModel)]="form.email"
+                        required
+                      >
                   </fieldset>
               </div>
               <div class="mt-20 form-field form-2">
@@ -59,8 +73,12 @@
                               </svg>                                
                           </span>
                           <input
-                            [type]="showPassword ? 'text' : 'password'" name="passUser" [(ngModel)]="form.passUser"
-                            class="form-control" placeholder="Type your password" required
+                            [type]="showPassword ? 'text' : 'password'"
+                            name="password"
+                            [(ngModel)]="form.password"
+                            class="form-control"
+                            placeholder="Type your password"
+                            required
                           />
                           <div class="show-pass" [class.active]="showPassword" (click)="togglePassword()">
                               <span class="icon-pass icon-view">
@@ -98,7 +116,14 @@
                                   </g>
                               </svg>                                
                           </span>
-                          <input type="password" placeholder="Type your password" class="form-control password-field2">
+                          <input
+                            type="password"
+                            placeholder="Confirm your password"
+                            class="form-control"
+                            name="confirmPassword"
+                            [(ngModel)]="form.confirmPassword"
+                            required
+                          />
                           <div class="show-pass2">
                               <span class="icon-pass icon-view">
                                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -124,7 +149,13 @@
                       </div>
                   </fieldset>
               </div>
-              <button class="mt-40 tf-btn primary">Sign Up</button>
+              <button
+                class="mt-40 tf-btn primary"
+                type="submit"
+                [disabled]="f.invalid || loading"
+              >
+                {{ loading ? 'Signing Up...' : 'Sign Up' }}
+              </button>
           </form>
           <div class="auth-line body-2 text-dark-4">or continue with</div>
           <div class="d-flex gap-16 justify-content-center">

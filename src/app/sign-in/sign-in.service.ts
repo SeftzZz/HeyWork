@@ -48,4 +48,12 @@ export class SignInService {
 
     return this.http.post('https://api.example.com/login/facebook', {});
   }
+
+  register(data: { name: string; email: string; password: string }) {
+    return this.http.post(
+      `${environment.api_url}/auth/register`,
+      data
+    ).toPromise();
+  }
+
 }

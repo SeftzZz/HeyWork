@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { IonContent } from '@ionic/angular/standalone';
 import { NavController } from '@ionic/angular';
 
 import { SignInService } from '../sign-in/sign-in.service';
@@ -11,31 +11,55 @@ import { SignInService } from '../sign-in/sign-in.service';
   templateUrl: './sign-up.page.html',
   styleUrls: ['./sign-up.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+  imports: [IonContent, CommonModule, FormsModule]
 })
-export class SignUpPage implements OnInit {
+export class SignUpPage {
 
   showPassword = false;
+  loading = false;
 
   form = {
-    emailUser: '',
-    passUser: ''
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
   };
-  
+
   constructor(
     private nav: NavController,
-    private signin: SignInService,
-  ) { }
+    private signin: SignInService
+  ) {}
 
-  ngOnInit() {
+  // =========================
+  // REGISTER
+  // =========================
+  async register() {
+    if (this.form.password !== this.form.confirmPassword) {
+      alert('Password dan konfirmasi password tidak sama');
+      return;
+    }
+
+    this.loading = true;
+
+    try {
+      await this.signin.register({
+        name: this.form.name,
+        email: this.form.email,
+        password: this.form.password
+      });
+
+      alert('Register berhasil, silakan login');
+      this.nav.navigateRoot('/sign-in');
+
+    } catch (err: any) {
+      alert(err?.message || 'Register gagal');
+    } finally {
+      this.loading = false;
+    }
   }
 
   goBack() {
     this.nav.back();
-  }
-
-  goSignUp() {
-    this.nav.navigateForward('/sign-up');
   }
 
   goSignIn() {
