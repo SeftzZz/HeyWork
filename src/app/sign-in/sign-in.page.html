@@ -14,7 +14,7 @@
   <div class="app-content style-4 signIn-area">
       <div class="tf-container">
           <div class="logo-account mt-20">
-              <img class="logo-white" src="assets/images/logo/logo-light.png" alt="">
+              <img class="logo-white" src="assets/images/logo/logoHW-light.png" alt="">
           </div>
           <p class="mt-16 body-2 text-dark-4">Give creadential to sign in your account</p>
           <form (ngSubmit)="onLogin()">
@@ -29,7 +29,7 @@
                               </g>
                           </svg>                            
                       </span>
-                      <input type="text" placeholder="Type your email" class="form-control">
+                      <input type="email" name="email" [(ngModel)]="form.email" placeholder="Type your email" class="form-control" required/>
                   </fieldset>
               </div>
               <div class="mt-20">
@@ -46,9 +46,8 @@
                               </svg>                                
                           </span>
                           <input
-                            [type]="showPassword ? 'text' : 'password'"
-                            class="form-control password-field"
-                            placeholder="Type your password"
+                            [type]="showPassword ? 'text' : 'password'" name="password" [(ngModel)]="form.password"
+                            class="form-control" placeholder="Type your password" required
                           />
                           <div class="show-pass" [class.active]="showPassword" (click)="togglePassword()">
                               <span class="icon-pass icon-view">
@@ -84,18 +83,13 @@
           </form>
           <div class="auth-line body-2 text-dark-4">or continue with</div>
           <div class="d-flex gap-16 justify-content-center">
-              <a href="index.html" class="btn-social-icon">
-                  <img class="img-icon" src="assets/images/logo/fb.png" alt="img">
-              </a>
-              <a href="index.html" class="btn-social-icon">
-                  <img class="img-icon" src="assets/images/logo/google.png" alt="img">
-              </a>
-              <a href="index.html" class="btn-social-icon">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M18.0494 12.5689C18.0399 10.9302 18.8337 9.69336 20.4405 8.78248C19.5414 7.58137 18.1833 6.92054 16.39 6.79105C14.6923 6.66603 12.8369 7.71533 12.1578 7.71533C11.4405 7.71533 9.79543 6.8357 8.50425 6.8357C5.83581 6.87589 3 8.82267 3 12.7832C3 13.9531 3.22954 15.1616 3.68863 16.4089C4.30074 18.0476 6.5101 22.0662 8.81509 21.9992C10.0202 21.9724 10.8714 21.1999 12.44 21.1999C13.9607 21.1999 14.7497 21.9992 16.0935 21.9992C18.4176 21.9679 20.4166 18.3155 21 16.6723C17.882 15.3015 18.0494 12.6537 18.0494 12.5689ZM15.3427 5.2372C16.6482 3.7905 16.5287 2.4733 16.4904 2C15.3379 2.06251 14.0037 2.73228 13.2434 3.55832C12.4065 4.44241 11.9139 5.53636 12.0191 6.76872C13.2673 6.85803 14.4054 6.2597 15.3427 5.2372Z" fill="black"/>
-                  </svg>
-                      
-              </a>
+              <button class="btn-social-icon" (click)="loginWithFacebook()">
+                <img src="assets/images/logo/fb.png">
+              </button>
+              
+              <button class="btn-social-icon" (click)="loginWithGoogle()">
+                <img src="assets/images/logo/google.png">
+              </button>
           </div>
           
           <p class="mt-35 text-center body-2 text-dark-4">Don’t have account? <a routerLink="/sign-up" class="text-primary button-1">Sign Up</a></p>

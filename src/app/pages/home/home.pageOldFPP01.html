@@ -735,7 +735,7 @@
     <ng-template>
       <div class="modal-content modal-sidebar">
           <div class="sidebar-header">
-              <a (click)="goHome()" class="sidebar-logo">
+              <a (click)="goHome" class="sidebar-logo">
                   <img src="assets/images/logo/logo-1.png" alt="img">
               </a>
               <p>Jobko - Job Finder Mobile App </p>
@@ -753,7 +753,7 @@
               <ul class="pt-20 pb-20">
                   <li class="text-sm-start text-uppercase fw-7 text-dark">Main menu</li>
                   <li class="mt-18 sub-menu" id="accordionExample">
-                      <a (click)="goHome()" class="nav-link-item no-page">
+                      <a (click)="goHome" class="nav-link-item no-page">
                           <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                               viewBox="0 0 20 20" fill="none">
                               <path
@@ -813,7 +813,7 @@
                   </li>
 
                   <li class="mt-16">
-                      <a (click)="confirmLogout()" class="nav-link-item no-page">
+                      <a (click)="logout()" class="nav-link-item no-page">
                           <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                               viewBox="0 0 20 20" fill="none">
                               <path opacity="0.4"
@@ -834,6 +834,12 @@
                       <div class="nav-mode">
                           <label for="switchCheckTheme" class="flex-grow-1 text-dark">Dark mode</label>
                           <input class="tf-switch-check toggle-theme lg" id="switchCheckTheme" type="checkbox">
+                      </div>
+                  </li>
+                  <li class="mt-16">
+                      <div class="nav-mode">
+                          <label for="switchRTLTheme" class="flex-grow-1 text-dark">RTL</label>
+                          <input class="tf-switch-check toggle-rtl lg" id="switchRTLTheme" type="checkbox">
                       </div>
                   </li>
               </ul>
@@ -879,7 +885,7 @@
                           <li><a href="new-pass.html" class="nav-link-item pt-16 pb-16 line-bt no-page">
                                   <span>Reset Password</span>
                               </a></li>
-                          <li><a (click)="goHome()" class="nav-link-item pt-16 pb-16 line-bt no-page">
+                          <li><a (click)="goHome" class="nav-link-item pt-16 pb-16 line-bt no-page">
                                   <span>Home</span>
                               </a></li>
                           <li><a href="setup-profile.html" class="nav-link-item pt-16 pb-16 line-bt no-page">
