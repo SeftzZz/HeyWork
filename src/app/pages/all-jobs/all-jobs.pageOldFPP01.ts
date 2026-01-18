@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
 import { NavController } from '@ionic/angular';
 
 @Component({
@@ -9,17 +9,16 @@ import { NavController } from '@ionic/angular';
   templateUrl: './all-jobs.page.html',
   styleUrls: ['./all-jobs.page.scss'],
   standalone: true,
-  imports: [
-    IonContent,
-    CommonModule,
-    FormsModule
-  ]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
 })
 export class AllJobsPage implements OnInit {
 
-  constructor(private nav: NavController) {}
+  constructor(
+    private nav: NavController
+  ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   goBack() {
     this.nav.back();
