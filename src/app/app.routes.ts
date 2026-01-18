@@ -47,8 +47,33 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/profile/profile.page').then( m => m.ProfilePage)
   },
   {
-    path: 'login',
-    loadComponent: () => import('./auth/login/login.page').then( m => m.LoginPage)
+    path: 'pages/personal-information',
+    loadComponent: () => import('./pages/personal-information/personal-information.page').then( m => m.PersonalInformationPage)
   },
+  {
+    path: 'pages/skill-view',
+    loadComponent: () => import('./pages/skill-view/skill-view.page').then( m => m.SkillViewPage)
+  },
+  {
+    path: 'pages/work-experience',
+    loadComponent: () => import('./pages/work-experience/work-experience.page').then( m => m.WorkExperiencePage)
+  },
+  {
+    path: 'pages/education',
+    loadComponent: () => import('./pages/education/education.page').then( m => m.EducationPage)
+  },
+  {
+    path: 'pages/awards',
+    loadComponent: () => import('./pages/awards/awards.page').then( m => m.AwardsPage)
+  },  {
+    path: 'sign-up',
+    loadComponent: () => import('./sign-up/sign-up.page').then( m => m.SignUpPage)
+  },
+
+
+
+
+
+
 
 ];

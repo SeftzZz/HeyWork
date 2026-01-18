@@ -1,5 +1,4 @@
 <ion-content [fullscreen]="true">
-  
   <div class="header fixed-top">
       <div class="left">
           <a (click)="goBack()" class="icon back-btn">
@@ -9,7 +8,7 @@
               </svg>
           </a>
       </div>
-      <h3>Sign In</h3>
+      <h3>Sign Up</h3>
   </div>
   <div class="app-content style-4 signIn-area">
       <div class="tf-container">
@@ -17,8 +16,22 @@
               <img class="logo-white" src="assets/images/logo/logoHW-light.png" alt="">
           </div>
           <p class="mt-16 body-2 text-dark-4">Give creadential to sign in your account</p>
-          <form (ngSubmit)="onLogin()">
-              <div class="mt-32 form-field">
+          <form action="https://jobko.vercel.app/jobko/setup-profile.html">
+              <div class="mt-32 form-field form-2">
+                  <h6 class="label">Full Name</h6>
+                  <fieldset class="input-icon mt-12">
+                      <span class="icon">
+                          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <g opacity="0.5">
+                              <path d="M10.1331 9.05841C10.0498 9.05008 9.9498 9.05008 9.85814 9.05841C7.8748 8.99175 6.2998 7.36675 6.2998 5.36675C6.2998 3.32508 7.9498 1.66675 9.9998 1.66675C12.0415 1.66675 13.6998 3.32508 13.6998 5.36675C13.6915 7.36675 12.1165 8.99175 10.1331 9.05841Z" stroke="#121927" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+                              <path d="M5.9666 12.1333C3.94993 13.4833 3.94993 15.6833 5.9666 17.0249C8.25827 18.5583 12.0166 18.5583 14.3083 17.0249C16.3249 15.6749 16.3249 13.4749 14.3083 12.1333C12.0249 10.6083 8.2666 10.6083 5.9666 12.1333Z" stroke="#121927" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+                              </g>
+                          </svg>                               
+                      </span>
+                      <input type="text" placeholder="Type your full name" class="form-control">
+                  </fieldset>
+              </div>
+              <div class="mt-20 form-field form-2">
                   <h6 class="label">Email</h6>
                   <fieldset class="input-icon mt-12">
                       <span class="icon">
@@ -29,10 +42,10 @@
                               </g>
                           </svg>                            
                       </span>
-                      <input type="email" name="emailUser" [(ngModel)]="form.emailUser" placeholder="Type your email" class="form-control" required/>
+                      <input type="text" placeholder="Type your email" class="form-control">
                   </fieldset>
               </div>
-              <div class="mt-20">
+              <div class="mt-20 form-field form-2">
                   <h6 class="label">Password</h6>
                   <fieldset class="mt-16 input-icon">
                       <div class="box-view-hide">
@@ -72,14 +85,46 @@
                       </div>
                   </fieldset>
               </div>
-              <div class="mt-20 d-flex justify-content-between">
-                  <div class="box-check-remember">
-                      <input class="tf-switch-check" id="checkRemember" type="checkbox">
-                      <label for="checkRemember" class="body-2 text-dark-4">Remember Me</label>
-                  </div>
-                  <a routerLink="/forgot-pass" class="button-1 text-primary">Forgot Password?</a>
+              <div class="mt-20 form-field form-2">
+                  <h6 class="label">Confirm Password</h6>
+                  <fieldset class="mt-16 input-icon">
+                      <div class="box-view-hide">
+                          <span class="icon">
+                              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <g opacity="0.5">
+                                  <path d="M5 8.33341V6.66675C5 3.90841 5.83333 1.66675 10 1.66675C14.1667 1.66675 15 3.90841 15 6.66675V8.33341" stroke="#121927" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+                                  <path d="M9.99984 15.4167C11.1504 15.4167 12.0832 14.4839 12.0832 13.3333C12.0832 12.1827 11.1504 11.25 9.99984 11.25C8.84924 11.25 7.9165 12.1827 7.9165 13.3333C7.9165 14.4839 8.84924 15.4167 9.99984 15.4167Z" stroke="#121927" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+                                  <path d="M14.1665 18.3333H5.83317C2.49984 18.3333 1.6665 17.4999 1.6665 14.1666V12.4999C1.6665 9.16659 2.49984 8.33325 5.83317 8.33325H14.1665C17.4998 8.33325 18.3332 9.16659 18.3332 12.4999V14.1666C18.3332 17.4999 17.4998 18.3333 14.1665 18.3333Z" stroke="#121927" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+                                  </g>
+                              </svg>                                
+                          </span>
+                          <input type="password" placeholder="Type your password" class="form-control password-field2">
+                          <div class="show-pass2">
+                              <span class="icon-pass icon-view">
+                                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                      <path d="M12.1083 7.8916L7.8916 12.1083C7.34994 11.5666 7.0166 10.8249 7.0166 9.99993C7.0166 8.34993 8.34993 7.0166 9.99993 7.0166C10.8249 7.0166 11.5666 7.34994 12.1083 7.8916Z" stroke="#121927" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+                                      <path d="M14.8499 4.8084C13.3915 3.7084 11.7249 3.1084 9.99987 3.1084C7.0582 3.1084 4.31654 4.84173 2.4082 7.84173C1.6582 9.01673 1.6582 10.9917 2.4082 12.1667C3.06654 13.2001 3.8332 14.0917 4.66654 14.8084" stroke="#121927" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+                                      <path d="M7.0166 16.2751C7.9666 16.6751 8.97493 16.8917 9.99993 16.8917C12.9416 16.8917 15.6833 15.1584 17.5916 12.1584C18.3416 10.9834 18.3416 9.0084 17.5916 7.8334C17.3166 7.40006 17.0166 6.99173 16.7083 6.6084" stroke="#121927" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+                                      <path d="M12.9252 10.5833C12.7085 11.7583 11.7502 12.7166 10.5752 12.9333" stroke="#121927" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+                                      <path d="M7.8915 12.1084L1.6665 18.3334" stroke="#121927" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+                                      <path d="M18.3334 1.66675L12.1084 7.89175" stroke="#121927" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+                                  </svg> 
+                              </span>
+                              <span class="icon-pass icon-hide">
+                                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                      <path d="M12.1083 7.8916L7.8916 12.1083C7.34994 11.5666 7.0166 10.8249 7.0166 9.99993C7.0166 8.34993 8.34993 7.0166 9.99993 7.0166C10.8249 7.0166 11.5666 7.34994 12.1083 7.8916Z" stroke="#121927" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+                                      <path d="M14.8499 4.8084C13.3915 3.7084 11.7249 3.1084 9.99987 3.1084C7.0582 3.1084 4.31654 4.84173 2.4082 7.84173C1.6582 9.01673 1.6582 10.9917 2.4082 12.1667C3.06654 13.2001 3.8332 14.0917 4.66654 14.8084" stroke="#121927" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+                                      <path d="M7.0166 16.2751C7.9666 16.6751 8.97493 16.8917 9.99993 16.8917C12.9416 16.8917 15.6833 15.1584 17.5916 12.1584C18.3416 10.9834 18.3416 9.0084 17.5916 7.8334C17.3166 7.40006 17.0166 6.99173 16.7083 6.6084" stroke="#121927" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+                                      <path d="M12.9252 10.5833C12.7085 11.7583 11.7502 12.7166 10.5752 12.9333" stroke="#121927" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+                                      <path d="M7.8915 12.1084L1.6665 18.3334" stroke="#121927" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+                                      <path d="M18.3334 1.66675L12.1084 7.89175" stroke="#121927" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+                                  </svg>   
+                              </span>
+                          </div>
+                      </div>
+                  </fieldset>
               </div>
-              <button type="submit" class="mt-40 tf-btn primary">Sign In</button>
+              <button class="mt-40 tf-btn primary">Sign Up</button>
           </form>
           <div class="auth-line body-2 text-dark-4">or continue with</div>
           <div class="d-flex gap-16 justify-content-center">
@@ -91,7 +136,7 @@
               </a>
           </div>
           
-          <p class="mt-35 text-center body-2 text-dark-4">Don’t have account? <a (click)="goSignUp()" class="text-primary button-1">Sign Up</a></p>
+          <p class="mt-35 text-center body-2 text-dark-4">Already have an account? <a (click)="goSignIn()" class="text-primary button-1">Sign In</a></p>
       </div>
 
   </div>

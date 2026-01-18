@@ -46,6 +46,10 @@
 /* Font icons */
 @import "assets/fonts/font-icons.css";
 
+html.md {
+    --ion-default-font: "Urbanist", serif;
+}
+
 /* =========================================
    ION MODAL SIDEBAR LEFT (BOOTSTRAP-LIKE)
    ========================================= */

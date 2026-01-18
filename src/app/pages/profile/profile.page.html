@@ -46,31 +46,119 @@
                   <a href="#" class="button-1 text-primary-violet">Active Looking</a>
               </div>
           </div>
-          <div class="mt-22 wrap-count">
-              <div class="count-item">
-                  <div class="box-count bg-rgba-violet">
-                      <div class="h1 text-secondary-violet">36</div>
-                  </div>
-                  <span class="text-dark body-2 fw-medium">Applied</span>
+          <div class="mt-24">
+              <div class="fl-title d-flex justify-content-between align-items-center">
+                  <h4>Skills</h4>
+                  <a (click)="goAllJobs()" class="button-1">See All</a>
               </div>
-              <div class="count-item">
-                  <div class="box-count bg-rgba-pink">
-                      <div class="h1 text-secondary-pink">20</div>
+              <div class="mt-20 list-jobs">
+                  <div class="job-item">
+                      <a (click)="goJobDetail()" class="logo"><img src="assets/images/jobs/apple.png" alt=""></a>
+                      <div class="content">
+                          <div class="info">
+                              <h5><a (click)="goJobDetail()">Sr. Product Designer</a></h5>
+                              <ul class="list-info">
+                                  <li class="item">
+                                      <i class="icon icon-company"></i>
+                                      <span class="body-4">Apple</span>
+                                  </li>
+                                  <li class="dot"></li>
+                                  <li class="item">
+                                      <i class="icon icon-map"></i>
+                                      <span class="body-4">United States</span>
+                                  </li>
+                              </ul>
+                          </div>
+                      </div>
                   </div>
-                  <span class="text-dark body-2 fw-medium">Reviewed</span>
               </div>
-              <div class="count-item">
-                  <div class="box-count bg-rgba-green-2">
-                      <div class="h1 text-secondary-green">36</div>
+          </div>
+          <div class="mt-24">
+              <div class="fl-title d-flex justify-content-between align-items-center">
+                  <h4>Work Experience</h4>
+                  <a (click)="goAllJobs()" class="button-1">See All</a>
+              </div>
+              <div class="mt-20 list-jobs">
+                  <div class="job-item">
+                      <a (click)="goJobDetail()" class="logo"><img src="assets/images/jobs/apple.png" alt=""></a>
+                      <div class="content">
+                          <div class="info">
+                              <h5><a (click)="goJobDetail()">Sr. Product Designer</a></h5>
+                              <ul class="list-info">
+                                  <li class="item">
+                                      <i class="icon icon-company"></i>
+                                      <span class="body-4">Apple</span>
+                                  </li>
+                                  <li class="dot"></li>
+                                  <li class="item">
+                                      <i class="icon icon-map"></i>
+                                      <span class="body-4">United States</span>
+                                  </li>
+                              </ul>
+                          </div>
+                      </div>
                   </div>
-                  <span class="text-dark body-2 fw-medium">Contacted</span>
+              </div>
+          </div>
+          <div class="mt-24">
+              <div class="fl-title d-flex justify-content-between align-items-center">
+                  <h4>Education</h4>
+                  <a (click)="goAllJobs()" class="button-1">See All</a>
+              </div>
+              <div class="mt-20 list-jobs">
+                  <div class="job-item">
+                      <a (click)="goJobDetail()" class="logo"><img src="assets/images/jobs/apple.png" alt=""></a>
+                      <div class="content">
+                          <div class="info">
+                              <h5><a (click)="goJobDetail()">Sr. Product Designer</a></h5>
+                              <ul class="list-info">
+                                  <li class="item">
+                                      <i class="icon icon-company"></i>
+                                      <span class="body-4">Apple</span>
+                                  </li>
+                                  <li class="dot"></li>
+                                  <li class="item">
+                                      <i class="icon icon-map"></i>
+                                      <span class="body-4">United States</span>
+                                  </li>
+                              </ul>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="mt-24">
+              <div class="fl-title d-flex justify-content-between align-items-center">
+                  <h4>Awards</h4>
+                  <a (click)="goAllJobs()" class="button-1">See All</a>
+              </div>
+              <div class="mt-20 list-jobs">
+                  <div class="job-item">
+                      <a (click)="goJobDetail()" class="logo"><img src="assets/images/jobs/apple.png" alt=""></a>
+                      <div class="content">
+                          <div class="info">
+                              <h5><a (click)="goJobDetail()">Sr. Product Designer</a></h5>
+                              <ul class="list-info">
+                                  <li class="item">
+                                      <i class="icon icon-company"></i>
+                                      <span class="body-4">Apple</span>
+                                  </li>
+                                  <li class="dot"></li>
+                                  <li class="item">
+                                      <i class="icon icon-map"></i>
+                                      <span class="body-4">United States</span>
+                                  </li>
+                              </ul>
+                          </div>
+                      </div>
+                  </div>
               </div>
           </div>
       </div>
       <div class="mt-24 wrapper-box">
           <ul class="list-profile">
               <li>
-                  <a href="personal-information.html" class="item">
+                  <a (click)="goPersonalInformation()" class="item">
                       <span class="box-icon"><i class="icon icon-profile-fill"></i></span>
                       <div class="content">
                           <h6 class="title">Personal Information</h6>
@@ -87,7 +175,7 @@
                   </a>
               </li>
               <li>
-                  <a href="skill-view.html" class="item">
+                  <a (click)="goSkillView()" class="item">
                       <span class="box-icon"><i class="icon icon-teacher"></i></span>
                       <div class="content">
                           <h6 class="title">Skill</h6>
@@ -104,7 +192,7 @@
                   </a>
               </li>
               <li>
-                  <a href="work-experience.html" class="item">
+                  <a (click)="goWorkExperience()" class="item">
                       <span class="box-icon"><i class="icon icon-briefcase"></i></span>
                       <div class="content">
                           <h6 class="title">Work Experience</h6>
@@ -121,7 +209,7 @@
                   </a>
               </li>
               <li>
-                  <a href="education.html" class="item">
+                  <a (click)="goEducation()" class="item">
                       <span class="box-icon"><i class="icon icon-teacher"></i></span>
                       <div class="content">
                           <h6 class="title">Education</h6>
@@ -138,7 +226,7 @@
                   </a>
               </li>
               <li>
-                  <a href="awards.html" class="item">
+                  <a (click)="goAwards()" class="item">
                       <span class="box-icon"><i class="icon icon-medal-star"></i></span>
                       <div class="content">
                           <h6 class="title">Awards</h6>
@@ -155,7 +243,7 @@
                   </a>
               </li>
               <li>
-                  <a href="onboarding.html" class="item">
+                  <a (click)="confirmLogout()" class="item">
                       <span class="box-icon"><i class="icon icon-logout"></i></span>
                       <div class="content">
                           <h6 class="title">Log out</h6>

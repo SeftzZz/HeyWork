@@ -74,4 +74,8 @@ export class SignInPage implements OnInit {
   loginWithFacebook() {
     this.signin.loginWithFacebook();
   }
+
+  goSignUp() {
+    this.nav.navigateForward('/sign-up');
+  }
 }
