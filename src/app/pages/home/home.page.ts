@@ -3,9 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
   IonContent,
-  // IonHeader,
-  // IonTitle,
-  // IonToolbar,
   IonModal
 } from '@ionic/angular/standalone';
 import { NavController } from '@ionic/angular';
@@ -23,9 +20,6 @@ declare const initAllSwipers: any;
   standalone: true,
   imports: [
     IonContent,
-    // IonHeader,
-    // IonTitle,
-    // IonToolbar,
     IonModal,
     CommonModule,
     FormsModule
@@ -35,6 +29,11 @@ export class HomePage implements OnInit {
 
   showSidebar = false;
   user: any = null;
+
+  // =========================
+  // 🌙 DARK MODE STATE
+  // =========================
+  isDarkMode = false;
 
   constructor(
     private nav: NavController,
@@ -46,8 +45,12 @@ export class HomePage implements OnInit {
   async ngOnInit() {
     this.title.setTitle('Home | Hey! Work');
 
-    const loggedIn = await this.auth.isLoggedIn();
+    // =========================
+    // INIT DARK MODE
+    // =========================
+    this.initDarkMode();
 
+    const loggedIn = await this.auth.isLoggedIn();
     if (!loggedIn) {
       this.nav.navigateRoot('/sign-in');
       return;
@@ -64,11 +67,35 @@ export class HomePage implements OnInit {
     }, 50);
   }
 
+  // =========================
+  // 🌙 DARK MODE HANDLER
+  // =========================
+  initDarkMode() {
+    const html = document.documentElement;
+    const theme = localStorage.getItem('toggled');
+
+    this.isDarkMode = theme === 'dark-theme';
+    html.classList.toggle('dark-theme', this.isDarkMode);
+  }
+
+  toggleDarkMode() {
+    const html = document.documentElement;
+
+    html.classList.toggle('dark-theme', this.isDarkMode);
+
+    localStorage.setItem(
+      'toggled',
+      this.isDarkMode ? 'dark-theme' : 'light-theme'
+    );
+  }
+
+  // =========================
+  // PROFILE & NAV
+  // =========================
   async loadProfile() {
     try {
       this.user = await this.profileService.getProfile();
     } catch (e) {
-      // token invalid → logout paksa
       await this.auth.removeToken();
       this.nav.navigateRoot('/sign-in');
     }
@@ -120,6 +147,7 @@ export class HomePage implements OnInit {
   }
 
   goProfile() {
+    this.showSidebar = false;
     this.nav.navigateForward('/pages/profile');
   }
 }

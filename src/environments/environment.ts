@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  api_url: "https://cms.sahirahotelsgroup.com/cms/api"
+  api_url: "http://heyworkapi.local/api"
 };
 
 /*

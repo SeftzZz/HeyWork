@@ -32,8 +32,8 @@ export class SignInPage implements OnInit {
   showPassword = false;
 
   form = {
-    emailUser: '',
-    passUser: ''
+    email: '',
+    password: ''
   };
 
   constructor(

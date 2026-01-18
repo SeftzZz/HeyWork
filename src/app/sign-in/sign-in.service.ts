@@ -10,19 +10,19 @@ export class SignInService {
 
   async login(data: any) {
     const res: any = await this.http
-      .post(`${environment.api_url}/authLogin`, data)
+      .post(`${environment.api_url}/auth/login`, data)
       .toPromise();
-
+    console.log(res);
     await Preferences.set({
       key: 'token',
-      value: res.token
+      value: res.access_token
     });    
 
     return res;
   }
 
   async loginWithGoogle() {
-    const googleToken = 'GOOGLE_ID_TOKEN';
+    const googleToken = '983670743819-kl45cfchuev92q8tp8i7shdf56jup8gk.apps.googleusercontent.com';
 
     const res: any = await this.http
       .post(`${environment.api_url}/auth/google`, { token: googleToken })

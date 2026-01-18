@@ -29,7 +29,7 @@
                               </g>
                           </svg>                            
                       </span>
-                      <input type="email" name="emailUser" [(ngModel)]="form.emailUser" placeholder="Type your email" class="form-control" required/>
+                      <input type="email" name="email" [(ngModel)]="form.email" placeholder="Type your email" class="form-control" required/>
                   </fieldset>
               </div>
               <div class="mt-20">
@@ -46,7 +46,7 @@
                               </svg>                                
                           </span>
                           <input
-                            [type]="showPassword ? 'text' : 'password'" name="passUser" [(ngModel)]="form.passUser"
+                            [type]="showPassword ? 'text' : 'password'" name="password" [(ngModel)]="form.password"
                             class="form-control" placeholder="Type your password" required
                           />
                           <div class="show-pass" [class.active]="showPassword" (click)="togglePassword()">
