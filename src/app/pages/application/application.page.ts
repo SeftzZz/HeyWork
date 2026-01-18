@@ -39,4 +39,8 @@ export class ApplicationPage implements OnInit {
   goApplication() {
     this.nav.navigateForward('/pages/application');
   }
+
+  goMessage() {
+    this.nav.navigateForward('/pages/message');
+  }
 }
