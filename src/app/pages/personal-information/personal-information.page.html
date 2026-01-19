@@ -10,7 +10,7 @@
       </div>
       <h3>Set Up Profile</h3>
       <div class="h-right">
-          <a href="index.html" class="icon-home">
+          <a (click)="goHome()" class="icon-home">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <g opacity="0.6">
                       <path
@@ -26,16 +26,30 @@
   <div class="app-content style-3">
       <div class="tf-container">
           <div class="box-profile-setup upload">
-              <div class="avatar">
-                  <img class="avt-profile" src="assets/images/avt/avt-1.jpg" alt="">
-                  <div class="upload-box"><span class="icon-camera"></span></div>
-                  <input type="file" class="ip-file">
-              </div>
-              <div class="head-profile text-center">
-                  <h4>Personal Information</h4>
-              </div>
+            <div class="avatar">
+                <img
+                  class="avt-profile"
+                  [src]="photoPreview || auth?.user?.photo || 'assets/images/avt/avt-1.jpg'"
+                  alt="">
+
+                <div class="upload-box" (click)="fileInput.click()">
+                  <span class="icon-camera"></span>
+                </div>
+
+                <input
+                  #fileInput
+                  type="file"
+                  class="ip-file"
+                  accept="image/*"
+                  hidden
+                  (change)="onPhotoSelected($event)">
+            </div>
+
+            <div class="head-profile text-center">
+                <h4>Personal Information</h4>
+            </div>
           </div>
-          <form action="https://jobko.vercel.app/jobko/profile.html" class="mt-24">
+          <form class="mt-24" (ngSubmit)="saveProfile()">
               <div class="form-field">
                   <h6 class="label text-dark-4">Full Name</h6>
                   <fieldset class="input-icon mt-12">
@@ -52,8 +66,12 @@
                                   stroke-linejoin="round" />
                           </svg>
                       </span>
-                      <input type="text" value="Jonathan Smith" placeholder="Type your full name"
-                          class="form-control line-dark">
+                      <input
+                        type="text"
+                        name="name"
+                        [(ngModel)]="form.name"
+                        placeholder="Type your full name"
+                        class="form-control line-dark">
                   </fieldset>
               </div>
               <div class="mt-20 form-field">
@@ -73,8 +91,12 @@
                                   stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
                           </svg>
                       </span>
-                      <input type="number" value="0123456789" placeholder="Type your phone"
-                          class="form-control line-dark">
+                      <input
+                        type="number"
+                        name="phone"
+                        [(ngModel)]="form.phone"
+                        placeholder="Type your phone"
+                        class="form-control line-dark">
                   </fieldset>
               </div>
               <div class="mt-20 form-field">
@@ -107,8 +129,12 @@
                                   stroke-linecap="round" stroke-linejoin="round" />
                           </svg>
                       </span>
-                      <input type="text" id="datepicker1" value="18 Februray, 2001" placeholder="Select date of birth"
-                          class="ip-datepicker form-control line-dark">
+                      <input
+                        type="text"
+                        name="dob"
+                        [(ngModel)]="form.dob"
+                        placeholder="Select date of birth"
+                        class="ip-datepicker form-control line-dark">
                       <span class="icon-right">
                           <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                               xmlns="http://www.w3.org/2000/svg">
@@ -155,7 +181,7 @@
                   </div>
               </div>
               <div class="fixed-button">
-                  <button class="tf-btn primary">Continue</button>
+                  <button type="submit" class="tf-btn primary">Continue</button>
               </div>
           </form>
 

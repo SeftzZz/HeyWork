@@ -3,20 +3,30 @@ import { HttpClient } from '@angular/common/http';
 import { Preferences } from '@capacitor/preferences';
 import { environment } from '../../environments/environment';
 
+import { AuthStorage } from '../services/auth-storage.service';
+
 @Injectable({ providedIn: 'root' })
 export class SignInService {
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private auth: AuthStorage,
+  ) {}
 
   async login(data: any) {
     const res: any = await this.http
       .post(`${environment.api_url}/auth/login`, data)
       .toPromise();
-    console.log(res);
-    await Preferences.set({
-      key: 'token',
-      value: res.access_token
-    });    
+
+    const { password, ...safeUser } = res.user;
+
+    await this.auth.setAuth({
+      access_token: res.access_token,
+      refresh_token: res.refresh_token,
+      expires_in: res.expires_in,
+      expired_at: Date.now() + res.expires_in * 1000,
+      user: safeUser
+    });
 
     return res;
   }
