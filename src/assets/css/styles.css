@@ -1,9 +1,4 @@
 /* ---------------------------------------------------------
-    * Name: Jobko
-    * Version: 1.0.1
-    * Author: Themesflat
-    * Author URI: http://themesflat.com 
-
 	* Abstracts variable
 
     * Reset css styles
@@ -1317,7 +1312,7 @@ select {
   width: 300px;
 }
 .modal-sidebar .sidebar-header {
-  background-color: var(--pest-1);
+  background-color: var(--blue);
   padding: 15px;
   display: flex;
   gap: 16px;

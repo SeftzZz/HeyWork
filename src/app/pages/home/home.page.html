@@ -8,8 +8,7 @@
           <div class="content">
               <span class="body-4 text-dark-4">Welcome back!</span>
               <h4 class="name">
-                  Hello! Smith
-                  <img class="icon" src="assets/images/icon/hello.png" alt="">
+                  Hello! {{ user?.name }}
               </h4>
           </div>
       </a>
@@ -758,9 +757,9 @@
       <div class="modal-content modal-sidebar">
           <div class="sidebar-header">
               <a (click)="goHome()" class="sidebar-logo">
-                  <img src="assets/images/logo/logo-1.png" alt="img">
+                  <img src="assets/images/logo/LogoHW-1.png" alt="img">
               </a>
-              <p>Jobko - Job Finder Mobile App </p>
+              <p>Find Flexible Hospitality Jobs</p>
           </div>
           <div class="sidebar-content">
               <div class="d-flex gap-10 align-items-center pb-20 line-bt">
@@ -768,8 +767,8 @@
                       <img src="assets/images/avt/avt-1.jpg" alt="img">
                   </div>
                   <div class="content-right">
-                      <p class="text-1">Good morning</p>
-                      <h6 class="fw-7">Hello! Smith</h6>
+                      <p class="text-1">{{ greeting }}</p>
+                      <h6 class="fw-7">Hello! {{ user?.name }}</h6>
                   </div>
               </div>
               <ul class="pt-20 pb-20">
