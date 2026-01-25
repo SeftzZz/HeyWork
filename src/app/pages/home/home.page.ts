@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import {
-  IonContent,
-  IonModal
-} from '@ionic/angular/standalone';
+import { IonContent, IonModal} from '@ionic/angular/standalone';
 import { NavController } from '@ionic/angular';
 import { Title } from '@angular/platform-browser';
 
@@ -29,6 +26,7 @@ export class HomePage implements OnInit {
 
   showSidebar = false;
   user: any = null;
+  greeting: string = '';
 
   // =========================
   // 🌙 DARK MODE STATE
@@ -41,6 +39,21 @@ export class HomePage implements OnInit {
     private profileService: ProfileService,
     private title: Title
   ) {}
+
+  setGreeting() {
+    const now = new Date();
+
+    // WIB = UTC + 7
+    const jakartaHour = now.getUTCHours() + 7;
+
+    if (jakartaHour >= 5 && jakartaHour < 12) {
+      this.greeting = 'Good morning';
+    } else if (jakartaHour >= 12 && jakartaHour < 18) {
+      this.greeting = 'Good day';
+    } else {
+      this.greeting = 'Good evening';
+    }
+  }
 
   async ngOnInit() {
     this.title.setTitle('Home | Hey! Work');
@@ -55,6 +68,11 @@ export class HomePage implements OnInit {
       this.nav.navigateRoot('/sign-in');
       return;
     }
+
+    // =========================
+    // SET GREETING (WIB)
+    // =========================
+    this.setGreeting();
 
     await this.loadProfile();
   }
