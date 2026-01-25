@@ -119,6 +119,7 @@ export class HomePage implements OnInit {
     }
   }
 
+
   openSidebar() {
     this.showSidebar = true;
   }

@@ -23,10 +23,13 @@ export class ProfileService {
       Authorization: `Bearer ${token}`
     });
 
-    return firstValueFrom(
+    const res: any = await firstValueFrom(
       this.http.get(`${environment.api_url}/worker/profile`, { headers })
     );
+
+    return res.user;
   }
+
 
   /* =======================
    * UPDATE PROFILE (PUT)
