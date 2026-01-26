@@ -749,7 +749,7 @@ select {
 }
 
 .bg-primary-pest {
-  background-color: var(--pest-1) !important;
+  background-color: var(--blue) !important;
 }
 
 .bg-secondary-violet {
@@ -6444,7 +6444,7 @@ html:not([dir=rtl]) .slider-salary .noUi-handle-upper {
 }
 
 .banner-box {
-  background-color: var(--green);
+  background-color: var(--yellow);
   border-radius: 18px;
   overflow: hidden;
   padding: 20px;
