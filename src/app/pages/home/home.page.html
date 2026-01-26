@@ -74,26 +74,28 @@
           </div>
 
           <div class="mt-22 wrap-count">
-              <div class="count-item">
-                  <div class="box-count bg-rgba-violet">
-                      <div class="h1 text-secondary-violet">36</div>
-                  </div>
-                  <span class="text-dark body-2 fw-medium">Applied</span>
+            <div class="count-item">
+              <div class="box-count bg-rgba-violet">
+                <div class="h1 text-secondary-violet">{{ pendingCount }}</div>
               </div>
-              <div class="count-item">
-                  <div class="box-count bg-rgba-pink">
-                      <div class="h1 text-secondary-pink">20</div>
-                  </div>
-                  <span class="text-dark body-2 fw-medium">Reviewed</span>
+              <span class="text-dark body-2 fw-medium">Pending</span>
+            </div>
+
+            <div class="count-item">
+              <div class="box-count bg-rgba-pink">
+                <div class="h1 text-secondary-pink">{{ acceptedCount }}</div>
               </div>
-              <div class="count-item">
-                  <div class="box-count bg-rgba-green-2">
-                      <div class="h1 text-secondary-green">36</div>
-                  </div>
-                  <span class="text-dark body-2 fw-medium">Contacted</span>
+              <span class="text-dark body-2 fw-medium">Accepted</span>
+            </div>
+
+            <div class="count-item">
+              <div class="box-count bg-rgba-green-2">
+                <div class="h1 text-secondary-green">{{ completedCount }}</div>
               </div>
+              <span class="text-dark body-2 fw-medium">Completed</span>
+            </div>
           </div>
-          
+
           <div class="mt-24 banner-box">
               <div class="content">
                   <h5 class="title">Let’s find a new job <br> suitable for you</h5>
@@ -112,7 +114,7 @@
           </div>
           <div class="mt-24">
               <h4>Browse By Category</h4>
-              <div dir="ltr" class="mt-20 swiper tf-sw" data-preview="4" data-space="20">
+              <div dir="ltr" class="mt-20 swiper tf-sw" data-preview="3" data-space="20">
                   <div class="swiper-wrapper">
                       <div class="swiper-slide">
                           <div class="category-job">
@@ -127,7 +129,7 @@
                               <a (click)="goAllJobs()" class="box-img">
                                   <img src="assets/images/category/pull-time.png" alt="img">
                               </a>
-                              <a class="title" (click)="goAllJobs()">Full Time</a>
+                              <a class="title" (click)="goAllJobs()">Daily Worker</a>
                           </div>
                       </div>
                       <div class="swiper-slide">
@@ -135,23 +137,7 @@
                               <a (click)="goAllJobs()" class="box-img">
                                   <img src="assets/images/category/part-time.png" alt="img">
                               </a>
-                              <a class="title" (click)="goAllJobs()">Part Time</a>
-                          </div>
-                      </div>
-                      <div class="swiper-slide">
-                          <div class="category-job">
-                              <a (click)="goAllJobs()" class="box-img">
-                                  <img src="assets/images/category/freelancer.png" alt="img">
-                              </a>
-                              <a class="title" (click)="goAllJobs()">Freelance</a>
-                          </div>
-                      </div>
-                      <div class="swiper-slide">
-                          <div class="category-job">
-                              <a (click)="goAllJobs()" class="box-img">
-                                  <img src="assets/images/category/company.png" alt="img">
-                              </a>
-                              <a class="title" (click)="goAllJobs()">Company</a>
+                              <a class="title" (click)="goAllJobs()">Casual</a>
                           </div>
                       </div>
                   </div>
@@ -165,16 +151,18 @@
               </div>
               <div dir="ltr" class="mt-24 swiper tf-sw-2 sw-lr" data-preview="1.2" data-space="20">
                   <div class="swiper-wrapper">
-                      <div class="swiper-slide">
+                      <div class="swiper-slide" *ngFor="let job of jobs">
                           <div class="card-job bg-primary-pest">
                               <div class="top">
                                   <div class="inner-left">
                                       <div class="logo-box">
-                                          <img src="assets/images/jobs/google.png" alt="">
+                                          <img 
+                                          [src]="job?.hotel_logo || 'assets/images/jobs/google.png'"
+                                          alt="">
                                       </div>
                                       <div class="info">
-                                          <p class="body-2">Google LLC</p>
-                                          <h6 class="title"><a (click)="goJobDetail()">Sr. UX Designer</a></h6>
+                                          <p class="body-2">{{ truncate(job.hotel_name) }}</p>
+                                          <h6 class="title"><a (click)="goJobDetail()">{{ job.position }}</a></h6>
                                       </div>
                                   </div>
                                   <span class="tag-archive check-icon">
@@ -196,70 +184,12 @@
                                       </svg>
                                   </span>
                               </div>
-                              <div class="list-tag">
-                                  <span class="tag body-6">Design</span>
-                                  <span class="tag body-6">Full Time</span>
-                                  <span class="tag body-6">In House</span>
-                              </div>
                               <div class="bottom">
                                   <div class="inner">
-                                      <h6>$195,000/</h6>
-                                      <span class="body-6">Year</span>
-                                  </div>
-                                  <a (click)="goJobDetail()" class="btn-apply">
-                                      Apply
-                                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                          xmlns="http://www.w3.org/2000/svg">
-                                          <path d="M9.62012 3.95312L13.6668 7.99979L9.62012 12.0465" stroke="white"
-                                              stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
-                                              stroke-linejoin="round" />
-                                          <path d="M2.3335 8H13.5535" stroke="white" stroke-width="1.5"
-                                              stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
-                                      </svg>
-                                  </a>
-                              </div>
-                          </div>
-                      </div>
-                      <div class="swiper-slide">
-                          <div class="card-job bg-secondary-violet">
-                              <div class="top">
-                                  <div class="inner-left">
-                                      <div class="logo-box">
-                                          <img src="assets/images/jobs/microsoft.png" alt="">
-                                      </div>
-                                      <div class="info">
-                                          <p class="body-2">Microsoft</p>
-                                          <h6 class="title"><a (click)="goJobDetail()">Lead Designer</a></h6>
-                                      </div>
-                                  </div>
-                                  <span class="tag-archive check-icon">
-                                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                          xmlns="http://www.w3.org/2000/svg">
-                                          <path d="M6.1665 6.0332C7.35317 6.46654 8.6465 6.46654 9.83317 6.0332Z"
-                                              fill="white" />
-                                          <path d="M6.1665 6.0332C7.35317 6.46654 8.6465 6.46654 9.83317 6.0332"
-                                              stroke="white" stroke-width="1.5" stroke-linecap="round"
-                                              stroke-linejoin="round" />
-                                          <path
-                                              d="M11.2134 1.3335H4.78671C3.36671 1.3335 2.21338 2.4935 2.21338 3.90683V13.3002C2.21338 14.5002 3.07338 15.0068 4.12671 14.4268L7.38005 12.6202C7.72671 12.4268 8.28671 12.4268 8.62671 12.6202L11.88 14.4268C12.9334 15.0135 13.7934 14.5068 13.7934 13.3002V3.90683C13.7867 2.4935 12.6334 1.3335 11.2134 1.3335Z"
-                                              stroke="white" stroke-width="1.5" stroke-linecap="round"
-                                              stroke-linejoin="round" />
-                                          <path
-                                              d="M11.2134 1.3335H4.78671C3.36671 1.3335 2.21338 2.4935 2.21338 3.90683V13.3002C2.21338 14.5002 3.07338 15.0068 4.12671 14.4268L7.38005 12.6202C7.72671 12.4268 8.28671 12.4268 8.62671 12.6202L11.88 14.4268C12.9334 15.0135 13.7934 14.5068 13.7934 13.3002V3.90683C13.7867 2.4935 12.6334 1.3335 11.2134 1.3335Z"
-                                              stroke="white" stroke-width="1.5" stroke-linecap="round"
-                                              stroke-linejoin="round" />
-                                      </svg>
-                                  </span>
-                              </div>
-                              <div class="list-tag">
-                                  <span class="tag body-6">Design</span>
-                                  <span class="tag body-6">Full Time</span>
-                                  <span class="tag body-6">In House</span>
-                              </div>
-                              <div class="bottom">
-                                  <div class="inner">
-                                      <h6>$195,000/</h6>
-                                      <span class="body-6">Year</span>
+                                      <h6>
+                                        Rp {{ job.fee ? (job.fee | number) : '-' }}/
+                                      </h6>
+                                      <span class="body-6">Day</span>
                                   </div>
                                   <a (click)="goJobDetail()" class="btn-apply">
                                       Apply
@@ -320,152 +250,9 @@
                           </span>
                       </div>
                   </div>
-                  <div class="job-item">
-                      <a (click)="goJobDetail()" class="logo"><img src="assets/images/jobs/amplitude.png" alt=""></a>
-                      <div class="content">
-                          <div class="info">
-                              <h5><a (click)="goJobDetail()">Sr. UI/UX Designer</a></h5>
-                              <ul class="list-info">
-                                  <li class="item">
-                                      <i class="icon icon-company"></i>
-                                      <span class="body-4">Amplitude</span>
-                                  </li>
-                                  <li class="dot"></li>
-                                  <li class="item">
-                                      <i class="icon icon-map"></i>
-                                      <span class="body-4">Singapore</span>
-                                  </li>
-                              </ul>
-                          </div>
-                          <span class="more">
-                              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                  xmlns="http://www.w3.org/2000/svg">
-                                  <g opacity="0.6">
-                                      <path
-                                          d="M12 3.75C12.6858 3.75 13.25 4.31421 13.25 5C13.25 5.68579 12.6858 6.25 12 6.25C11.3142 6.25 10.75 5.68579 10.75 5C10.75 4.31421 11.3142 3.75 12 3.75Z"
-                                          fill="#121927" stroke="#121927" stroke-width="1.5" />
-                                      <path
-                                          d="M12 17.75C12.6858 17.75 13.25 18.3142 13.25 19C13.25 19.6858 12.6858 20.25 12 20.25C11.3142 20.25 10.75 19.6858 10.75 19C10.75 18.3142 11.3142 17.75 12 17.75Z"
-                                          fill="#121927" stroke="#121927" stroke-width="1.5" />
-                                      <path
-                                          d="M12 10.75C12.6858 10.75 13.25 11.3142 13.25 12C13.25 12.6858 12.6858 13.25 12 13.25C11.3142 13.25 10.75 12.6858 10.75 12C10.75 11.3142 11.3142 10.75 12 10.75Z"
-                                          fill="#121927" stroke="#121927" stroke-width="1.5" />
-                                  </g>
-                              </svg>
-                          </span>
-                      </div>
-                  </div>
-                  <div class="job-item">
-                      <a (click)="goJobDetail()" class="logo"><img src="assets/images/jobs/adobe.png" alt=""></a>
-                      <div class="content">
-                          <div class="info">
-                              <h5><a (click)="goJobDetail()">Software Developer</a></h5>
-                              <ul class="list-info">
-                                  <li class="item">
-                                      <i class="icon icon-company"></i>
-                                      <span class="body-4">Adobe</span>
-                                  </li>
-                                  <li class="dot"></li>
-                                  <li class="item">
-                                      <i class="icon icon-map"></i>
-                                      <span class="body-4">New York City</span>
-                                  </li>
-                              </ul>
-                          </div>
-                          <span class="more">
-                              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                  xmlns="http://www.w3.org/2000/svg">
-                                  <g opacity="0.6">
-                                      <path
-                                          d="M12 3.75C12.6858 3.75 13.25 4.31421 13.25 5C13.25 5.68579 12.6858 6.25 12 6.25C11.3142 6.25 10.75 5.68579 10.75 5C10.75 4.31421 11.3142 3.75 12 3.75Z"
-                                          fill="#121927" stroke="#121927" stroke-width="1.5" />
-                                      <path
-                                          d="M12 17.75C12.6858 17.75 13.25 18.3142 13.25 19C13.25 19.6858 12.6858 20.25 12 20.25C11.3142 20.25 10.75 19.6858 10.75 19C10.75 18.3142 11.3142 17.75 12 17.75Z"
-                                          fill="#121927" stroke="#121927" stroke-width="1.5" />
-                                      <path
-                                          d="M12 10.75C12.6858 10.75 13.25 11.3142 13.25 12C13.25 12.6858 12.6858 13.25 12 13.25C11.3142 13.25 10.75 12.6858 10.75 12C10.75 11.3142 11.3142 10.75 12 10.75Z"
-                                          fill="#121927" stroke="#121927" stroke-width="1.5" />
-                                  </g>
-                              </svg>
-                          </span>
-                      </div>
-                  </div>
-                  <div class="job-item">
-                      <a (click)="goJobDetail()" class="logo"><img src="assets/images/jobs/wings.png" alt=""></a>
-                      <div class="content">
-                          <div class="info">
-                              <h5><a (click)="goJobDetail()">Lead Digital Marketar</a></h5>
-                              <ul class="list-info">
-                                  <li class="item">
-                                      <i class="icon icon-company"></i>
-                                      <span class="body-4">wings</span>
-                                  </li>
-                                  <li class="dot"></li>
-                                  <li class="item">
-                                      <i class="icon icon-map"></i>
-                                      <span class="body-4">Anywhere (Remote)</span>
-                                  </li>
-                              </ul>
-                          </div>
-                          <span class="more">
-                              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                  xmlns="http://www.w3.org/2000/svg">
-                                  <g opacity="0.6">
-                                      <path
-                                          d="M12 3.75C12.6858 3.75 13.25 4.31421 13.25 5C13.25 5.68579 12.6858 6.25 12 6.25C11.3142 6.25 10.75 5.68579 10.75 5C10.75 4.31421 11.3142 3.75 12 3.75Z"
-                                          fill="#121927" stroke="#121927" stroke-width="1.5" />
-                                      <path
-                                          d="M12 17.75C12.6858 17.75 13.25 18.3142 13.25 19C13.25 19.6858 12.6858 20.25 12 20.25C11.3142 20.25 10.75 19.6858 10.75 19C10.75 18.3142 11.3142 17.75 12 17.75Z"
-                                          fill="#121927" stroke="#121927" stroke-width="1.5" />
-                                      <path
-                                          d="M12 10.75C12.6858 10.75 13.25 11.3142 13.25 12C13.25 12.6858 12.6858 13.25 12 13.25C11.3142 13.25 10.75 12.6858 10.75 12C10.75 11.3142 11.3142 10.75 12 10.75Z"
-                                          fill="#121927" stroke="#121927" stroke-width="1.5" />
-                                  </g>
-                              </svg>
-                          </span>
-                      </div>
-                  </div>
-                  <div class="job-item">
-                      <a (click)="goJobDetail()" class="logo"><img src="assets/images/jobs/airbnb.png" alt=""></a>
-                      <div class="content">
-                          <div class="info">
-                              <h5><a (click)="goJobDetail()">Full Stack Developer</a></h5>
-                              <ul class="list-info">
-                                  <li class="item">
-                                      <i class="icon icon-company"></i>
-                                      <span class="body-4">Airbnb</span>
-                                  </li>
-                                  <li class="dot"></li>
-                                  <li class="item">
-                                      <i class="icon icon-map"></i>
-                                      <span class="body-4">United Kingdom</span>
-                                  </li>
-                              </ul>
-                          </div>
-                          <span class="more">
-                              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                  xmlns="http://www.w3.org/2000/svg">
-                                  <g opacity="0.6">
-                                      <path
-                                          d="M12 3.75C12.6858 3.75 13.25 4.31421 13.25 5C13.25 5.68579 12.6858 6.25 12 6.25C11.3142 6.25 10.75 5.68579 10.75 5C10.75 4.31421 11.3142 3.75 12 3.75Z"
-                                          fill="#121927" stroke="#121927" stroke-width="1.5" />
-                                      <path
-                                          d="M12 17.75C12.6858 17.75 13.25 18.3142 13.25 19C13.25 19.6858 12.6858 20.25 12 20.25C11.3142 20.25 10.75 19.6858 10.75 19C10.75 18.3142 11.3142 17.75 12 17.75Z"
-                                          fill="#121927" stroke="#121927" stroke-width="1.5" />
-                                      <path
-                                          d="M12 10.75C12.6858 10.75 13.25 11.3142 13.25 12C13.25 12.6858 12.6858 13.25 12 13.25C11.3142 13.25 10.75 12.6858 10.75 12C10.75 11.3142 11.3142 10.75 12 10.75Z"
-                                          fill="#121927" stroke="#121927" stroke-width="1.5" />
-                                  </g>
-                              </svg>
-                          </span>
-                      </div>
-                  </div>
               </div>
           </div>
-
-
       </div>
-
   </div>
 
   <div class="menubar-footer footer-fixed">

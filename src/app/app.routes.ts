@@ -65,7 +65,8 @@ export const routes: Routes = [
   {
     path: 'pages/awards',
     loadComponent: () => import('./pages/awards/awards.page').then( m => m.AwardsPage)
-  },  {
+  },
+  {
     path: 'sign-up',
     loadComponent: () => import('./sign-up/sign-up.page').then( m => m.SignUpPage)
   },
@@ -74,7 +75,7 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/schedule/schedule.page').then( m => m.SchedulePage)
   },
   {
-    path: 'attendace',
+    path: 'attendance',
     loadComponent: () => import('./pages/attendace/attendace.page').then( m => m.AttendacePage)
   },
 

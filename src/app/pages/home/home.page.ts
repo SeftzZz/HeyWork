@@ -4,9 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { IonContent, IonModal} from '@ionic/angular/standalone';
 import { NavController } from '@ionic/angular';
 import { Title } from '@angular/platform-browser';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { firstValueFrom } from 'rxjs';
 
 import { AuthStorage } from '../../services/auth-storage.service';
 import { ProfileService } from '../../services/profile.service';
+import { environment } from '../../../environments/environment';
+import { WsService } from '../../services/ws.service';
 
 declare const initAllSwipers: any;
 
@@ -32,13 +36,58 @@ export class HomePage implements OnInit {
   // 🌙 DARK MODE STATE
   // =========================
   isDarkMode = false;
+  jobs: any[] = [];
+
+  pendingCount = 0;
+  acceptedCount = 0;
+  completedCount = 0;
 
   constructor(
     private nav: NavController,
     private auth: AuthStorage,
     private profileService: ProfileService,
-    private title: Title
+    private title: Title,
+    private http: HttpClient,
+    private ws: WsService
   ) {}
+
+  initWebSocket() {
+    this.ws.connect((event) => {
+
+      switch (event.type) {
+
+        case 'connected':
+          console.log('[WS] handshake OK:', event.message);
+          break;
+
+        case 'jobs_updated': {
+          const ts = Date.now();
+
+          const jobs = (event.data || []).map((job: any) => ({
+            ...job,
+            hotel_logo: job.hotel_logo
+              ? `${environment.base_url}/${job.hotel_logo}?t=${ts}`
+              : 'assets/images/jobs/default.png'
+          }));
+
+          localStorage.setItem('cache_jobs', JSON.stringify(jobs));
+          this.jobs = jobs;
+          break;
+        }
+
+        case 'application_counts_updated':
+          localStorage.setItem('cache_app_counts', JSON.stringify(event.data));
+
+          this.animateCount(event.data.pending   || 0, v => this.pendingCount = v);
+          this.animateCount(event.data.accepted  || 0, v => this.acceptedCount = v);
+          this.animateCount(event.data.completed || 0, v => this.completedCount = v);
+          break;
+
+        default:
+          console.log('[WS] unknown event', event);
+      }
+    });
+  }
 
   setGreeting() {
     const now = new Date();
@@ -75,9 +124,13 @@ export class HomePage implements OnInit {
     this.setGreeting();
 
     await this.loadProfile();
+    this.jobs = await this.getJobs();
   }
 
   ionViewDidEnter() {
+    this.initWebSocket();
+    this.loadApplicationCounts();
+
     setTimeout(() => {
       if (typeof initAllSwipers === 'function') {
         initAllSwipers();
@@ -149,6 +202,9 @@ export class HomePage implements OnInit {
 
   async logout() {
     this.showSidebar = false;
+    localStorage.removeItem('cache_jobs');
+    localStorage.removeItem('cache_app_counts');
+    this.ws.disconnect();
     await this.auth.removeToken();
     this.nav.navigateRoot('/sign-in');
   }
@@ -169,4 +225,144 @@ export class HomePage implements OnInit {
     this.showSidebar = false;
     this.nav.navigateForward('/pages/profile');
   }
+
+  async getJobs() {
+    const cacheKey = 'cache_jobs';
+
+    // 1️⃣ ambil dari localStorage dulu
+    const cached = this.getCache<any[]>(cacheKey);
+    if (cached && cached.length) {
+      return cached;
+    }
+
+    // 2️⃣ kalau belum ada → call API
+    try {
+      const token = await this.auth.getToken();
+      if (!token) throw new Error('No auth token');
+
+      const headers = new HttpHeaders({
+        Authorization: `Bearer ${token}`
+      });
+
+      const jobs = await firstValueFrom(
+        this.http.get<any[]>(`${environment.api_url}/worker/jobs`, { headers })
+      );
+
+      const ts = Date.now();
+      const mapped = jobs.map(job => ({
+        ...job,
+        hotel_logo: job.hotel_logo
+          ? `${environment.base_url}/${job.hotel_logo}?t=${ts}`
+          : 'assets/images/jobs/default.png'
+      }));
+
+      // 💾 simpan ke localStorage
+      this.setCache(cacheKey, mapped);
+
+      return mapped;
+
+    } catch (err) {
+      console.error('Failed to load jobs', err);
+      return [];
+    }
+  }
+
+
+  truncate(text?: string, limit = 27): string {
+    if (!text) return '-';
+    return text.length > limit
+      ? text.slice(0, limit) + '...'
+      : text;
+  }
+
+  async loadApplicationCounts() {
+    const cacheKey = 'cache_app_counts';
+
+    // 1️⃣ ambil dari cache
+    const cached = this.getCache<any>(cacheKey);
+    if (cached) {
+      this.animateCount(cached.pending   || 0, v => this.pendingCount = v);
+      this.animateCount(cached.accepted  || 0, v => this.acceptedCount = v);
+      this.animateCount(cached.completed || 0, v => this.completedCount = v);
+      return;
+    }
+
+    // 2️⃣ call API kalau belum ada
+    try {
+      const token = await this.auth.getToken();
+      if (!token) throw new Error('No auth token');
+
+      const headers = new HttpHeaders({
+        Authorization: `Bearer ${token}`
+      });
+
+      const res = await firstValueFrom(
+        this.http.get<any>(
+          `${environment.api_url}/worker/applications`,
+          { headers }
+        )
+      );
+
+      // 💾 simpan ke cache
+      this.setCache(cacheKey, res);
+
+      this.animateCount(res.pending   || 0, v => this.pendingCount = v);
+      this.animateCount(res.accepted  || 0, v => this.acceptedCount = v);
+      this.animateCount(res.completed || 0, v => this.completedCount = v);
+
+    } catch (err) {
+      console.error('Failed to load application counts', err);
+    }
+  }
+
+  animateCount(
+    target: number,
+    setter: (val: number) => void,
+    duration = 800
+  ) {
+    let start = 0;
+    const startTime = performance.now();
+
+    const step = (currentTime: number) => {
+      const progress = Math.min((currentTime - startTime) / duration, 1);
+      const value = Math.floor(progress * target);
+      setter(value);
+
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      } else {
+        setter(target);
+      }
+    };
+
+    requestAnimationFrame(step);
+  }
+
+  private getCache<T>(key: string): T | null {
+    try {
+      const raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) as T : null;
+    } catch {
+      localStorage.removeItem(key);
+      return null;
+    }
+  }
+
+  private setCache<T>(key: string, value: T) {
+    localStorage.setItem(key, JSON.stringify(value));
+  }
+
+  onJobsUpdatedFromSocket(newJobs: any[]) {
+    this.setCache('cache_jobs', newJobs);
+    this.jobs = newJobs;
+  }
+
+  onApplicationUpdatedFromSocket(summary: any) {
+    this.setCache('cache_app_counts', summary);
+
+    this.animateCount(summary.pending,   v => this.pendingCount = v);
+    this.animateCount(summary.accepted,  v => this.acceptedCount = v);
+    this.animateCount(summary.completed, v => this.completedCount = v);
+  }
+
 }
