@@ -326,7 +326,7 @@ export class HomePage implements OnInit {
     // 2️⃣ call API kalau belum ada
     try {
       const token = await this.authStorage.getToken();
-      if (!token) throw new Error('No auth token');
+      if (!token) throw new Error();
 
       const headers = new HttpHeaders({
         Authorization: `Bearer ${token}`
