@@ -7,7 +7,7 @@ import { Title } from '@angular/platform-browser';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 
-import { AuthStorage } from '../../services/auth-storage.service';
+import { AuthStorage, AuthData } from '../../services/auth-storage.service';
 import { ProfileService } from '../../services/profile.service';
 import { environment } from '../../../environments/environment';
 import { WsService } from '../../services/ws.service';
@@ -31,20 +31,24 @@ export class HomePage implements OnInit {
   showSidebar = false;
   user: any = null;
   greeting: string = '';
+  photoPreview: string | null = null;
+  public auth!: AuthData;
 
   // =========================
   // 🌙 DARK MODE STATE
   // =========================
   isDarkMode = false;
   jobs: any[] = [];
+  popular_jobs: any[] = [];
 
   pendingCount = 0;
   acceptedCount = 0;
   completedCount = 0;
+  avatarUrl = 'assets/images/avt/avt-1.jpg';
 
   constructor(
     private nav: NavController,
-    private auth: AuthStorage,
+    private authStorage: AuthStorage,
     private profileService: ProfileService,
     private title: Title,
     private http: HttpClient,
@@ -83,6 +87,21 @@ export class HomePage implements OnInit {
           this.animateCount(event.data.completed || 0, v => this.completedCount = v);
           break;
 
+        case 'most_popular_jobs_updated': {
+          const ts = Date.now();
+
+          const jobs = (event.data || []).map((job: any) => ({
+            ...job,
+            hotel_logo: job.hotel_logo
+              ? `${environment.base_url}/${job.hotel_logo}?t=${ts}`
+              : 'assets/images/jobs/default.png'
+          }));
+
+          localStorage.setItem('cache_popular_jobs', JSON.stringify(jobs));
+          this.popular_jobs = jobs;
+          break;
+        }
+
         default:
           console.log('[WS] unknown event', event);
       }
@@ -112,7 +131,7 @@ export class HomePage implements OnInit {
     // =========================
     this.initDarkMode();
 
-    const loggedIn = await this.auth.isLoggedIn();
+    const loggedIn = await this.authStorage.isLoggedIn();
     if (!loggedIn) {
       this.nav.navigateRoot('/sign-in');
       return;
@@ -125,6 +144,7 @@ export class HomePage implements OnInit {
 
     await this.loadProfile();
     this.jobs = await this.getJobs();
+    await this.loadMostPopularJobs();
   }
 
   ionViewDidEnter() {
@@ -165,13 +185,22 @@ export class HomePage implements OnInit {
   // =========================
   async loadProfile() {
     try {
-      this.user = await this.profileService.getProfile();
-    } catch (e) {
-      await this.auth.removeToken();
+      const auth = await this.authStorage.getAuth();
+      if (!auth) throw new Error();
+
+      this.auth = auth;
+      this.user = auth.user;
+
+      if (auth?.user?.photo) {
+        this.avatarUrl =
+          `${environment.base_url}/${auth.user.photo}?t=${Date.now()}`;
+      }
+
+    } catch {
+      await this.authStorage.removeToken();
       this.nav.navigateRoot('/sign-in');
     }
   }
-
 
   openSidebar() {
     this.showSidebar = true;
@@ -205,7 +234,7 @@ export class HomePage implements OnInit {
     localStorage.removeItem('cache_jobs');
     localStorage.removeItem('cache_app_counts');
     this.ws.disconnect();
-    await this.auth.removeToken();
+    await this.authStorage.removeToken();
     this.nav.navigateRoot('/sign-in');
   }
 
@@ -237,7 +266,7 @@ export class HomePage implements OnInit {
 
     // 2️⃣ kalau belum ada → call API
     try {
-      const token = await this.auth.getToken();
+      const token = await this.authStorage.getToken();
       if (!token) throw new Error('No auth token');
 
       const headers = new HttpHeaders({
@@ -268,7 +297,14 @@ export class HomePage implements OnInit {
   }
 
 
-  truncate(text?: string, limit = 27): string {
+  truncate27(text?: string, limit = 27): string {
+    if (!text) return '-';
+    return text.length > limit
+      ? text.slice(0, limit) + '...'
+      : text;
+  }
+
+  truncate15(text?: string, limit = 15): string {
     if (!text) return '-';
     return text.length > limit
       ? text.slice(0, limit) + '...'
@@ -289,7 +325,7 @@ export class HomePage implements OnInit {
 
     // 2️⃣ call API kalau belum ada
     try {
-      const token = await this.auth.getToken();
+      const token = await this.authStorage.getToken();
       if (!token) throw new Error('No auth token');
 
       const headers = new HttpHeaders({
@@ -363,6 +399,54 @@ export class HomePage implements OnInit {
     this.animateCount(summary.pending,   v => this.pendingCount = v);
     this.animateCount(summary.accepted,  v => this.acceptedCount = v);
     this.animateCount(summary.completed, v => this.completedCount = v);
+  }
+
+  async loadMostPopularJobs() {
+    const cacheKey = 'cache_popular_jobs';
+
+    // 1️⃣ ambil dari localStorage dulu
+    const cached = this.getCache<any[]>(cacheKey);
+    if (cached && cached.length) {
+      this.popular_jobs = cached;
+      return cached;
+    }
+
+    // 2️⃣ kalau belum ada → call API
+    try {
+      const token = await this.authStorage.getToken();
+      if (!token) throw new Error('No auth token');
+
+      const headers = new HttpHeaders({
+        Authorization: `Bearer ${token}`
+      });
+
+      const jobs = await firstValueFrom(
+        this.http.get<any[]>(
+          `${environment.api_url}/worker/most-popular`,
+          { headers }
+        )
+      );
+
+      const ts = Date.now();
+
+      const mapped = jobs.map((job: any) => ({
+        ...job,
+        hotel_logo: job.hotel_logo
+          ? `${environment.base_url}/${job.hotel_logo}?t=${ts}`
+          : 'assets/images/jobs/default.png'
+      }));
+
+      // 💾 simpan ke cache
+      this.setCache(cacheKey, mapped);
+      this.popular_jobs = mapped;
+
+      return mapped;
+
+    } catch (err) {
+      console.error('Failed to load most popular jobs', err);
+      this.popular_jobs = [];
+      return [];
+    }
   }
 
 }

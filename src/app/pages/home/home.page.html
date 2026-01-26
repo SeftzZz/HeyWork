@@ -3,7 +3,7 @@
   <div class="header-avt fixed-top">
       <a href="setup-profile.html" class="box-avt">
           <div class="avt">
-              <img src="assets/images/avt/avt-1.jpg" alt="avt">
+              <img class="avt-profile" [src]="photoPreview || avatarUrl">
           </div>
           <div class="content">
               <span class="body-4 text-dark-4">Welcome back!</span>
@@ -121,7 +121,7 @@
                               <a (click)="goAllJobs()" class="box-img">
                                   <img src="assets/images/category/company.png" alt="img">
                               </a>
-                              <a class="title" (click)="goAllJobs()">Company</a>
+                              <a class="title" (click)="goAllJobs()">Hotels</a>
                           </div>
                       </div>
                       <div class="swiper-slide">
@@ -151,7 +151,7 @@
               </div>
               <div dir="ltr" class="mt-24 swiper tf-sw-2 sw-lr" data-preview="1.2" data-space="20">
                   <div class="swiper-wrapper">
-                      <div class="swiper-slide" *ngFor="let job of jobs">
+                      <div class="swiper-slide" *ngFor="let job of popular_jobs">
                           <div class="card-job bg-primary-pest">
                               <div class="top">
                                   <div class="inner-left">
@@ -161,7 +161,7 @@
                                           alt="">
                                       </div>
                                       <div class="info">
-                                          <p class="body-2">{{ truncate(job.hotel_name) }}</p>
+                                          <p class="body-2">{{ truncate27(job.hotel_name) }}</p>
                                           <h6 class="title"><a (click)="goJobDetail()">{{ job.position }}</a></h6>
                                       </div>
                                   </div>
@@ -215,20 +215,24 @@
                   <a (click)="goAllJobs()" class="button-1">See All</a>
               </div>
               <div class="mt-20 list-jobs">
-                  <div class="job-item">
-                      <a (click)="goJobDetail()" class="logo"><img src="assets/images/jobs/apple.png" alt=""></a>
+                  <div class="job-item" *ngFor="let job of jobs">
+                      <a (click)="goJobDetail()" class="logo">
+                        <img 
+                          [src]="job?.hotel_logo || 'assets/images/jobs/google.png'"
+                          alt="">
+                      </a>
                       <div class="content">
                           <div class="info">
-                              <h5><a (click)="goJobDetail()">Sr. Product Designer</a></h5>
+                              <h5><a (click)="goJobDetail()">{{ truncate15(job.position) }}</a></h5>
                               <ul class="list-info">
                                   <li class="item">
                                       <i class="icon icon-company"></i>
-                                      <span class="body-4">Apple</span>
+                                      <span class="body-4">{{ truncate15(job.hotel_name) }}</span>
                                   </li>
                                   <li class="dot"></li>
                                   <li class="item">
                                       <i class="icon icon-map"></i>
-                                      <span class="body-4">United States</span>
+                                      <span class="body-4">{{ truncate15(job.location) }}</span>
                                   </li>
                               </ul>
                           </div>
@@ -551,7 +555,7 @@
           <div class="sidebar-content">
               <div class="d-flex gap-10 align-items-center pb-20 line-bt">
                   <div class="avatar avt-40">
-                      <img src="assets/images/avt/avt-1.jpg" alt="img">
+                      <img class="avt-profile" [src]="photoPreview || avatarUrl">
                   </div>
                   <div class="content-right">
                       <p class="text-1">{{ greeting }}</p>

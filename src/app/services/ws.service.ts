@@ -12,15 +12,15 @@ export class WsService {
   ) {}
 
   async connect(onMessage: (data: any) => void) {
-    if (this.socket && this.socket.readyState === WebSocket.OPEN) return;
+    if (this.socket?.readyState === WebSocket.OPEN) return;
 
-    const token = await this.auth.getToken();
-    if (!token) {
+    const accessToken = await this.auth.getToken();
+    if (!accessToken) {
       console.warn('[WS] no token');
       return;
     }
 
-    const wsUrl = `${environment.ws_url}?token=${token}`;
+    const wsUrl = `${environment.ws_url}?token=${accessToken}`;
     console.log('[WS] connecting:', wsUrl);
 
     this.socket = new WebSocket(wsUrl);
@@ -40,8 +40,8 @@ export class WsService {
       });
     };
 
-    this.socket.onclose = (e) => {
-      console.log('[WS] disconnected', e.code, e.reason);
+    this.socket.onclose = () => {
+      console.log('[WS] disconnected, retrying...');
       setTimeout(() => this.connect(onMessage), 3000);
     };
 
