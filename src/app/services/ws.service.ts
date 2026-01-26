@@ -1,16 +1,29 @@
 import { Injectable, NgZone } from '@angular/core';
 import { environment } from '../../environments/environment';
+import { AuthStorage } from './auth-storage.service';
 
 @Injectable({ providedIn: 'root' })
 export class WsService {
   private socket?: WebSocket;
 
-  constructor(private zone: NgZone) {}
+  constructor(
+    private zone: NgZone,
+    private auth: AuthStorage
+  ) {}
 
-  connect(onMessage: (data: any) => void) {
-    if (this.socket && this.socket.readyState === WebSocket.OPEN) return;
+  async connect(onMessage: (data: any) => void) {
+    if (this.socket?.readyState === WebSocket.OPEN) return;
 
-    this.socket = new WebSocket(environment.ws_url); // contoh: wss://api.domain/ws
+    const accessToken = await this.auth.getToken();
+    if (!accessToken) {
+      console.warn('[WS] no token');
+      return;
+    }
+
+    const wsUrl = `${environment.ws_url}?token=${accessToken}`;
+    console.log('[WS] connecting:', wsUrl);
+
+    this.socket = new WebSocket(wsUrl);
 
     this.socket.onopen = () => {
       console.log('[WS] connected');
@@ -28,8 +41,7 @@ export class WsService {
     };
 
     this.socket.onclose = () => {
-      console.log('[WS] disconnected');
-      // optional: reconnect
+      console.log('[WS] disconnected, retrying...');
       setTimeout(() => this.connect(onMessage), 3000);
     };
 
