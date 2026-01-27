@@ -15,6 +15,10 @@ export const routes: Routes = [
     loadComponent: () => import('./sign-in/sign-in.page').then( m => m.SignInPage)
   },
   {
+    path: 'sign-up',
+    loadComponent: () => import('./sign-up/sign-up.page').then( m => m.SignUpPage)
+  },
+  {
     path: 'pages/home',
     loadComponent: () => import('./pages/home/home.page').then( m => m.HomePage)
   },
@@ -67,22 +71,15 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/awards/awards.page').then( m => m.AwardsPage)
   },
   {
-    path: 'sign-up',
-    loadComponent: () => import('./sign-up/sign-up.page').then( m => m.SignUpPage)
-  },
-  {
-    path: 'schedule',
+    path: 'pages/schedule',
     loadComponent: () => import('./pages/schedule/schedule.page').then( m => m.SchedulePage)
   },
   {
-    path: 'attendance',
+    path: 'pages/attendance',
     loadComponent: () => import('./pages/attendace/attendace.page').then( m => m.AttendacePage)
   },
-
-
-
-
-
-
-
+  {
+    path: 'pages/search-job',
+    loadComponent: () => import('./pages/search-job/search-job.page').then( m => m.SearchJobPage)
+  },
 ];

@@ -73,3 +73,5 @@ Thumbs.db
 # Secrets
 client_secret_*.json
 .env
+src/environments/environment.prod.ts
+src/environments/environment.ts

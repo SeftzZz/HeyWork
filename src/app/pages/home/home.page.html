@@ -76,7 +76,7 @@
           <div class="mt-22 fl-title d-flex justify-content-between align-items-center">
               <h4>Applications Status</h4>
           </div>
-          <div class="mt-22 wrap-count">
+          <div class="mt-22 wrap-count" (click)="goApplication()">
             <div class="count-item">
               <div class="box-count bg-rgba-violet">
                 <div class="h1 text-secondary-violet">{{ pendingCount }}</div>
@@ -596,7 +596,7 @@
                                   stroke-width="1.5"
                                   stroke-linecap="round" />
                           </svg>
-                          <span>Absen</span>
+                          <span>Attendance</span>
                       </a>
                   </li>
 
@@ -897,17 +897,25 @@
                                   </g>
                               </svg>
                           </span>
-                          <div class="nice-select tf-select" tabindex="0">
-                              <span class="current">Choose your category</span>
-                              <ul class="list">
-                                  <li data-value="design" class="option selected">Design</li>
-                                  <li data-value="dev" class="option">Development</li>
-                                  <li data-value="marketing" class="option">Marketing</li>
-                                  <li data-value="photography" class="option">Photography</li>
-                                  <li data-value="writing" class="option">Writing</li>
-                                  <li data-value="business" class="option">Business</li>
-                                  <li data-value="finance" class="option">Finance</li>
-                              </ul>
+                          <div
+                            class="nice-select tf-select"
+                            tabindex="0"
+                            [class.open]="isCategoryOpen"
+                            (click)="toggleCategoryDropdown()"
+                          >
+                            <span class="current">
+                              {{ selectedCategoryLabel }}
+                            </span>
+
+                            <ul class="list">
+                              <li
+                                class="option"
+                                *ngFor="let cat of categories"
+                                [class.selected]="filters.category === cat.value"
+                                (click)="selectCategory(cat); $event.stopPropagation()">
+                                {{ cat.label }}
+                              </li>
+                            </ul>
                           </div>
                           <span class="icon icon-right">
                               <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
@@ -936,31 +944,103 @@
                                   </g>
                               </svg>
                           </span>
-                          <input type="text" placeholder="Write your location" class="form-control">
+                          <input
+                            type="text"
+                            placeholder="Write your location"
+                            class="form-control"
+                            [(ngModel)]="filters.location"
+                            [ngModelOptions]="{ standalone: true }"
+                          />
                       </fieldset>
                   </div>
                   <div class="mt-24">
-                      <div class="d-flex justify-content-between">
-                          <div class="h7">Min. Salary</div>
-                          <div class="h7">Max. Salary</div>
+                    <div class="d-flex justify-content-between">
+                      <div class="h7">Min. Salary</div>
+                      <div class="h7">Max. Salary</div>
+                    </div>
+
+                    <div class="slider-salary mt-40">
+                      <div id="salary-chart" class="salary-chart">
+
+                        <!-- HISTOGRAM -->
+                        <div class="salary-histogram">
+                          <span
+                            *ngFor="let h of salaryHistogram; let i = index"
+                            [style.height.%]="h"
+                            [class.active]="isBarActive(i)">
+                          </span>
+                        </div>
+
+                        <input
+                          type="range"
+                          [min]="salaryMin"
+                          [max]="salaryMax"
+                          [step]="salaryStep"
+                          class="range min"
+                          [(ngModel)]="filters.minSalary"
+                          (input)="onMinSalaryInput()"
+                          [ngModelOptions]="{ standalone: true }"
+                        />
+
+                        <input
+                          type="range"
+                          [min]="salaryMin"
+                          [max]="salaryMax"
+                          [step]="salaryStep"
+                          class="range max"
+                          [(ngModel)]="filters.maxSalary"
+                          (input)="onMaxSalaryInput()"
+                          [ngModelOptions]="{ standalone: true }"
+                        />
+
+                        <!-- ACTIVE TRACK -->
+                        <div
+                          class="range-active"
+                          [ngStyle]="{
+                            left: getSalaryLeft() + '%',
+                            right: (100 - getSalaryRight()) + '%'
+                          }">
+                        </div>
+
                       </div>
-                      <div class="slider-salary mt-40">
-                          <div id="salary-chart" class="salary-chart"></div>
-                          <div id="salary-val"></div>
+
+                      <!-- VALUE -->
+                      <div
+                        id="salary-val"
+                        class="salary-value"
+                        [style.left.%]="getSalaryLabelLeft()"
+                      >
+                        Rp {{ filters.minSalary | number }} – Rp {{ filters.maxSalary | number }}
                       </div>
+                    </div>
                   </div>
                   <div class="mt-60">
                       <h6>Job Type</h6>
                       <ul class="list-type flat-cb-list mt-24">
-                          <li class="type-item cb-item">Company</li>
-                          <li class="type-item cb-item">Contract Based</li>
-                          <li class="type-item cb-item">Freelance</li>
-                          <li class="type-item cb-item">Full Time</li>
-                          <li class="type-item cb-item">Part Time</li>
+                          <li
+                            class="type-item"
+                            [class.active]="filters.jobTypes.includes('Hotels')"
+                            (click)="toggleJobType('Hotels')">
+                            Hotels
+                          </li>
+                          <li
+                            class="type-item"
+                            [class.active]="filters.jobTypes.includes('Daily Worker')"
+                            (click)="toggleJobType('Daily Worker')">
+                            Daily Worker
+                          </li>
+                          <li
+                            class="type-item"
+                            [class.active]="filters.jobTypes.includes('Casual')"
+                            (click)="toggleJobType('Casual')">
+                            Casual
+                          </li>
                       </ul>
                   </div>
                   <div class="fixed-button">
-                      <button type="submit" class="tf-btn primary">Apply Filter</button>
+                      <button class="tf-btn primary" (click)="applyFilter()">
+                        Apply Filter
+                      </button>
                   </div>
               </form>
           </div>
