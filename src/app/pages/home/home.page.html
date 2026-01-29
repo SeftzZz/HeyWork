@@ -165,7 +165,7 @@
                                       </div>
                                       <div class="info">
                                           <p class="body-2">{{ truncate27(job.hotel_name) }}</p>
-                                          <h6 class="title"><a (click)="goJobDetail()">{{ job.position }}</a></h6>
+                                          <h6 class="title"><a (click)="goJobDetailId(job)">{{ job.position }}</a></h6>
                                       </div>
                                   </div>
                                   <span class="tag-archive check-icon">
@@ -194,7 +194,7 @@
                                       </h6>
                                       <span class="body-6">Day</span>
                                   </div>
-                                  <a (click)="goJobDetail()" class="btn-apply">
+                                  <a (click)="goJobDetailId(job)" class="btn-apply">
                                       Apply
                                       <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
                                           xmlns="http://www.w3.org/2000/svg">
@@ -219,14 +219,14 @@
               </div>
               <div class="mt-20 list-jobs">
                   <div class="job-item" *ngFor="let job of jobs">
-                      <a (click)="goJobDetail()" class="logo">
+                      <a (click)="goJobDetailId(job)" class="logo">
                         <img 
                           [src]="job?.hotel_logo || 'assets/images/jobs/google.png'"
                           alt="">
                       </a>
                       <div class="content">
                           <div class="info">
-                              <h5><a (click)="goJobDetail()">{{ truncate15(job.position) }}</a></h5>
+                              <h5><a (click)="goJobDetailId(job)">{{ truncate15(job.position) }}</a></h5>
                               <ul class="list-info">
                                   <li class="item">
                                       <i class="icon icon-company"></i>
@@ -568,7 +568,7 @@
               <ul class="pt-20 pb-20">
                   <li class="text-sm-start text-uppercase fw-7 text-dark">Schedule</li>
                   <li class="mt-16">
-                      <a (click)="goHome()" class="nav-link-item no-page">
+                      <a (click)="goSchedule()" class="nav-link-item no-page">
                           <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                               viewBox="0 0 24 24" fill="none">
                               <path

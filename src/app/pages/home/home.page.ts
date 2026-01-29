@@ -70,6 +70,10 @@ export class HomePage implements OnInit {
     Math.floor(Math.random() * (100 - 40 + 1)) + 40
   );
 
+  hotels: any[] = [];
+  applications: any[] = [];
+  loading = false;
+
   constructor(
     private nav: NavController,
     private authStorage: AuthStorage,
@@ -126,6 +130,19 @@ export class HomePage implements OnInit {
           break;
         }
 
+        case 'hotels_updated': {
+          const ts = Date.now();
+
+          const hotels = (event.data || []).map((hotel: any) => ({
+            ...hotel,
+            logo: this.normalizeHotelLogo(hotel, ts)
+          }));
+
+          this.setCache('cache_hotels', hotels);
+          this.hotels = hotels;
+          break;
+        }
+
         default:
           console.log('[WS] unknown event', event);
       }
@@ -167,8 +184,12 @@ export class HomePage implements OnInit {
     this.setGreeting();
 
     await this.loadProfile();
+
+    await this.getHotels();
+
     this.jobs = await this.getJobs();
     await this.loadMostPopularJobs();
+    await this.loadApplications();
   }
 
   ionViewDidEnter() {
@@ -240,6 +261,11 @@ export class HomePage implements OnInit {
 
   goJobDetail() {
     this.nav.navigateForward('/pages/job-detail');
+  }
+
+  goJobDetailId(job: any) {
+    localStorage.setItem('selected_job', JSON.stringify(job));
+    this.nav.navigateForward(`/pages/job-detail/${job.id}`);
   }
 
   goApplyJob() {
@@ -658,4 +684,129 @@ export class HomePage implements OnInit {
     }));
   }
 
+  private normalizeHotelLogo(hotel: any, ts = Date.now()) {
+    if (!hotel.logo) {
+      return 'assets/images/hotels/default.png';
+    }
+
+    if (hotel.logo.startsWith('http://') || hotel.logo.startsWith('https://')) {
+      return hotel.logo;
+    }
+
+    return `${environment.base_url}/${hotel.logo}?t=${ts}`;
+  }
+
+  async getHotels() {
+    const cacheKey = 'cache_hotels';
+
+    // 1️⃣ ambil dari cache dulu
+    const cached = this.getCache<any[]>(cacheKey);
+    if (cached && cached.length) {
+      this.hotels = cached;
+      return cached;
+    }
+
+    // 2️⃣ call API
+    try {
+      const token = await this.authStorage.getToken();
+      if (!token) throw new Error('No auth token');
+
+      const headers = new HttpHeaders({
+        Authorization: `Bearer ${token}`
+      });
+
+      const hotels = await firstValueFrom(
+        this.http.get<any[]>(
+          `${environment.api_url}/company/hotels`,
+          { headers }
+        )
+      );
+
+      const ts = Date.now();
+
+      const mapped = hotels.map(hotel => ({
+        ...hotel,
+        logo: this.normalizeHotelLogo(hotel, ts)
+      }));
+
+      // 💾 cache
+      this.setCache(cacheKey, mapped);
+      this.hotels = mapped;
+
+      return mapped;
+
+    } catch (err) {
+      console.error('Failed to load hotels', err);
+      this.hotels = [];
+      return [];
+    }
+  }
+
+  goSchedule() {
+    this.showSidebar = false;
+    this.nav.navigateForward('/pages/schedule');
+  }
+
+  // ===============================
+  // LOAD APPLICATION LIST
+  // ===============================
+  async loadApplications() {
+    const cacheKey = 'cache_applications';
+
+    // 1️⃣ cache dulu
+    const cached = this.getCache<any[]>(cacheKey);
+    if (cached && cached.length) {
+      this.applications = this.resolveJobAndHotel(cached);
+      return;
+    }
+
+    // 2️⃣ API
+    try {
+      this.loading = true;
+
+      const token = await this.authStorage.getToken();
+      if (!token) throw new Error('No auth token');
+
+      const headers = new HttpHeaders({
+        Authorization: `Bearer ${token}`
+      });
+
+      const data = await firstValueFrom(
+        this.http.get<any[]>(
+          `${environment.api_url}/worker/application-list`,
+          { headers }
+        )
+      );
+
+      const resolved = this.resolveJobAndHotel(data);
+
+      this.setCache(cacheKey, resolved);
+      this.applications = resolved;
+
+    } catch (err) {
+      console.error('Failed to load applications', err);
+      this.applications = [];
+    } finally {
+      this.loading = false;
+    }
+  }
+
+  // ===============================
+  // RESOLVE JOB + HOTEL FROM CACHE
+  // ===============================
+  private resolveJobAndHotel(apps: any[]) {
+    const jobs = this.getCache<any[]>('cache_jobs') || [];
+    const hotels = this.getCache<any[]>('cache_hotels') || [];
+
+    return apps.map(app => {
+      const job = jobs.find(j => String(j.id) === String(app.job_id));
+      const hotel = hotels.find(h => String(h.id) === String(job?.hotel_id));
+
+      return {
+        ...app,
+        job: job || null,
+        hotel: hotel || null
+      };
+    });
+  }
 }

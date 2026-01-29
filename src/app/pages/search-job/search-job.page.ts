@@ -126,6 +126,11 @@ export class SearchJobPage implements OnInit {
     this.nav.navigateForward('/pages/job-detail');
   }
 
+  goJobDetailId(job: any) {
+    localStorage.setItem('selected_job', JSON.stringify(job));
+    this.nav.navigateForward(`/pages/job-detail/${job.id}`);
+  }
+
   async getJobs() {
     const cacheKey = 'cache_jobs';
 

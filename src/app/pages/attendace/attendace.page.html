@@ -1,13 +1,95 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>attendace</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">attendace</ion-title>
-    </ion-toolbar>
-  </ion-header>
+
+  <!-- HEADER -->
+  <div class="header fixed-top">
+    <div class="left">
+      <a (click)="goBack()" class="icon back-btn">
+        <svg width="8" height="14" viewBox="0 0 8 14" fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M6.88986 12.2951L1.60986 7.00008L6.88986 1.70508"
+            stroke="#121927"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </a>
+    </div>
+    <h3>Check In</h3>
+  </div>
+
+  <div class="app-content">
+    <div class="tf-container">
+
+      <!-- JOB INFO -->
+      <h5 class="mt-24">{{ job.position }}</h5>
+      <p class="text-dark-4">{{ job.hotel_name }}</p>
+
+      <div class="mt-8 body-6">📅 {{ job.job_date }}</div>
+      <div class="mt-6 body-6">⏰ {{ job.start_time }} - {{ job.end_time }}</div>
+
+      <!-- ===================== -->
+      <!-- 📸 CAMERA BOX -->
+      <!-- ===================== -->
+      <div class="camera-box mt-20">
+
+        <img
+          *ngIf="selfieBase64"
+          [src]="'data:image/jpeg;base64,' + selfieBase64"
+        />
+
+        <div
+          *ngIf="!selfieBase64"
+          class="camera-placeholder"
+        >
+          📸 Opening camera...
+        </div>
+
+      </div>
+
+      <div class="body-6 text-center mt-8" *ngIf="selfieBase64">
+        Selfie captured
+      </div>
+
+      <!-- ===================== -->
+      <!-- 📍 LOCATION INFO -->
+      <!-- ===================== -->
+      <div class="mt-16 body-6" *ngIf="latitude">
+        👤 You: {{ latitude }}, {{ longitude }}
+      </div>
+
+      <div class="mt-4 body-6 text-dark-4" *ngIf="hotelLat">
+        🏨 Hotel: {{ hotelLat }}, {{ hotelLng }}
+      </div>
+
+      <!-- ===================== -->
+      <!-- 🗺️ OPENSTREET MAP -->
+      <!-- ===================== -->
+      <div
+        #mapEl
+        id="map"
+        class="map-frame mt-12"
+      ></div>
+
+      <div class="body-6 mt-8">
+        🔴 You: {{ latitude }}, {{ longitude }} <br>
+        🔵 Hotel: {{ hotelLat }}, {{ hotelLng }} <br>
+        📏 Distance: {{ distance | number:'1.0-0' }} m
+      </div>
+
+      <!-- ===================== -->
+      <!-- 🚀 SUBMIT -->
+      <!-- ===================== -->
+      <button
+        class="btn btn-primary w-100 mt-24"
+        [disabled]="distance > MAX_DISTANCE || !selfieBase64"
+        (click)="confirmCheckIn()"
+      >
+        {{ submitting ? 'Submitting...' : 'Confirm Check In' }}
+      </button>
+
+    </div>
+  </div>
+
 </ion-content>

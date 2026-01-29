@@ -28,24 +28,18 @@
       <div class="tf-container">
           <div class="card-job-2">
               <div class="box-top">
-                  <img src="assets/images/jobs/google.png" alt="img">
+                  <img [src]="job?.hotel_logo || 'assets/images/jobs/default.png'" alt="img">
                   <div class="info">
-                      <h4 class="title">Senior UX Designer</h4>
+                      <h4 class="title">{{ job?.position }}</h4>
                       <div class="meta">
-                          <span class="icon icon-map"></span>
-                          <p class="body-2">Berlin, Germany</p>
+                        <span class="icon icon-map"></span>
+                        <p class="body-2">{{ job?.location }}</p>
                       </div>
                   </div>
               </div>
               <ul class="list-tag">
                   <li>
-                      <a href="#" class="item">Design</a>
-                  </li>
-                  <li>
-                      <a href="#" class="item">Full Time</a>
-                  </li>
-                  <li>
-                      <a href="#" class="item">In House</a>
+                    <a class="item">{{ job?.category | titlecase }}</a>
                   </li>
               </ul>
               <div class="circle-box">
@@ -68,63 +62,47 @@
               <div class="tab-pane fade active show" id="desc" role="tabpanel">
                   <div class="mt-24">
                       <h6>About The Role</h6>
-                      <p class="mt-14 text-dark-4">We are looking for a senior UX Designer. They say no man is an
-                          island, and this holds particulary true of this role. As a UX Designer, you’ll be part of
-                          the team that manages Go Pay - Southeast Asia’s largest payment application </p>
+                      <p class="mt-14 text-dark-4">{{ job?.description }}</p>
                   </div>
                   <div class="mt-24">
                       <h6>Requirement Skill For The Role</h6>
                       <ul class="list-skill mt-12">
-                          <li class="item-skill">Create information architecture and UX strategy</li>
-                          <li class="item-skill">Develop UI mockups and prototypes that clearly illustrate how sites
-                              function and look like</li>
-                          <li class="item-skill">Fluent English communication skills are a must.</li>
-                          <li class="item-skill">Have a good comunication skill</li>
-                          <li class="item-skill">Ability to browse lots of apps & web is a must</li>
+                          <li class="item-skill">{{ job?.description }}</li>
                       </ul>
                   </div>
               </div>
               <div class="tab-pane fade" id="company" role="tabpanel">
                   <div class="mt-24">
                       <h6>About this Company</h6>
-                      <p class="mt-14 text-dark-4">Google is an American multi-national technology company focusing on
-                          search engine technology, computer software, quantum computing, online advertising,
-                          e-commerce, cloud computing, artificial intelligence, and consumer electronics. </p>
+                      <p class="mt-14 text-dark-4">{{ job?.hotel?.description }}</p>
                   </div>
                   <ul class="mt-24 list-company">
                       <li class="item-company">
                           <img class="icon" src="assets/images/icon/web.svg" alt="">
                           <div class="content">
                               <div class="h7 text-dark">Website</div>
-                              <a href="https://www.google.com/" class="body-2 text-dark-6">www.google.com</a>
+                              <a href="#" class="body-2 text-dark-6">{{ job?.hotel?.website }}</a>
                           </div>
                       </li>
                       <li class="item-company">
                           <img class="icon" src="assets/images/icon/location.svg" alt="">
                           <div class="content">
                               <div class="h7 text-dark">Headquarters</div>
-                              <span class="body-2 text-dark-6">California, USA</span>
+                              <span class="body-2 text-dark-6">{{ job?.hotel?.location }}</span>
                           </div>
                       </li>
                       <li class="item-company">
                           <img class="icon" src="assets/images/icon/calendar.svg" alt="">
                           <div class="content">
                               <div class="h7 text-dark">Founded</div>
-                              <span class="body-2 text-dark-6">September 4, 1998</span>
+                              <span class="body-2 text-dark-6">{{ job?.hotel?.founded }}</span>
                           </div>
                       </li>
                       <li class="item-company">
                           <img class="icon" src="assets/images/icon/people.svg" alt="">
                           <div class="content">
                               <div class="h7 text-dark">Size</div>
-                              <span class="body-2 text-dark-6">100,000 Employee</span>
-                          </div>
-                      </li>
-                      <li class="item-company">
-                          <img class="icon" src="assets/images/icon/wallet.svg" alt="">
-                          <div class="content">
-                              <div class="h7 text-dark">Revenue</div>
-                              <span class="body-2 text-dark-6">$25,000 Billion</span>
+                              <span class="body-2 text-dark-6">{{ job?.hotel?.size }}</span>
                           </div>
                       </li>
                   </ul>

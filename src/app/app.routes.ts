@@ -27,11 +27,11 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/all-jobs/all-jobs.page').then( m => m.AllJobsPage)
   },
   {
-    path: 'pages/job-detail',
+    path: 'pages/job-detail/:id',
     loadComponent: () => import('./pages/job-detail/job-detail.page').then( m => m.JobDetailPage)
   },
   {
-    path: 'pages/apply-job',
+    path: 'pages/apply-job/:id',
     loadComponent: () => import('./pages/apply-job/apply-job.page').then( m => m.ApplyJobPage)
   },
   {
