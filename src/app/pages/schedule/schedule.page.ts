@@ -51,12 +51,17 @@ export class SchedulePage implements OnInit {
     }
 
     this.loadJobsFromCache();
-    this.loadApplicationsFromCache(); // ✅ PINDAH KE ATAS
-    await this.loadAttendances();
+    this.loadApplicationsFromCache();
+    this.loadHotelsFromCache();
 
     this.assignJobColors();
     this.buildYearCalendar();
-    this.loadHotelsFromCache();
+  }
+
+  // 🔥 INI YANG PENTING
+  async ionViewWillEnter() {
+    await this.loadAttendances(true); // force reload
+    this.refreshSelectedJobs();
   }
 
   goBack() {
@@ -452,4 +457,25 @@ export class SchedulePage implements OnInit {
       this.hotels = [];
     }
   }
+
+  refreshSelectedJobs() {
+    if (!this.selectedDate) return;
+
+    let selectedDay: any = null;
+
+    for (const month of this.yearCalendars) {
+      for (const day of month.days) {
+        if (day.date === this.selectedDate) {
+          selectedDay = day;
+          break;
+        }
+      }
+      if (selectedDay) break;
+    }
+
+    if (!selectedDay) return;
+
+    this.selectDate(selectedDay);
+  }
+
 }

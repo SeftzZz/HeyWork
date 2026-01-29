@@ -228,7 +228,7 @@ export class AttendacePage implements OnInit {
       await loading.dismiss();
 
       // 🔥 HAPUS CACHE ATTENDANCE
-      localStorage.removeItem('cache_attendances');
+      // localStorage.removeItem('cache_attendances');
 
       this.toast('Check-in berhasil ✅');
 
