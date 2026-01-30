@@ -301,11 +301,7 @@ export class HomePage implements OnInit {
   }
 
   goHome() {
-<<<<<<< HEAD
       this.navigateWithClose('/pages/home');
-=======
-    this.navigateWithClose('/pages/home');
->>>>>>> c976222 (update I 300126)
   }
 
   goMessage() {
@@ -316,11 +312,6 @@ export class HomePage implements OnInit {
       this.navigateWithClose('/pages/profile');
   }
   
-  // goProfile() {
-  //   this.showSidebar = false;
-  //   this.nav.navigateForward('/pages/profile');
-  // }
-
   async getJobs() {
     const cacheKey = 'cache_jobs';
 
