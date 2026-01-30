@@ -255,6 +255,14 @@ export class HomePage implements OnInit {
     this.showSidebar = false;
   }
 
+  navigateWithClose(url: string) {
+      this.showSidebar = false;
+
+      setTimeout(() => {
+          this.nav.navigateForward(url);
+      }, 150);
+  }
+
   goAllJobs() {
     this.nav.navigateForward('/pages/all-jobs');
   }
@@ -293,7 +301,7 @@ export class HomePage implements OnInit {
   }
 
   goHome() {
-    this.nav.navigateForward('/pages/home');
+      this.navigateWithClose('/pages/home');
   }
 
   goMessage() {
@@ -301,9 +309,13 @@ export class HomePage implements OnInit {
   }
 
   goProfile() {
-    this.showSidebar = false;
-    this.nav.navigateForward('/pages/profile');
+      this.navigateWithClose('/pages/profile');
   }
+  
+  // goProfile() {
+  //   this.showSidebar = false;
+  //   this.nav.navigateForward('/pages/profile');
+  // }
 
   async getJobs() {
     const cacheKey = 'cache_jobs';

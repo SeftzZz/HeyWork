@@ -143,6 +143,14 @@ export class ProfilePage implements OnInit {
         this.showSidebar = false;
     }
 
+    navigateWithClose(url: string) {
+        this.showSidebar = false;
+
+        setTimeout(() => {
+            this.nav.navigateForward(url);
+        }, 150);
+    }
+
     goBack() {
         this.nav.back();
     }
@@ -152,7 +160,7 @@ export class ProfilePage implements OnInit {
     }
 
     goHome() {
-        this.nav.navigateForward('/pages/home');
+        this.navigateWithClose('/pages/home');
     }
 
     goApplyJob() {
@@ -168,7 +176,7 @@ export class ProfilePage implements OnInit {
     }
 
     goProfile() {
-        this.nav.navigateForward('/pages/profile');
+        this.navigateWithClose('/pages/profile');
     }
 
     goPersonalInformation() {
