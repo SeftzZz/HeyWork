@@ -26,6 +26,7 @@ export class ProfilePage implements OnInit {
     greeting: string = '';
     photoPreview: string | null = null;
     public auth!: AuthData;
+    rating: number = 4.8;
 
     // =========================
     // 🌙 DARK MODE STATE
@@ -131,8 +132,20 @@ export class ProfilePage implements OnInit {
         }
     }
 
+    getStars() {
+        const full = Math.floor(this.rating);
+        const half = this.rating - full >= 0.5 ? 1 : 0;
+        const empty = 5 - full - half;
+
+        return {
+            full: Array(full),
+            half: Array(half),
+            empty: Array(empty)
+        };
+    }
+
     ionViewWillLeave() {
-      this.ws.disconnect();
+        this.ws.disconnect();
     }
 
     openSidebar() {
@@ -151,6 +164,10 @@ export class ProfilePage implements OnInit {
         }, 150);
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> c976222 (update I 300126)
     goBack() {
         this.nav.back();
     }
@@ -160,7 +177,12 @@ export class ProfilePage implements OnInit {
     }
 
     goHome() {
+<<<<<<< HEAD
         this.navigateWithClose('/pages/home');
+=======
+        this.closeSidebar();
+        this.nav.navigateForward('/pages/home');
+>>>>>>> c976222 (update I 300126)
     }
 
     goApplyJob() {

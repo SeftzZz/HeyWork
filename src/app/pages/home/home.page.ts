@@ -301,7 +301,11 @@ export class HomePage implements OnInit {
   }
 
   goHome() {
+<<<<<<< HEAD
       this.navigateWithClose('/pages/home');
+=======
+    this.navigateWithClose('/pages/home');
+>>>>>>> c976222 (update I 300126)
   }
 
   goMessage() {

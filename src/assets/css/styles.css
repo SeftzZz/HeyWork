@@ -7694,16 +7694,21 @@ html:not([dir=rtl]) .slider-salary .noUi-handle-upper {
 .star {
   width: 16px;
   height: 16px;
-  fill: rgba(255,255,255,0.3);
 }
 
-.star.active {
-  fill: #FFD54F; /* kuning emas */
+.star.full path {
+  fill: #FFD54F;
+}
+
+.star.empty path {
+  fill: rgba(255, 255, 255, 0.25);
 }
 
 .rating-text {
+  margin-left: 6px;
   font-size: 16px;
   font-weight: 600;
-  margin-left: 6px;
+  opacity: 0.9;
   color: #ffffff;
 }
+
