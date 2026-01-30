@@ -1,93 +1,219 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { IonContent, IonModal } from '@ionic/angular/standalone';
 import { NavController } from '@ionic/angular';
+import { Title } from '@angular/platform-browser';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { AuthStorage } from '../../services/auth-storage.service';
+import { AuthStorage, AuthData } from '../../services/auth-storage.service';
+import { ProfileService } from '../../services/profile.service';
+import { environment } from '../../../environments/environment';
+import { WsService } from '../../services/ws.service';
+
+declare const initAllSwipers: any;
 
 @Component({
-  selector: 'app-profile',
-  templateUrl: './profile.page.html',
-  styleUrls: ['./profile.page.scss'],
-  standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+    selector: 'app-profile',
+    templateUrl: './profile.page.html',
+    styleUrls: ['./profile.page.scss'],
+    standalone: true,
+    imports: [IonContent, IonModal, CommonModule, FormsModule]
 })
 export class ProfilePage implements OnInit {
+    showSidebar = false;
+    user: any = null;
+    greeting: string = '';
+    photoPreview: string | null = null;
+    public auth!: AuthData;
 
-  constructor(
-    private nav: NavController,
-    private auth: AuthStorage,
-  ) { }
+    // =========================
+    // 🌙 DARK MODE STATE
+    // =========================
+    isDarkMode = false;
 
-  ngOnInit() {
-  }
+    jobs: any[] = [];
+    popular_jobs: any[] = [];
+    avatarUrl = 'assets/images/avt/avt-1.jpg';
 
-  goBack() {
-    this.nav.back();
-  }
+    constructor(
+      private nav: NavController,
+      private authStorage: AuthStorage,
+      private title: Title,
+      private http: HttpClient,
+      private ws: WsService,
+      private profileService: ProfileService
+    ) { }
 
-  goApplication() {
-    this.nav.navigateForward('/pages/application');
-  }
+    async ngOnInit() {
+        this.title.setTitle('Profile | Hey! Work');
 
-  goHome() {
-    this.nav.navigateForward('/pages/home');
-  }
+        // =========================
+        // INIT DARK MODE
+        // =========================
+        this.initDarkMode();
 
-  goApplyJob() {
-    this.nav.navigateForward('/pages/apply-job');
-  }
+        const loggedIn = await this.authStorage.isLoggedIn();
+        if (!loggedIn) {
+            this.nav.navigateRoot('/sign-in');
+            return;
+        }
 
-  goMessage() {
-    this.nav.navigateForward('/pages/message');
-  }
+        // =========================
+        // SET GREETING (WIB)
+        // =========================
+        this.setGreeting();
 
-  goMessageInbox() {
-    this.nav.navigateForward('/pages/message-inbox');
-  }
+        // ambil user dari storage
+        try {
+            const auth = await this.authStorage.getAuth();
+            if (!auth) throw new Error();
 
-  goProfile() {
-    this.nav.navigateForward('/pages/profile');
-  }
+            this.auth = auth;
+            this.user = auth.user;
 
-  goPersonalInformation() {
-    this.nav.navigateForward('/pages/personal-information');
-  }
+            if (auth?.user?.photo) {
+              this.avatarUrl =
+                `${environment.base_url}/${auth.user.photo}?t=${Date.now()}`;
+            }
+        } catch {
+            await this.authStorage.removeToken();
+            this.nav.navigateRoot('/sign-in');
+        }
 
-  goAllJobs() {
-    this.nav.navigateForward('/pages/all-job');
-  }
+        // Swipers slide
+        setTimeout(() => {
+            if (typeof initAllSwipers === 'function') {
+                initAllSwipers();
+            }
+        }, 50);
 
-  goJobDetail() {
-    this.nav.navigateForward('/pages/job-detail');
-  }
-
-  goSkillView() {
-    this.nav.navigateForward('/pages/skill-view');
-  }
-
-  goWorkExperience() {
-    this.nav.navigateForward('/pages/work-experience');
-  }
-
-  goEducation() {
-    this.nav.navigateForward('/pages/education');
-  }
-
-  goAwards() {
-    this.nav.navigateForward('/pages/awards');
-  }
-
-  async confirmLogout() {
-    const confirm = window.confirm('Yakin ingin keluar?');
-    if (confirm) {
-      await this.logout();
+        // connect websocket
+        this.ws.connect((data) => {
+            console.log('[WS PROFILE]', data);
+        });
     }
-  }
 
-  async logout() {
-    await this.auth.removeToken();
-    this.nav.navigateRoot('/sign-in');
-  }
+    // =========================
+    // 🌙 DARK MODE HANDLER
+    // =========================
+    initDarkMode() {
+        const html = document.documentElement;
+        const theme = localStorage.getItem('toggled');
+
+        this.isDarkMode = theme === 'dark-theme';
+        html.classList.toggle('dark-theme', this.isDarkMode);
+    }
+
+    toggleDarkMode() {
+        const html = document.documentElement;
+
+        html.classList.toggle('dark-theme', this.isDarkMode);
+
+        localStorage.setItem(
+          'toggled',
+          this.isDarkMode ? 'dark-theme' : 'light-theme'
+        );
+    }
+
+    setGreeting() {
+        const now = new Date();
+
+        // WIB = UTC + 7
+        const jakartaHour = now.getUTCHours() + 7;
+
+        if (jakartaHour >= 5 && jakartaHour < 12) {
+          this.greeting = 'Good morning';
+        } else if (jakartaHour >= 12 && jakartaHour < 18) {
+          this.greeting = 'Good day';
+        } else {
+          this.greeting = 'Good evening';
+        }
+    }
+
+    ionViewWillLeave() {
+      this.ws.disconnect();
+    }
+
+    openSidebar() {
+        this.showSidebar = true;
+    }
+
+    closeSidebar() {
+        this.showSidebar = false;
+    }
+
+    goBack() {
+        this.nav.back();
+    }
+
+    goApplication() {
+        this.nav.navigateForward('/pages/application');
+    }
+
+    goHome() {
+        this.nav.navigateForward('/pages/home');
+    }
+
+    goApplyJob() {
+        this.nav.navigateForward('/pages/apply-job');
+    }
+
+    goMessage() {
+        this.nav.navigateForward('/pages/message');
+    }
+
+    goMessageInbox() {
+        this.nav.navigateForward('/pages/message-inbox');
+    }
+
+    goProfile() {
+        this.nav.navigateForward('/pages/profile');
+    }
+
+    goPersonalInformation() {
+        this.nav.navigateForward('/pages/personal-information');
+    }
+
+    goAllJobs() {
+        this.nav.navigateForward('/pages/all-job');
+    }
+
+    goJobDetail() {
+        this.nav.navigateForward('/pages/job-detail');
+    }
+
+    goSkillView() {
+        this.nav.navigateForward('/pages/skill-view');
+    }
+
+    goWorkExperience() {
+        this.nav.navigateForward('/pages/work-experience');
+    }
+
+    goEducation() {
+        this.nav.navigateForward('/pages/education');
+    }
+
+    goAwards() {
+        this.nav.navigateForward('/pages/awards');
+    }
+
+    async confirmLogout() {
+        const confirm = window.confirm('Yakin ingin keluar?');
+        if (confirm) {
+          await this.logout();
+        }
+    }
+
+    async logout() {
+        this.showSidebar = false;
+        localStorage.removeItem('cache_jobs');
+        localStorage.removeItem('cache_app_counts');
+        localStorage.removeItem('cache_popular_jobs');
+        localStorage.removeItem('toggled');
+        this.ws.disconnect();
+        await this.authStorage.removeToken();
+        this.nav.navigateRoot('/sign-in');
+    }
 }

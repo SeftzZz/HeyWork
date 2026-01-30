@@ -1,34 +1,3 @@
-/* ---------------------------------------------------------
-	* Abstracts variable
-
-    * Reset css styles
-
-    * Settings
-
-    * Components
-        * alert
-        * avatar
-        * badge
-        * button
-        * card
-        * carousel
-        * chart
-        * dropdown
-        * form
-        * header
-        * modal
-        * preloader
-        * progressbar
-        * radio button
-        * range slider
-        * spinner
-        * stepper
-        * switch
-        * tabs
-
-    * widget
-
-/*--------- Abstracts variable ---------- */
 :root {
   --blue: #2869fe;
   --blue-2: #5387fe;
@@ -6317,7 +6286,7 @@ html:not([dir=rtl]) .slider-salary .noUi-handle-upper {
   position: relative;
   width: 100%;
   height: 100%;
-  background: var(--pest-1);
+  background: var(--blueo);
   position: fixed;
   top: 0;
   bottom: 0;
@@ -7049,7 +7018,7 @@ html:not([dir=rtl]) .slider-salary .noUi-handle-upper {
 }
 
 .wrapper-box {
-  background: var(--gradient);
+  background: var(--blue);
   padding: 32px 24px 0px;
   border-top-left-radius: 40px;
   border-top-right-radius: 40px;
@@ -7058,7 +7027,7 @@ html:not([dir=rtl]) .slider-salary .noUi-handle-upper {
   padding-bottom: 116px;
 }
 .wrapper-box .menubar-footer .inner-bar .action-add {
-  background: var(--gradient);
+  background: var(--white);
 }
 
 .wrapper-box-2 {
@@ -7712,5 +7681,29 @@ html:not([dir=rtl]) .slider-salary .noUi-handle-upper {
 .list-file-mess .item:not(:last-child) {
   margin-bottom: 16px;
 }
+.card-skill h6 {
+  color: #ffffff;
+}
 
-/*# sourceMappingURL=styles.css.map */
+.rating-stars {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.star {
+  width: 16px;
+  height: 16px;
+  fill: rgba(255,255,255,0.3);
+}
+
+.star.active {
+  fill: #FFD54F; /* kuning emas */
+}
+
+.rating-text {
+  font-size: 16px;
+  font-weight: 600;
+  margin-left: 6px;
+  color: #ffffff;
+}
