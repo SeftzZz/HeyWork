@@ -121,26 +121,56 @@
                   <div class="swiper-wrapper">
                       <div class="swiper-slide">
                           <div class="category-job">
-                              <a (click)="goAllJobs()" class="box-img">
+                              <a 
+                                class="box-img"
+                                [class.active]="filters.jobTypes.includes('Hotels')"
+                                (click)="onCategoryClick('Hotels')"
+                              >
                                   <img src="assets/images/category/hotelIcon.png" alt="img">
                               </a>
-                              <a class="title" (click)="goAllJobs()">Hotels</a>
+                              <a 
+                                class="title"
+                                [class.active]="filters.jobTypes.includes('Hotels')"
+                                (click)="onCategoryClick('Hotels')"
+                              >
+                                Hotels
+                              </a>
                           </div>
                       </div>
                       <div class="swiper-slide">
                           <div class="category-job">
-                              <a (click)="goAllJobs()" class="box-img">
+                              <a 
+                                class="box-img"
+                                [class.active]="filters.jobTypes.includes('Daily Worker')"
+                                (click)="onCategoryClick('Daily Worker')"
+                              >
                                   <img src="assets/images/category/pull-time.png" alt="img">
                               </a>
-                              <a class="title" (click)="goAllJobs()">Daily Worker</a>
+                              <a 
+                                class="title"
+                                [class.active]="filters.jobTypes.includes('Daily Worker')"
+                                (click)="onCategoryClick('Daily Worker')"
+                              >
+                                Daily Worker
+                              </a>
                           </div>
                       </div>
                       <div class="swiper-slide">
                           <div class="category-job">
-                              <a (click)="goAllJobs()" class="box-img">
+                              <a 
+                                class="box-img"
+                                [class.active]="filters.jobTypes.includes('Casual')"
+                                (click)="onCategoryClick('Casual')"
+                              >
                                   <img src="assets/images/category/part-time.png" alt="img">
                               </a>
-                              <a class="title" (click)="goAllJobs()">Casual</a>
+                              <a 
+                                class="title"
+                                [class.active]="filters.jobTypes.includes('Casual')"
+                                (click)="onCategoryClick('Casual')"
+                              >
+                                Casual
+                              </a>
                           </div>
                       </div>
                   </div>
@@ -150,7 +180,6 @@
           <div class="mt-24">
               <div class="fl-title d-flex justify-content-between align-items-center">
                   <h4>Most Popular</h4>
-                  <a (click)="goAllJobs()" class="button-1">See All</a>
               </div>
               <div dir="ltr" class="mt-24 swiper tf-sw-2 sw-lr" data-preview="1.2" data-space="20">
                   <div class="swiper-wrapper">
