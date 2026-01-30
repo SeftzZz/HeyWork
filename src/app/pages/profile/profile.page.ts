@@ -164,10 +164,6 @@ export class ProfilePage implements OnInit {
         }, 150);
     }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> c976222 (update I 300126)
     goBack() {
         this.nav.back();
     }
@@ -177,12 +173,7 @@ export class ProfilePage implements OnInit {
     }
 
     goHome() {
-<<<<<<< HEAD
         this.navigateWithClose('/pages/home');
-=======
-        this.closeSidebar();
-        this.nav.navigateForward('/pages/home');
->>>>>>> c976222 (update I 300126)
     }
 
     goApplyJob() {
