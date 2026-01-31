@@ -223,6 +223,11 @@ export class HomePage implements OnInit {
       'toggled',
       this.isDarkMode ? 'dark-theme' : 'light-theme'
     );
+
+    // tutup sidebar setelah toggle
+    setTimeout(() => {
+        this.closeSidebar();
+    }, 150);
   }
 
   // =========================

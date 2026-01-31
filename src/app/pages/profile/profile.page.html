@@ -49,107 +49,100 @@
           </div>
           <div class="mt-24">
                 <div class="fl-title d-flex justify-content-between align-items-center">
-                    <h4>Keahlian</h4>
+                    <h4>Skill</h4>
                 </div>
                 <div dir="ltr" class="mt-24 swiper tf-sw-2 sw-lr" data-preview="1.2" data-space="20">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                            <div class="card-job bg-primary-pest">
-                                <div class="top">
-                                    <div class="inner-left">
-                                        <div class="info">
-                                            <h6 class="title">Room Attendant</h6>
+                    <!-- ========================= -->
+                    <!-- SKILL LIST -->
+                    <!-- ========================= -->
+                    <ng-container *ngIf="workerSkills.length > 0; else emptySkill">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide" *ngFor="let skill of workerSkills">
+                                <div class="card-job bg-primary-pest">
+                                    <div class="top">
+                                        <div class="inner-left">
+                                            <div class="info">
+                                                <h6 class="title">{{ skill.name }}</h6>
+                                                <hr class="hr-white"/>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="bottom">
-                                    <div class="inner">
-                                        <h6>Jam Terbang</h6>
-                                    </div>
-                                    <div class="card-skill">
-                                        <h6>0 Jam</h6>
-                                    </div>
-                                </div>
-                                <div class="bottom">
-                                    <div class="inner">
-                                        <h6>Rating</h6>
-                                    </div>
-                                    <div class="rating-stars">
-                                        <!-- FULL -->
-                                        <ng-container *ngFor="let _ of getStars().full">
-                                          <svg class="star full" viewBox="0 0 24 24">
-                                            <path
-                                              d="M12 2l2.9 6.1 6.7.9-4.8 4.6 1.2 6.6L12 17l-6 3.2 1.2-6.6L2.3 9l6.8-.9L12 2z"
-                                            />
-                                          </svg>
-                                        </ng-container>
 
-                                        <!-- HALF -->
-                                        <ng-container *ngFor="let _ of getStars().half">
-                                          <svg class="star" viewBox="0 0 24 24">
-                                            <defs>
-                                              <linearGradient id="halfGradient">
-                                                <stop offset="50%" stop-color="#FFD54F" />
-                                                <stop offset="50%" stop-color="rgba(255,255,255,0.25)" />
-                                              </linearGradient>
-                                            </defs>
-                                            <path
-                                              fill="url(#halfGradient)"
-                                              d="M12 2l2.9 6.1 6.7.9-4.8 4.6 1.2 6.6L12 17l-6 3.2 1.2-6.6L2.3 9l6.8-.9L12 2z"
-                                            />
-                                          </svg>
-                                        </ng-container>
+                                    <div class="bottom">
+                                        <div class="inner">
+                                            <h6>Jam Terbang</h6>
+                                        </div>
+                                        <div class="card-skill">
+                                            <h6>{{ skill.total_hours || 0 }} Jam</h6>
+                                        </div>
+                                    </div>
 
-                                        <!-- EMPTY -->
-                                        <ng-container *ngFor="let _ of getStars().empty">
-                                          <svg class="star empty" viewBox="0 0 24 24">
-                                            <path
-                                              d="M12 2l2.9 6.1 6.7.9-4.8 4.6 1.2 6.6L12 17l-6 3.2 1.2-6.6L2.3 9l6.8-.9L12 2z"
-                                            />
-                                          </svg>
-                                        </ng-container>
+                                    <div class="bottom">
+                                        <div class="inner">
+                                            <h6>Rating</h6>
+                                        </div>
+                                        <div class="rating-stars">
 
-                                        <span class="rating-text">{{ rating }}</span>
+                                            <!-- FULL -->
+                                            <ng-container *ngFor="let _ of getStars(skill.rating).full">
+                                                <svg class="star full" viewBox="0 0 24 24">
+                                                    <path d="M12 2l2.9 6.1 6.7.9-4.8 4.6 1.2 6.6L12 17l-6 3.2 1.2-6.6L2.3 9l6.8-.9L12 2z"/>
+                                                </svg>
+                                            </ng-container>
+
+                                            <!-- HALF -->
+                                            <ng-container *ngFor="let _ of getStars(skill.rating).half">
+                                                <svg class="star" viewBox="0 0 24 24">
+                                                    <defs>
+                                                        <linearGradient id="halfGradient">
+                                                            <stop offset="50%" stop-color="#FFD54F"/>
+                                                            <stop offset="50%" stop-color="rgba(255,255,255,0.25)"/>
+                                                        </linearGradient>
+                                                    </defs>
+                                                    <path fill="url(#halfGradient)"
+                                                          d="M12 2l2.9 6.1 6.7.9-4.8 4.6 1.2 6.6L12 17l-6 3.2 1.2-6.6L2.3 9l6.8-.9L12 2z"/>
+                                                </svg>
+                                            </ng-container>
+
+                                            <!-- EMPTY -->
+                                            <ng-container *ngFor="let _ of getStars(skill.rating).empty">
+                                                <svg class="star empty" viewBox="0 0 24 24">
+                                                    <path d="M12 2l2.9 6.1 6.7.9-4.8 4.6 1.2 6.6L12 17l-6 3.2 1.2-6.6L2.3 9l6.8-.9L12 2z"/>
+                                                </svg>
+                                            </ng-container>
+
+                                            <span class="rating-text">
+                                                {{ skill.rating || 0 }}
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="swiper-slide">
-                            <div class="card-job bg-primary-pest">
-                                <div class="top">
-                                    <div class="inner-left">
-                                        <div class="info">
-                                            <h6 class="title">Public Area</h6>
+                    </ng-container>
+
+                    <ng-template #emptySkill>
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <div class="card-job bg-primary-pest">
+                                    <div class="top">
+                                        <div class="inner-left">
+                                            <div class="info">
+                                                <h6 class="title">Data not found</h6>
+                                                <hr class="hr-white"/>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="bottom">
-                                    <div class="inner">
-                                        <h6>Jam Terbang</h6>
-                                    </div>
-                                    <div class="card-skill">
-                                        <h6>0 Jam</h6>
-                                    </div>
-                                </div>
-                                <div class="bottom">
-                                    <div class="inner">
-                                        <h6>Rating</h6>
-                                    </div>
-                                    <div class="rating-stars">
-                                        <svg class="star active" viewBox="0 0 24 24">
-                                            <path d="M12 2l2.9 6.1 6.7.9-4.8 4.6 1.2 6.6L12 17l-6 3.2 1.2-6.6L2.3 9l6.8-.9L12 2z"/>
-                                        </svg>
-                                        <svg class="star active" viewBox="0 0 24 24"><path d="M12 2l2.9 6.1 6.7.9-4.8 4.6 1.2 6.6L12 17l-6 3.2 1.2-6.6L2.3 9l6.8-.9L12 2z"/></svg>
-                                        <svg class="star active" viewBox="0 0 24 24"><path d="M12 2l2.9 6.1 6.7.9-4.8 4.6 1.2 6.6L12 17l-6 3.2 1.2-6.6L2.3 9l6.8-.9L12 2z"/></svg>
-                                        <svg class="star active" viewBox="0 0 24 24"><path d="M12 2l2.9 6.1 6.7.9-4.8 4.6 1.2 6.6L12 17l-6 3.2 1.2-6.6L2.3 9l6.8-.9L12 2z"/></svg>
-                                        <svg class="star" viewBox="0 0 24 24"><path d="M12 2l2.9 6.1 6.7.9-4.8 4.6 1.2 6.6L12 17l-6 3.2 1.2-6.6L2.3 9l6.8-.9L12 2z"/></svg>
 
-                                        <span class="rating-text">4.8</span>
+                                    <div class="bottom">
+                                        <div class="inner">
+                                            <h6>Please complete your skill information to continue</h6>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </ng-template>
                 </div>
           </div>
           <div class="mt-24">

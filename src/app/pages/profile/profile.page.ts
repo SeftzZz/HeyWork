@@ -5,9 +5,9 @@ import { IonContent, IonModal } from '@ionic/angular/standalone';
 import { NavController } from '@ionic/angular';
 import { Title } from '@angular/platform-browser';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
 import { AuthStorage, AuthData } from '../../services/auth-storage.service';
 import { ProfileService } from '../../services/profile.service';
+import { firstValueFrom } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { WsService } from '../../services/ws.service';
 
@@ -27,6 +27,8 @@ export class ProfilePage implements OnInit {
     photoPreview: string | null = null;
     public auth!: AuthData;
     rating: number = 4.8;
+    workerSkills: any[] = [];
+    loading = false;
 
     // =========================
     // 🌙 DARK MODE STATE
@@ -89,6 +91,9 @@ export class ProfilePage implements OnInit {
             }
         }, 50);
 
+        // load worker skills
+        await this.loadWorkerSkills();
+
         // connect websocket
         this.ws.connect((data) => {
             console.log('[WS PROFILE]', data);
@@ -115,6 +120,11 @@ export class ProfilePage implements OnInit {
           'toggled',
           this.isDarkMode ? 'dark-theme' : 'light-theme'
         );
+
+        // tutup sidebar setelah toggle
+        setTimeout(() => {
+            this.closeSidebar();
+        }, 150);
     }
 
     setGreeting() {
@@ -132,9 +142,74 @@ export class ProfilePage implements OnInit {
         }
     }
 
-    getStars() {
-        const full = Math.floor(this.rating);
-        const half = this.rating - full >= 0.5 ? 1 : 0;
+    // ===============================
+    // LOAD WORKER SKILLS
+    // ===============================
+    async loadWorkerSkills() {
+        const cacheKey = 'cache_worker_skills';
+
+        // =========================
+        // LOAD FROM CACHE
+        // =========================
+        const cached = this.getCache<any[]>(cacheKey);
+        if (cached && cached.length) {
+            this.workerSkills = cached;
+            return;
+        }
+
+        // =========================
+        // LOAD FROM API
+        // =========================
+        try {
+            this.loading = true;
+
+            const token = await this.authStorage.getToken();
+            if (!token) throw new Error('No auth token');
+
+            const headers = new HttpHeaders({
+                Authorization: `Bearer ${token}`
+            });
+
+            const res = await firstValueFrom(
+                this.http.get<any>(
+                    `${environment.api_url}/worker/my-skills`,
+                    { headers }
+                )
+            );
+
+            const data = res?.data || res || [];
+
+            this.workerSkills = data;
+            this.setCache(cacheKey, data);
+
+        } catch (err) {
+            console.error('Failed to load worker skills', err);
+            this.workerSkills = [];
+        } finally {
+            this.loading = false;
+        }
+    }
+
+    // ===============================
+    // CACHE HELPERS
+    // ===============================
+    private getCache<T>(key: string): T | null {
+        try {
+            const raw = localStorage.getItem(key);
+            return raw ? JSON.parse(raw) as T : null;
+        } catch {
+            localStorage.removeItem(key);
+            return null;
+        }
+    }
+
+    private setCache<T>(key: string, value: T) {
+        localStorage.setItem(key, JSON.stringify(value));
+    }
+
+    getStars(rating: number = 0) {
+        const full = Math.floor(rating);
+        const half = rating - full >= 0.5 ? 1 : 0;
         const empty = 5 - full - half;
 
         return {
@@ -164,6 +239,9 @@ export class ProfilePage implements OnInit {
         }, 150);
     }
 
+    // ===============================
+    // NAVIGATION
+    // ===============================
     goBack() {
         this.nav.back();
     }

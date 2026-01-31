@@ -37,14 +37,14 @@ export class ApplicationPage implements OnInit {
   async loadApplications() {
     const cacheKey = 'cache_applications';
 
-    // 1️⃣ cache dulu
+    // cache dulu
     const cached = this.getCache<any[]>(cacheKey);
     if (cached && cached.length) {
       this.applications = this.resolveJobAndHotel(cached);
       return;
     }
 
-    // 2️⃣ API
+    // API
     try {
       this.loading = true;
 

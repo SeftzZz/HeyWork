@@ -7712,3 +7712,13 @@ html:not([dir=rtl]) .slider-salary .noUi-handle-upper {
   color: #ffffff;
 }
 
+.hr-white {
+  border: none;
+  height: 3px;
+  width: 92%;
+  background: #ffffff;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.6);
+  margin: 0px 7px 0px 0px;
+}
+
+
