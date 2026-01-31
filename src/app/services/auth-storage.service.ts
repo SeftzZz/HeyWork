@@ -74,6 +74,13 @@ export class AuthStorage {
   async clear() {
     await Preferences.remove({ key: this.AUTH_KEY });
     await Preferences.remove({ key: this.LEGACY_TOKEN_KEY });
+    localStorage.removeItem('cache_attendances');
+    localStorage.removeItem('cache_hotels');
+    localStorage.removeItem('cache_jobs');
+    localStorage.removeItem('cache_popular_jobs');
+    localStorage.removeItem('cache_app_counts');
+    localStorage.removeItem('cache_applications');
+    localStorage.removeItem('selected_job');
   }
 
   async removeToken() {

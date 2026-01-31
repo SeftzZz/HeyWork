@@ -3,8 +3,9 @@ import { ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonContent, LoadingController, ToastController } from '@ionic/angular/standalone';
 import { NavController } from '@ionic/angular';
-import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { Camera, CameraResultType, CameraSource, CameraDirection } from '@capacitor/camera';
 import { Geolocation } from '@capacitor/geolocation';
+import { Capacitor } from '@capacitor/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { AuthStorage } from '../../services/auth-storage.service';
@@ -87,7 +88,10 @@ export class AttendacePage implements OnInit {
         quality: 80,
         allowEditing: false,
         resultType: CameraResultType.Base64,
-        source: CameraSource.Camera
+        source: CameraSource.Camera,
+        ...(Capacitor.getPlatform() === 'web'
+        ? { direction: CameraDirection.Front }
+        : {})
       });
 
       if (!photo.base64String) return;

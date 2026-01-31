@@ -269,7 +269,7 @@ export class HomePage implements OnInit {
   }
 
   goAllJobs() {
-    this.nav.navigateForward('/pages/all-jobs');
+    this.nav.navigateForward('/pages/search-job');
   }
 
   goJobDetail() {
@@ -821,4 +821,10 @@ export class HomePage implements OnInit {
       };
     });
   }
+
+  onCategoryClick(type: string) {
+    this.filters.jobTypes = [type];
+    this.applyFilter();
+  }
+
 }
