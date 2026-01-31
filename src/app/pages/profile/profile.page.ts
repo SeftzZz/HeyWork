@@ -307,9 +307,11 @@ export class ProfilePage implements OnInit {
 
     async logout() {
         this.showSidebar = false;
+        localStorage.removeItem('cache_hotels');
         localStorage.removeItem('cache_jobs');
         localStorage.removeItem('cache_app_counts');
         localStorage.removeItem('cache_popular_jobs');
+        localStorage.removeItem('cache_applications');
         localStorage.removeItem('cache_worker_skills');
         localStorage.removeItem('toggled');
         this.ws.disconnect();

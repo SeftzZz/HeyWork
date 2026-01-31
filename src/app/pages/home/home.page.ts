@@ -293,19 +293,21 @@ export class HomePage implements OnInit {
   }
 
   async logout() {
-    this.showSidebar = false;
-    localStorage.removeItem('cache_jobs');
-    localStorage.removeItem('cache_app_counts');
-    localStorage.removeItem('cache_popular_jobs');
-    localStorage.removeItem('cache_worker_skills');
-    localStorage.removeItem('toggled');
-    this.ws.disconnect();
-    await this.authStorage.removeToken();
-    this.nav.navigateRoot('/sign-in');
+      this.showSidebar = false;
+      localStorage.removeItem('cache_hotels');
+      localStorage.removeItem('cache_jobs');
+      localStorage.removeItem('cache_app_counts');
+      localStorage.removeItem('cache_popular_jobs');
+      localStorage.removeItem('cache_applications');
+      localStorage.removeItem('cache_worker_skills');
+      localStorage.removeItem('toggled');
+      this.ws.disconnect();
+      await this.authStorage.removeToken();
+      this.nav.navigateRoot('/sign-in');
   }
 
   goApplication() {
-    this.nav.navigateForward('/pages/application');
+      this.nav.navigateForward('/pages/application');
   }
 
   goHome() {
