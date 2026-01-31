@@ -296,6 +296,9 @@ export class HomePage implements OnInit {
     this.showSidebar = false;
     localStorage.removeItem('cache_jobs');
     localStorage.removeItem('cache_app_counts');
+    localStorage.removeItem('cache_popular_jobs');
+    localStorage.removeItem('cache_worker_skills');
+    localStorage.removeItem('toggled');
     this.ws.disconnect();
     await this.authStorage.removeToken();
     this.nav.navigateRoot('/sign-in');
