@@ -51,6 +51,8 @@ export class AttendacePage implements OnInit {
   @ViewChild('mapEl', { static: false })
   mapEl!: ElementRef<HTMLDivElement>;
 
+  avatarUrl = 'assets/images/avt/avt-1.jpg';
+
   constructor(
     private nav: NavController,
     private http: HttpClient,
@@ -257,36 +259,28 @@ export class AttendacePage implements OnInit {
   }
 
   loadHotelLocation() {
-    if (!this.job.hotel_latitude || !this.job.hotel_longitude) {
+    if (!this.job?.hotel_latitude || !this.job?.hotel_longitude) {
       console.error('❌ HOTEL COORDINATE MISSING IN JOB');
-      return;
+      return false;
     }
 
     this.hotelLat = parseFloat(this.job.hotel_latitude);
     this.hotelLng = parseFloat(this.job.hotel_longitude);
 
-    console.log('🏨 HOTEL FROM NAV STATE:', {
+    console.log('🏨 HOTEL FROM JOB:', {
       lat: this.hotelLat,
-      lng: this.hotelLng
+      lng: this.hotelLng,
+      name: this.job.hotel_name
     });
+
+    return true;
   }
 
-  initMap() {
-    if (!this.hasLocation() || !this.hotelLat || !this.hotelLng || !this.mapEl) {
-      console.warn('❌ MAP NOT READY', {
-        hasLocation: this.hasLocation(),
-        hotelLat: this.hotelLat,
-        hotelLng: this.hotelLng,
-        mapEl: !!this.mapEl
-      });
-      return;
-    }
+  async initMap() {
+    if (!this.hasLocation() || !this.mapEl) return;
+    if (!this.hotelLat || !this.hotelLng) return;
 
-    console.log('🗺️ INIT MAP');
-
-    if (this.map) {
-      this.map.remove();
-    }
+    if (this.map) this.map.remove();
 
     this.map = L.map(this.mapEl.nativeElement).setView(
       [this.latitude!, this.longitude!],
@@ -296,23 +290,45 @@ export class AttendacePage implements OnInit {
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png')
       .addTo(this.map);
 
-    this.userMarker = L.marker([this.latitude!, this.longitude!])
-      .addTo(this.map)
-      .bindPopup('You');
+    // 👤 USER MARKER
+    const userPhoto = await this.getProfilePhotoUrl();
+    this.userMarker = L.marker(
+      [this.latitude!, this.longitude!],
+      {
+        icon: this.createUserAvatarIcon(userPhoto, 40)
+      }
+    )
+    .addTo(this.map)
+    .bindPopup('You');
 
-    this.hotelMarker = L.marker([this.hotelLat, this.hotelLng])
-      .addTo(this.map)
-      .bindPopup('Hotel');
+    // 🏨 HOTEL MARKER (LOGO DINORMALISASI)
+    const hotel = this.getHotelFromCache();
+    if (!hotel) {
+      console.warn('❌ HOTEL NOT FOUND IN cache_hotels');
+      return;
+    }
 
+    this.hotelLat = parseFloat(hotel.latitude);
+    this.hotelLng = parseFloat(hotel.longitude);
+
+    const hotelLogo = this.normalizeHotelLogo(hotel);
+
+    this.hotelMarker = L.marker(
+      [this.hotelLat, this.hotelLng],
+      {
+        icon: this.createHotelAvatarIcon(hotelLogo, 40)
+      }
+    )
+    .addTo(this.map)
+    .bindPopup(this.job.hotel_name);
+
+    // 🔵 RADIUS
     this.radiusCircle = L.circle(
       [this.hotelLat, this.hotelLng],
       { radius: this.MAX_DISTANCE }
     ).addTo(this.map);
 
-    setTimeout(() => {
-      this.map.invalidateSize();
-      console.log('✅ MAP READY');
-    }, 300);
+    setTimeout(() => this.map.invalidateSize(), 300);
   }
 
   hasLocation(): this is this & {
@@ -459,4 +475,119 @@ export class AttendacePage implements OnInit {
       return false;
     }
   }
+
+  async getProfilePhotoUrl(): Promise<string> {
+    const auth = await this.authStorage.getAuth();
+
+    // fallback avatar (WAJIB ADA)
+    const fallback = 'assets/images/avatar/default-user.png';
+
+    if (!auth || !auth.user) {
+      return fallback;
+    }
+
+    if (auth.user.photo) {
+      return `${environment.base_url}/${auth.user.photo}?t=${Date.now()}`;
+    }
+
+    return fallback;
+  }
+
+  createUserAvatarIcon(
+    photoUrl: string,
+    size: number = 20
+  ): L.DivIcon {
+    return L.divIcon({
+      className: 'user-avatar-marker',
+      html: `
+        <div
+          style="
+            width:${size}px;
+            height:${size}px;
+            border-radius:50%;
+            overflow:hidden;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            background:#fff;
+          "
+        >
+          <img
+            src="${photoUrl}"
+            style="
+              width:100%;
+              height:100%;
+              object-fit:cover;
+            "
+          />
+        </div>
+      `,
+      iconSize: [size, size],
+      iconAnchor: [size / 2, size],
+      popupAnchor: [0, -size]
+    });
+  }
+
+  createHotelAvatarIcon(
+    logoUrl: string,
+    size: number = 44
+  ): L.DivIcon {
+    return L.divIcon({
+      className: 'hotel-avatar-marker',
+      html: `
+        <div
+          style="
+            width:${size}px;
+            height:${size}px;
+            border-radius:50%;
+            overflow:hidden;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            background:#fff;
+          "
+        >
+          <img
+            src="${logoUrl}"
+            style="
+              width:100%;
+              height:100%;
+              object-fit:cover;
+            "
+          />
+        </div>
+      `,
+      iconSize: [size, size],
+      iconAnchor: [size / 2, size],
+      popupAnchor: [0, -size]
+    });
+  }
+
+  private normalizeHotelLogo(hotel: any, ts = Date.now()) {
+    if (!hotel.logo) {
+      return 'assets/images/hotels/default.png';
+    }
+
+    if (hotel.logo.startsWith('http://') || hotel.logo.startsWith('https://')) {
+      return hotel.logo;
+    }
+
+    return `${environment.base_url}/${hotel.logo}?t=${ts}`;
+  }
+
+  private getHotelFromCache(): any | null {
+    try {
+      const cached = localStorage.getItem('cache_hotels');
+      if (!cached) return null;
+
+      const hotels = JSON.parse(cached);
+      if (!Array.isArray(hotels) || hotels.length === 0) return null;
+
+      return hotels[0]; // asumsi 1 hotel aktif
+    } catch (e) {
+      console.error('❌ FAILED TO READ cache_hotels', e);
+      return null;
+    }
+  }
+
 }

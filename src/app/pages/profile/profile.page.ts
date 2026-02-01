@@ -100,6 +100,10 @@ export class ProfilePage implements OnInit {
         });
     }
 
+    async ionViewWillEnter() {
+        await this.loadWorkerSkills(true);
+    }
+
     // =========================
     // 🌙 DARK MODE HANDLER
     // =========================
@@ -145,14 +149,14 @@ export class ProfilePage implements OnInit {
     // ===============================
     // LOAD WORKER SKILLS
     // ===============================
-    async loadWorkerSkills() {
+    async loadWorkerSkills(force = false) {
         const cacheKey = 'cache_worker_skills';
 
         // =========================
         // LOAD FROM CACHE
         // =========================
         const cached = this.getCache<any[]>(cacheKey);
-        if (cached && cached.length) {
+        if (!force && cached && cached.length) {
             this.workerSkills = cached;
             return;
         }
