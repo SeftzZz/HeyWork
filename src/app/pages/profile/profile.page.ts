@@ -38,6 +38,8 @@ export class ProfilePage implements OnInit {
     jobs: any[] = [];
     popular_jobs: any[] = [];
     avatarUrl = 'assets/images/avt/avt-1.jpg';
+    experiences: any[] = [];
+    educations: any[] = [];
 
     constructor(
       private nav: NavController,
@@ -93,6 +95,8 @@ export class ProfilePage implements OnInit {
 
         // load worker skills
         await this.loadWorkerSkills();
+        await this.loadExperiences();
+        await this.loadEducations();
 
         // connect websocket
         this.ws.connect((data) => {
@@ -102,6 +106,8 @@ export class ProfilePage implements OnInit {
 
     async ionViewWillEnter() {
         await this.loadWorkerSkills(true);
+        await this.loadExperiences(true);
+        await this.loadEducations(true);
     }
 
     // =========================
@@ -192,6 +198,77 @@ export class ProfilePage implements OnInit {
         } finally {
             this.loading = false;
         }
+    }
+
+    async loadExperiences(force = false) {
+      const cacheKey = 'cache_worker_experiences';
+
+      // =========================
+      // LOAD FROM CACHE
+      // =========================
+      const cached = this.getCache<any[]>(cacheKey);
+      if (!force && cached && cached.length) {
+        this.experiences = cached;
+        return;
+      }
+
+      // =========================
+      // LOAD FROM API
+      // =========================
+      try {
+        const token = await this.authStorage.getToken();
+        if (!token) return;
+
+        const headers = new HttpHeaders({
+          Authorization: `Bearer ${token}`
+        });
+
+        const res = await firstValueFrom(
+          this.http.get<any[]>(
+            `${environment.api_url}/worker/experience`,
+            { headers }
+          )
+        );
+
+        // ambil max 2 untuk preview
+        this.experiences = (res || []).slice(0, 2);
+        this.setCache(cacheKey, this.experiences);
+
+      } catch (e) {
+        console.error('loadExperiences failed', e);
+      }
+    }
+
+    async loadEducations(force = false) {
+      const cacheKey = 'cache_worker_educations';
+
+      const cached = this.getCache<any[]>(cacheKey);
+      if (!force && cached && cached.length) {
+        this.educations = cached;
+        return;
+      }
+
+      try {
+        const token = await this.authStorage.getToken();
+        if (!token) return;
+
+        const headers = new HttpHeaders({
+          Authorization: `Bearer ${token}`
+        });
+
+        const res = await firstValueFrom(
+          this.http.get<any[]>(
+            `${environment.api_url}/worker/education`,
+            { headers }
+          )
+        );
+
+        this.educations = (res || []).slice(0, 2);
+        this.setCache(cacheKey, this.educations);
+
+      } catch (e) {
+        console.error('loadEducations failed', e);
+      }
     }
 
     // ===============================

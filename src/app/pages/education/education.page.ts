@@ -57,17 +57,36 @@ export class EducationPage implements OnInit {
     try {
       const token = await this.authStorage.getToken();
 
-      await this.http.post(
+      const res: any = await this.http.post(
         `${environment.api_url}/worker/education`,
         this.education,
         {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
+          headers: { Authorization: `Bearer ${token}` }
         }
       ).toPromise();
-      this.toast('Success to save education ✅');
 
+      // ============================
+      // 🔥 INSERT KE CACHE
+      // ============================
+      const CACHE_KEY = 'cache_worker_educations';
+      const cachedRaw = localStorage.getItem(CACHE_KEY);
+      const cached = cachedRaw ? JSON.parse(cachedRaw) : [];
+
+      const newEducation = {
+        ...this.education,
+        id: res?.id || Date.now(),
+        is_current: this.education.is_current ? 1 : 0
+      };
+
+      const updatedCache = [
+        newEducation,
+        ...cached
+      ].slice(0, 5);
+
+      localStorage.setItem(CACHE_KEY, JSON.stringify(updatedCache));
+
+      // ============================
+      this.toast('Success to save education ✅');
       this.isSubmitting = false;
       this.nav.back();
 

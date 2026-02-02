@@ -146,86 +146,86 @@
                 </div>
           </div>
           <div class="mt-24">
-              <div class="fl-title d-flex justify-content-between align-items-center">
-                  <h4>Work Experience</h4>
-                  <a (click)="goAllJobs()" class="button-1">See All</a>
-              </div>
-              <div class="mt-20 list-jobs">
-                  <div class="job-item">
-                      <a (click)="goJobDetail()" class="logo"><img src="assets/images/jobs/apple.png" alt=""></a>
-                      <div class="content">
-                          <div class="info">
-                              <h5><a (click)="goJobDetail()">Sr. Product Designer</a></h5>
-                              <ul class="list-info">
-                                  <li class="item">
-                                      <i class="icon icon-company"></i>
-                                      <span class="body-4">Apple</span>
-                                  </li>
-                                  <li class="dot"></li>
-                                  <li class="item">
-                                      <i class="icon icon-map"></i>
-                                      <span class="body-4">United States</span>
-                                  </li>
-                              </ul>
-                          </div>
-                      </div>
+            <div class="fl-title d-flex justify-content-between align-items-center">
+              <h4>Work Experience</h4>
+              <a (click)="goWorkExperience()" class="button-1">See All</a>
+            </div>
+
+            <div class="mt-20 list-jobs">
+              <ng-container *ngIf="experiences.length; else emptyExperience">
+                <div class="job-item" *ngFor="let exp of experiences">
+                  <!-- <a class="logo">
+                    <img src="assets/images/jobs/company.png" alt="">
+                  </a> -->
+                  <div class="content">
+                    <div class="info">
+                      <h5>{{ exp.job_title }} - {{ exp.department }}</h5>
+                      <ul class="list-info">
+                        <li class="item">
+                          <i class="icon icon-company"></i>
+                          <span class="body-4">{{ exp.company_name }}</span>
+                        </li>
+                        <li class="dot"></li>
+                        <li class="item">
+                          <i class="icon icon-map"></i>
+                          <span class="body-4">{{ exp.location || '-' }}</span>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
-              </div>
+                </div>
+              </ng-container>
+
+              <ng-template #emptyExperience>
+                <div class="job-item">
+                  <div class="content">
+                    <h6 class="text-muted">No experience added yet</h6>
+                  </div>
+                </div>
+              </ng-template>
+            </div>
           </div>
           <div class="mt-24">
-              <div class="fl-title d-flex justify-content-between align-items-center">
-                  <h4>Education</h4>
-                  <a (click)="goAllJobs()" class="button-1">See All</a>
-              </div>
-              <div class="mt-20 list-jobs">
-                  <div class="job-item">
-                      <a (click)="goJobDetail()" class="logo"><img src="assets/images/jobs/apple.png" alt=""></a>
-                      <div class="content">
-                          <div class="info">
-                              <h5><a (click)="goJobDetail()">Sr. Product Designer</a></h5>
-                              <ul class="list-info">
-                                  <li class="item">
-                                      <i class="icon icon-company"></i>
-                                      <span class="body-4">Apple</span>
-                                  </li>
-                                  <li class="dot"></li>
-                                  <li class="item">
-                                      <i class="icon icon-map"></i>
-                                      <span class="body-4">United States</span>
-                                  </li>
-                              </ul>
-                          </div>
-                      </div>
+            <div class="fl-title d-flex justify-content-between align-items-center">
+              <h4>Education</h4>
+              <a (click)="goEducation()" class="button-1">See All</a>
+            </div>
+
+            <div class="mt-20 list-jobs">
+              <ng-container *ngIf="educations.length; else emptyEducation">
+                <div class="job-item" *ngFor="let edu of educations">
+                  <!-- <a class="logo">
+                    <img src="assets/images/jobs/school.png" alt="">
+                  </a> -->
+                  <div class="content">
+                    <div class="info">
+                      <h5>{{ edu.level }} - {{ edu.title }}</h5>
+                      <ul class="list-info">
+                        <li class="item">
+                          <i class="icon icon-company"></i>
+                          <span class="body-4">{{ edu.instituted_name }}</span>
+                        </li>
+                        <li class="dot"></li>
+                        <li class="item">
+                          <i class="icon icon-map"></i>
+                          <span class="body-4">{{ edu.location || '-' }}</span>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
-              </div>
-          </div>
-          <div class="mt-24">
-              <div class="fl-title d-flex justify-content-between align-items-center">
-                  <h4>Awards</h4>
-                  <a (click)="goAllJobs()" class="button-1">See All</a>
-              </div>
-              <div class="mt-20 list-jobs">
-                  <div class="job-item">
-                      <a (click)="goJobDetail()" class="logo"><img src="assets/images/jobs/apple.png" alt=""></a>
-                      <div class="content">
-                          <div class="info">
-                              <h5><a (click)="goJobDetail()">Sr. Product Designer</a></h5>
-                              <ul class="list-info">
-                                  <li class="item">
-                                      <i class="icon icon-company"></i>
-                                      <span class="body-4">Apple</span>
-                                  </li>
-                                  <li class="dot"></li>
-                                  <li class="item">
-                                      <i class="icon icon-map"></i>
-                                      <span class="body-4">United States</span>
-                                  </li>
-                              </ul>
-                          </div>
-                      </div>
+                </div>
+              </ng-container>
+
+              <ng-template #emptyEducation>
+                <div class="job-item">
+                  <div class="content">
+                    <h6 class="text-muted">No education added yet</h6>
                   </div>
-              </div>
+                </div>
+              </ng-template>
+            </div>
           </div>
+
       </div>
       <div class="mt-24 wrapper-box">
           <ul class="list-profile">

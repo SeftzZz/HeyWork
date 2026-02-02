@@ -32,7 +32,7 @@ export class WorkExperiencePage implements OnInit {
   };
 
   isSubmitting = false;
-
+  
   constructor(
     private nav: NavController,
     private http: HttpClient,
@@ -60,17 +60,36 @@ export class WorkExperiencePage implements OnInit {
     try {
       const token = await this.authStorage.getToken();
 
-      await this.http.post(
+      const res: any = await this.http.post(
         `${environment.api_url}/worker/experience`,
         this.experience,
         {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
+          headers: { Authorization: `Bearer ${token}` }
         }
       ).toPromise();
-      this.toast('Success to save experience ✅');
 
+      // ============================
+      // 🔥 INSERT KE CACHE
+      // ============================
+      const CACHE_KEY = 'cache_worker_experiences';
+      const cachedRaw = localStorage.getItem(CACHE_KEY);
+      const cached = cachedRaw ? JSON.parse(cachedRaw) : [];
+
+      const newExperience = {
+        ...this.experience,
+        id: res?.id || Date.now(), // fallback
+        is_current: this.experience.is_current ? 1 : 0
+      };
+
+      const updatedCache = [
+        newExperience,
+        ...cached
+      ].slice(0, 5); // max 5 (opsional)
+
+      localStorage.setItem(CACHE_KEY, JSON.stringify(updatedCache));
+
+      // ============================
+      this.toast('Success to save experience ✅');
       this.isSubmitting = false;
       this.nav.back();
 
