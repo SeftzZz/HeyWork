@@ -223,10 +223,6 @@ export class ProfilePage implements OnInit {
         };
     }
 
-    ionViewWillLeave() {
-        this.ws.disconnect();
-    }
-
     openSidebar() {
         this.showSidebar = true;
     }

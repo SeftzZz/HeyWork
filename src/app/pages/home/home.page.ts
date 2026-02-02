@@ -6,6 +6,7 @@ import { NavController } from '@ionic/angular';
 import { Title } from '@angular/platform-browser';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 import { AuthStorage, AuthData } from '../../services/auth-storage.service';
 import { ProfileService } from '../../services/profile.service';
@@ -73,6 +74,7 @@ export class HomePage implements OnInit {
   hotels: any[] = [];
   applications: any[] = [];
   loading = false;
+  private wsSub?: Subscription;
 
   constructor(
     private nav: NavController,
@@ -83,8 +85,40 @@ export class HomePage implements OnInit {
     private ws: WsService
   ) {}
 
-  initWebSocket() {
-    this.ws.connect((event) => {
+  async ngOnInit() {
+    this.title.setTitle('Home | Hey! Work');
+
+    // =========================
+    // INIT DARK MODE
+    // =========================
+    this.initDarkMode();
+    
+    const loggedIn = await this.authStorage.isLoggedIn();
+    if (!loggedIn) {
+      this.nav.navigateRoot('/sign-in');
+      return;
+    }
+
+    // =========================
+    // SET GREETING (WIB)
+    // =========================
+    this.setGreeting();
+    this.subscribeWebSocket();
+    await this.loadProfile();
+
+    await this.getHotels();
+
+    this.jobs = await this.getJobs();
+    await this.loadMostPopularJobs();
+    await this.loadApplications();
+  }
+
+  ngOnDestroy() {
+    this.wsSub?.unsubscribe();
+  }
+
+  private subscribeWebSocket() {
+    this.wsSub = this.ws.events$.subscribe(event => {
 
       switch (event.type) {
 
@@ -94,7 +128,6 @@ export class HomePage implements OnInit {
 
         case 'jobs_updated': {
           const ts = Date.now();
-
           const jobs = (event.data || []).map((job: any) => ({
             ...job,
             hotel_logo: job.hotel_logo
@@ -117,7 +150,6 @@ export class HomePage implements OnInit {
 
         case 'most_popular_jobs_updated': {
           const ts = Date.now();
-
           const jobs = (event.data || []).map((job: any) => ({
             ...job,
             hotel_logo: job.hotel_logo
@@ -132,7 +164,6 @@ export class HomePage implements OnInit {
 
         case 'hotels_updated': {
           const ts = Date.now();
-
           const hotels = (event.data || []).map((hotel: any) => ({
             ...hotel,
             logo: this.normalizeHotelLogo(hotel, ts)
@@ -164,36 +195,7 @@ export class HomePage implements OnInit {
     }
   }
 
-  async ngOnInit() {
-    this.title.setTitle('Home | Hey! Work');
-
-    // =========================
-    // INIT DARK MODE
-    // =========================
-    this.initDarkMode();
-
-    const loggedIn = await this.authStorage.isLoggedIn();
-    if (!loggedIn) {
-      this.nav.navigateRoot('/sign-in');
-      return;
-    }
-
-    // =========================
-    // SET GREETING (WIB)
-    // =========================
-    this.setGreeting();
-
-    await this.loadProfile();
-
-    await this.getHotels();
-
-    this.jobs = await this.getJobs();
-    await this.loadMostPopularJobs();
-    await this.loadApplications();
-  }
-
   ionViewDidEnter() {
-    this.initWebSocket();
     this.loadApplicationCounts();
 
     setTimeout(() => {

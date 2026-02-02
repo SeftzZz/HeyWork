@@ -94,11 +94,31 @@ export class WorkExperiencePage implements OnInit {
   // =============================
   // NAVIGATION
   // =============================
-  goBack() { this.nav.back(); }
-  goHome() { this.nav.navigateForward('/pages/home'); }
-  goApplication() { this.nav.navigateForward('/pages/application'); }
-  goApplyJob() { this.nav.navigateForward('/pages/apply-job'); }
-  goMessage() { this.nav.navigateForward('/pages/message'); }
-  goMessageInbox() { this.nav.navigateForward('/pages/message-inbox'); }
-  goProfile() { this.nav.navigateForward('/pages/profile'); }
+  goBack() {
+    this.nav.back();
+  }
+
+  goApplication() {
+    this.nav.navigateForward('/pages/application');
+  }
+
+  goHome() {
+    this.nav.navigateForward('/pages/home');
+  }
+
+  goApplyJob() {
+    this.nav.navigateForward('/pages/apply-job');
+  }
+
+  goMessage() {
+    this.nav.navigateForward('/pages/message');
+  }
+
+  goMessageInbox() {
+    this.nav.navigateForward('/pages/message-inbox');
+  }
+
+  goProfile() {
+    this.nav.navigateForward('/pages/profile');
+  }
 }
