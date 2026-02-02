@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+
+  <!-- Allow cleartext HTTP for local/dev -->
+  <base-config cleartextTrafficPermitted="true" />
+
+  <domain-config cleartextTrafficPermitted="true">
+    <domain includeSubdomains="true">heyworkapi.local</domain>
+  </domain-config>
+
+</network-security-config>
