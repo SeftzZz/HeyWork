@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  api_url: "http://heyworkapi.local/api",
-  base_url: "http://heyworkapi.local",
-  ws_url: "ws://heyworkapi.local/ws"
+  api_url: "http://heywork.local/api",
+  base_url: "http://heywork.local",
+  ws_url: "ws://heywork.local/ws"
 };

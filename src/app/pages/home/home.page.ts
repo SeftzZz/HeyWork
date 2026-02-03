@@ -307,6 +307,8 @@ export class HomePage implements OnInit {
       localStorage.removeItem('cache_applications');
       localStorage.removeItem('cache_worker_skills');
       localStorage.removeItem('toggled');
+      localStorage.removeItem('cache_worker_educations');
+      localStorage.removeItem('cache_worker_experiences');
       this.ws.disconnect();
       await this.authStorage.removeToken();
       this.nav.navigateRoot('/sign-in');
@@ -834,7 +836,22 @@ export class HomePage implements OnInit {
   }
 
   onCategoryClick(type: string) {
-    this.filters.jobTypes = [type];
+
+    // 🔥 KHUSUS HOTELS
+    if (type === 'Hotels') {
+      this.filters = {
+        category: '',
+        location: '',
+        jobTypes: [],
+        minSalary: 100000,
+        maxSalary: 400000
+      };
+
+    } else {
+      // default behaviour untuk kategori lain
+      this.filters.jobTypes = [type];
+    }
+
     this.applyFilter();
   }
 
@@ -907,5 +924,9 @@ export class HomePage implements OnInit {
     } catch (e) {
       console.error('loadEducations failed', e);
     }
+  }
+
+  goAttendance() {
+    this.nav.navigateForward('/pages/attendance');
   }
 }

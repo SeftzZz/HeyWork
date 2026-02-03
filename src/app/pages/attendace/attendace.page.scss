@@ -92,3 +92,17 @@
   background: transparent !important;
   border: none !important;
 }
+
+.attendance-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: #f4f6fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.attendance-icon .icon {
+  font-size: 20px;
+}

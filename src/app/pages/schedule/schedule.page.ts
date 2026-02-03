@@ -7,6 +7,8 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { AuthStorage } from '../../services/auth-storage.service';
 
+declare const initAllSwipers: any;
+
 @Component({
   selector: 'app-schedule',
   templateUrl: './schedule.page.html',
@@ -37,6 +39,8 @@ export class SchedulePage implements OnInit {
   applications: any[] = [];
   hotels: any[] = [];
 
+  activeMonthIndex = 0;
+
   constructor(
     private nav: NavController,
     private http: HttpClient,
@@ -56,6 +60,14 @@ export class SchedulePage implements OnInit {
 
     this.assignJobColors();
     this.buildYearCalendar();
+  }
+
+  ionViewDidEnter() {
+    setTimeout(() => {
+      if (typeof initAllSwipers === 'function') {
+        initAllSwipers();
+      }
+    }, 50);
   }
 
   // 🔥 INI YANG PENTING
@@ -397,6 +409,10 @@ export class SchedulePage implements OnInit {
 
     const year = this.currentDate.getFullYear();
 
+    // 🔥 INI KUNCI
+    const currentMonth = this.currentDate.getMonth();
+    this.activeMonthIndex = currentMonth;
+
     for (let month = 0; month < 12; month++) {
       const firstDay = new Date(year, month, 1);
       const lastDay  = new Date(year, month + 1, 0);
@@ -407,12 +423,10 @@ export class SchedulePage implements OnInit {
 
       const days: any[] = [];
 
-      // empty cells
       for (let i = 0; i < startWeekDay; i++) {
         days.push({ empty: true });
       }
 
-      // actual days
       for (let d = 1; d <= lastDay.getDate(); d++) {
         const dateStr = `${year}-${this.pad(month + 1)}-${this.pad(d)}`;
 

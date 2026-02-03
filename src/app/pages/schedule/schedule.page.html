@@ -54,6 +54,7 @@
               [class.active]="day.date === selectedDate"
               [ngStyle]="getDayStyle(day)"
               (click)="selectDate(day)"
+              [attr.data-initial]="activeMonthIndex"
             >
               <span class="day-number">
                 {{ day.day || '' }}
@@ -65,7 +66,6 @@
 
       </div>
 
-      
       <!-- JOB LIST -->
       <div class="mt-24" *ngIf="selectedDate">
         <h6>Schedule on {{ selectedDate }}</h6>
