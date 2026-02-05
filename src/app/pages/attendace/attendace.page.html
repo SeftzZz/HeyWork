@@ -1,405 +1,95 @@
 <ion-content [fullscreen]="true">
+
+  <!-- HEADER -->
   <div class="header fixed-top">
-      <div class="left">
-          <a (click)="goBack()" class="icon back-btn">
-              <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M6.88986 12.2951L1.60986 7.00008L6.88986 1.70508" stroke="#121927" stroke-width="1.5"
-                      stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
-          </a>
-      </div>
-      <h3>Your Attendance</h3>
-      <div class="right">
-          <a href="#notification" data-bs-toggle="offcanvas" class="icon noti-box">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12 6.43994V9.76994" stroke="#121927" stroke-width="1.5" stroke-miterlimit="10"
-                      stroke-linecap="round" />
-                  <path
-                      d="M12.0199 2C8.3399 2 5.3599 4.98 5.3599 8.66V10.76C5.3599 11.44 5.0799 12.46 4.7299 13.04L3.4599 15.16C2.6799 16.47 3.2199 17.93 4.6599 18.41C9.4399 20 14.6099 20 19.3899 18.41C20.7399 17.96 21.3199 16.38 20.5899 15.16L19.3199 13.04C18.9699 12.46 18.6899 11.43 18.6899 10.76V8.66C18.6799 5 15.6799 2 12.0199 2Z"
-                      stroke="#121927" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" />
-                  <path
-                      d="M15.3299 18.8198C15.3299 20.6498 13.8299 22.1498 11.9999 22.1498C11.0899 22.1498 10.2499 21.7698 9.64992 21.1698C9.04992 20.5698 8.66992 19.7298 8.66992 18.8198"
-                      stroke="#121927" stroke-width="1.5" stroke-miterlimit="10" />
-              </svg>
-          </a>
-      </div>
+    <div class="left">
+      <a (click)="goBack()" class="icon back-btn">
+        <svg width="8" height="14" viewBox="0 0 8 14" fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M6.88986 12.2951L1.60986 7.00008L6.88986 1.70508"
+            stroke="#121927"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </a>
+    </div>
+    <h3>Check In</h3>
   </div>
+
   <div class="app-content">
-      <div class="tf-container">
-          <div class="search-box">
-              <a href="search-result.html" class="icon-left">
-                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <g opacity="0.5">
-                          <path
-                              d="M9.58317 17.4998C13.9554 17.4998 17.4998 13.9554 17.4998 9.58317C17.4998 5.21092 13.9554 1.6665 9.58317 1.6665C5.21092 1.6665 1.6665 5.21092 1.6665 9.58317C1.6665 13.9554 5.21092 17.4998 9.58317 17.4998Z"
-                              stroke="#121927" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                          <path d="M18.3332 18.3332L16.6665 16.6665" stroke="#121927" stroke-width="1.5"
-                              stroke-linecap="round" stroke-linejoin="round" />
-                      </g>
-                  </svg>
-              </a>
-              <input type="text" class="search-field" placeholder="Search...">
-          </div>
-          <div class="list-app mt-24">
+    <div class="tf-container">
 
-            <!-- EMPTY STATE -->
-            <div *ngIf="!attendanceGroups.length" class="text-center body-4 text-dark-4 mt-24">
-              You don’t have any attendance records yet.
-            </div>
+      <!-- JOB INFO -->
+      <h5 class="mt-24">{{ job.position }}</h5>
+      <p class="text-dark-4">{{ job.hotel_name }}</p>
 
-            <!-- ATTENDANCE LIST -->
-            <div
-              class="box-app"
-              *ngFor="let group of attendanceGroups"
-            >
+      <div class="mt-8 body-6">📅 {{ job.job_date }}</div>
+      <div class="mt-6 body-6">⏰ {{ job.start_time }} - {{ job.end_time }}</div>
 
-              <div class="info-box">
+      <!-- ===================== -->
+      <!-- 📸 CAMERA BOX -->
+      <!-- ===================== -->
+      <div class="camera-box mt-20">
 
-                <div class="logo attendance-icon">
-                  <i class="icon icon-calendar text-primary"></i>
-                </div>
+        <img
+          *ngIf="selfieBase64"
+          [src]="'data:image/jpeg;base64,' + selfieBase64"
+        />
 
-                <div class="content">
+        <div
+          *ngIf="!selfieBase64"
+          class="camera-placeholder"
+        >
+          📸 Opening camera...
+        </div>
 
-                  <!-- POSITION & HOTEL -->
-                  <div class="h7 text-dark">
-                    {{ group.position }}
-                    <span class="dot"></span>
-                    <span class="body-6 text-dark-4">
-                      {{ group.hotel_name }}
-                    </span>
-                  </div>
-
-                  <!-- DATE -->
-                  <div class="body-6 text-dark-6 mt-4">
-                    {{ group.date }}
-                  </div>
-
-                  <!-- CHECK IN -->
-                  <div class="body-6 mt-4">
-                    🟢 Check In :
-                    <span *ngIf="group.checkin">
-                      {{ formatTime(group.checkin.created_at) }}
-                    </span>
-                    <span *ngIf="!group.checkin">-</span>
-                  </div>
-
-                  <!-- LATE -->
-                  <div
-                    class="body-6 mt-2"
-                    *ngIf="group.checkin"
-                    [ngClass]="{
-                      'text-danger': getLateMinutesFromGroup(group),
-                      'text-success': !getLateMinutesFromGroup(group)
-                    }"
-                  >
-                    <span *ngIf="getLateMinutesFromGroup(group)">
-                      ⏱ Late {{ getLateMinutesFromGroup(group) }} min
-                    </span>
-                    <span *ngIf="!getLateMinutesFromGroup(group)">
-                      ✅ On Time
-                    </span>
-                  </div>
-
-                  <!-- CHECK OUT -->
-                  <div class="body-6 mt-4">
-                    🔵 Check Out :
-                    <span *ngIf="group.checkout">
-                      {{ formatTime(group.checkout.created_at) }}
-                    </span>
-                    <span *ngIf="!group.checkout">-</span>
-                  </div>
-
-                </div>
-              </div>
-
-              <!-- BUTTONS -->
-              <div class="box-btn">
-                <span class="btn btn-primary button-1 delivered" *ngIf="group.checkin">
-                  Check In
-                </span>
-
-                <span class="btn btn-secondary button-1 on-way" *ngIf="group.checkout">
-                  Check Out
-                </span>
-              </div>
-
-            </div>
-          </div>
       </div>
-  </div>
-  <div class="menubar-footer footer-fixed">
-      <ul class="inner-bar">
-          <li>
-              <a (click)="goHome()">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <g opacity="0.6">
-                          <path
-                              d="M9.02 2.84016L3.63 7.04016C2.73 7.74016 2 9.23016 2 10.3602V17.7702C2 20.0902 3.89 21.9902 6.21 21.9902H17.79C20.11 21.9902 22 20.0902 22 17.7802V10.5002C22 9.29016 21.19 7.74016 20.2 7.05016L14.02 2.72016C12.62 1.74016 10.37 1.79016 9.02 2.84016Z"
-                              stroke="#121927" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                          <path d="M12 17.9902V14.9902" stroke="#121927" stroke-width="1.5" stroke-linecap="round"
-                              stroke-linejoin="round" />
-                      </g>
-                  </svg>
-              </a>
-          </li>
-          <li class="active">
-              <a (click)="goApplication()">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path
-                          d="M14.3498 2H9.64977C8.60977 2 7.75977 2.84 7.75977 3.88V4.82C7.75977 5.86 8.59977 6.7 9.63977 6.7H14.3498C15.3898 6.7 16.2298 5.86 16.2298 4.82V3.88C16.2398 2.84 15.3898 2 14.3498 2Z"
-                          fill="#2869FE" />
-                      <path
-                          d="M17.24 4.81998C17.24 6.40998 15.94 7.70998 14.35 7.70998H9.65004C8.06004 7.70998 6.76004 6.40998 6.76004 4.81998C6.76004 4.25998 6.16004 3.90998 5.66004 4.16998C4.25004 4.91998 3.29004 6.40998 3.29004 8.11998V17.53C3.29004 19.99 5.30004 22 7.76004 22H16.24C18.7 22 20.71 19.99 20.71 17.53V8.11998C20.71 6.40998 19.75 4.91998 18.34 4.16998C17.84 3.90998 17.24 4.25998 17.24 4.81998ZM12.38 16.95H8.00004C7.59004 16.95 7.25004 16.61 7.25004 16.2C7.25004 15.79 7.59004 15.45 8.00004 15.45H12.38C12.79 15.45 13.13 15.79 13.13 16.2C13.13 16.61 12.79 16.95 12.38 16.95ZM15 12.95H8.00004C7.59004 12.95 7.25004 12.61 7.25004 12.2C7.25004 11.79 7.59004 11.45 8.00004 11.45H15C15.41 11.45 15.75 11.79 15.75 12.2C15.75 12.61 15.41 12.95 15 12.95Z"
-                          fill="#2869FE" />
-                  </svg>
-              </a>
-          </li>
-          <li class="action-add"><a (click)="goApplyJob()">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M6 12H18" stroke="white" stroke-width="1.5" stroke-linecap="round"
-                          stroke-linejoin="round" />
-                      <path d="M12 18V6" stroke="white" stroke-width="1.5" stroke-linecap="round"
-                          stroke-linejoin="round" />
-                  </svg>
 
-              </a></li>
-          <li>
-              <a (click)="goMessage()">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <g opacity="0.6">
-                          <path
-                              d="M8.5 19H8C4 19 2 18 2 13V8C2 4 4 2 8 2H16C20 2 22 4 22 8V13C22 17 20 19 16 19H15.5C15.19 19 14.89 19.15 14.7 19.4L13.2 21.4C12.54 22.28 11.46 22.28 10.8 21.4L9.3 19.4C9.14 19.18 8.77 19 8.5 19Z"
-                              stroke="#121927" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
-                              stroke-linejoin="round" />
-                          <path d="M15.9965 11H16.0054" stroke="#121927" stroke-width="2" stroke-linecap="round"
-                              stroke-linejoin="round" />
-                          <path d="M11.9955 11H12.0045" stroke="#121927" stroke-width="2" stroke-linecap="round"
-                              stroke-linejoin="round" />
-                          <path d="M7.99451 11H8.00349" stroke="#121927" stroke-width="2" stroke-linecap="round"
-                              stroke-linejoin="round" />
-                      </g>
-                  </svg>
-              </a>
-          </li>
-          <li>
-              <a (click)="goProfile()">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <g opacity="0.6">
-                          <path
-                              d="M12.1601 10.87C12.0601 10.86 11.9401 10.86 11.8301 10.87C9.45006 10.79 7.56006 8.84 7.56006 6.44C7.56006 3.99 9.54006 2 12.0001 2C14.4501 2 16.4401 3.99 16.4401 6.44C16.4301 8.84 14.5401 10.79 12.1601 10.87Z"
-                              stroke="#121927" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                          <path
-                              d="M7.16021 14.56C4.74021 16.18 4.74021 18.82 7.16021 20.43C9.91021 22.27 14.4202 22.27 17.1702 20.43C19.5902 18.81 19.5902 16.17 17.1702 14.56C14.4302 12.73 9.92021 12.73 7.16021 14.56Z"
-                              stroke="#121927" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                      </g>
-                  </svg>
+      <div class="body-6 text-center mt-8" *ngIf="selfieBase64">
+        Selfie captured
+      </div>
 
-              </a>
-          </li>
-      </ul>
+      <!-- ===================== -->
+      <!-- 📍 LOCATION INFO -->
+      <!-- ===================== -->
+      <div class="mt-16 body-6" *ngIf="latitude">
+        👤 You: {{ latitude }}, {{ longitude }}
+      </div>
 
+      <div class="mt-4 body-6 text-dark-4" *ngIf="hotelLat">
+        🏨 Hotel: {{ hotelLat }}, {{ hotelLng }}
+      </div>
+
+      <!-- ===================== -->
+      <!-- 🗺️ OPENSTREET MAP -->
+      <!-- ===================== -->
+      <div
+        #mapEl
+        id="map"
+        class="map-frame mt-12"
+      ></div>
+
+      <div class="body-6 mt-8">
+        🔴 You: {{ latitude }}, {{ longitude }} <br>
+        🔵 Hotel: {{ hotelLat }}, {{ hotelLng }} <br>
+        📏 Distance: {{ distance | number:'1.0-0' }} m
+      </div>
+
+      <!-- ===================== -->
+      <!-- 🚀 SUBMIT -->
+      <!-- ===================== -->
+      <button
+        class="btn btn-primary w-100 mt-24"
+        [disabled]="distance > MAX_DISTANCE || !selfieBase64"
+        (click)="confirmCheckIn()"
+      >
+        {{ submitting ? 'Submitting...' : 'Confirm Check In' }}
+      </button>
+
+    </div>
   </div>
 
-  <!-- notification  -->
-  <div class="offcanvas offcanvas-end full" id="notification">
-      <div class="header fixed-top">
-          <div class="left">
-              <a href="javascript:void(0);" data-bs-dismiss="offcanvas" class="icon">
-                  <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M6.88986 12.2951L1.60986 7.00008L6.88986 1.70508" stroke="#121927" stroke-width="1.5"
-                          stroke-linecap="round" stroke-linejoin="round" />
-                  </svg>
-              </a>
-          </div>
-          <h3>Notification</h3>
-          <div class="right">
-              <a href="#" class="icon search-box">
-                  <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path
-                          d="M8.1175 14.8234C11.8211 14.8234 14.8234 11.8211 14.8234 8.1175C14.8234 4.41395 11.8211 1.41162 8.1175 1.41162C4.41395 1.41162 1.41162 4.41395 1.41162 8.1175C1.41162 11.8211 4.41395 14.8234 8.1175 14.8234Z"
-                          stroke="#121927" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                      <path d="M15.5294 15.5294L14.1177 14.1177" stroke="#121927" stroke-width="1.5"
-                          stroke-linecap="round" stroke-linejoin="round" />
-                  </svg>
-              </a>
-          </div>
-      </div>
-      <div class="overflow-auto app-content style-4">
-          <div class="tf-container">
-              <div class="list-noti">
-                  <div class="box-noti">
-                      <a (click)="goJobDetail()" class="box-icon">
-                          <img src="assets/images/icon/google.png" alt="">
-                      </a>
-                      <div class="content">
-                          <div class="title">
-                              <div class="h7 text-dark"><a (click)="goJobDetail()">Product Design</a> <span
-                                      class="dot"></span><span class="body-6 text-dark-4">Google LLC</span></div>
-                          </div>
-                          <p class="desc body-4 text-dark-4">Congratulations, your application on Google has been
-                              accepted <span class="dot away"></span><span class="body-6 text-dark-4">5 mins
-                                  ago</span></p>
-                      </div>
-                      <div class="more">
-                          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                              xmlns="http://www.w3.org/2000/svg">
-                              <path
-                                  d="M9.99984 3.25C10.5023 3.25 10.9165 3.66421 10.9165 4.16667C10.9165 4.66912 10.5023 5.08333 9.99984 5.08333C9.49738 5.08333 9.08317 4.66912 9.08317 4.16667C9.08317 3.66421 9.49738 3.25 9.99984 3.25Z"
-                                  fill="#121927" stroke="#121927" stroke-width="1.5" />
-                              <path
-                                  d="M9.99984 14.9165C10.5023 14.9165 10.9165 15.3307 10.9165 15.8332C10.9165 16.3356 10.5023 16.7498 9.99984 16.7498C9.49738 16.7498 9.08317 16.3356 9.08317 15.8332C9.08317 15.3307 9.49738 14.9165 9.99984 14.9165Z"
-                                  fill="#121927" stroke="#121927" stroke-width="1.5" />
-                              <path
-                                  d="M9.99984 9.0835C10.5023 9.0835 10.9165 9.49771 10.9165 10.0002C10.9165 10.5026 10.5023 10.9168 9.99984 10.9168C9.49738 10.9168 9.08317 10.5026 9.08317 10.0002C9.08317 9.49771 9.49738 9.0835 9.99984 9.0835Z"
-                                  fill="#121927" stroke="#121927" stroke-width="1.5" />
-                          </svg>
-                      </div>
-                  </div>
-                  <div class="box-noti">
-                      <a (click)="goJobDetail()" class="box-icon">
-                          <img src="assets/images/icon/slack.png" alt="">
-                      </a>
-                      <div class="content">
-                          <div class="title">
-                              <div class="h7 text-dark"><a (click)="goJobDetail()">Apps Design</a> <span
-                                      class="dot"></span><span class="body-6 text-dark-4">Slack</span></div>
-                          </div>
-                          <p class="desc body-4 text-dark-4">New job avaolable on <strong>Slack</strong>, (position -
-                              <strong>Mobile Apps Designer</strong> ) <span class="dot away"></span><span
-                                  class="body-6 text-dark-4">30 mins ago</span>
-                          </p>
-                      </div>
-                      <div class="more">
-                          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                              xmlns="http://www.w3.org/2000/svg">
-                              <path
-                                  d="M9.99984 3.25C10.5023 3.25 10.9165 3.66421 10.9165 4.16667C10.9165 4.66912 10.5023 5.08333 9.99984 5.08333C9.49738 5.08333 9.08317 4.66912 9.08317 4.16667C9.08317 3.66421 9.49738 3.25 9.99984 3.25Z"
-                                  fill="#121927" stroke="#121927" stroke-width="1.5" />
-                              <path
-                                  d="M9.99984 14.9165C10.5023 14.9165 10.9165 15.3307 10.9165 15.8332C10.9165 16.3356 10.5023 16.7498 9.99984 16.7498C9.49738 16.7498 9.08317 16.3356 9.08317 15.8332C9.08317 15.3307 9.49738 14.9165 9.99984 14.9165Z"
-                                  fill="#121927" stroke="#121927" stroke-width="1.5" />
-                              <path
-                                  d="M9.99984 9.0835C10.5023 9.0835 10.9165 9.49771 10.9165 10.0002C10.9165 10.5026 10.5023 10.9168 9.99984 10.9168C9.49738 10.9168 9.08317 10.5026 9.08317 10.0002C9.08317 9.49771 9.49738 9.0835 9.99984 9.0835Z"
-                                  fill="#121927" stroke="#121927" stroke-width="1.5" />
-                          </svg>
-                      </div>
-                  </div>
-                  <div class="box-noti">
-                      <a (click)="goJobDetail()" class="box-icon">
-                          <img src="assets/images/icon/zapier.png" alt="">
-                      </a>
-                      <div class="content">
-                          <div class="title">
-                              <div class="h7 text-dark"><a (click)="goJobDetail()">UI/UX Design</a> <span
-                                      class="dot"></span><span class="body-6 text-dark-4">Zapier</span></div>
-                          </div>
-                          <p class="desc body-4 text-dark-4">New job avaolable on <strong>Zapier</strong>, (position -
-                              <strong>Application Designer</strong> ) <span class="dot away"></span><span
-                                  class="body-6 text-dark-4">10 hr ago</span>
-                          </p>
-                      </div>
-                      <div class="more">
-                          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                              xmlns="http://www.w3.org/2000/svg">
-                              <path
-                                  d="M9.99984 3.25C10.5023 3.25 10.9165 3.66421 10.9165 4.16667C10.9165 4.66912 10.5023 5.08333 9.99984 5.08333C9.49738 5.08333 9.08317 4.66912 9.08317 4.16667C9.08317 3.66421 9.49738 3.25 9.99984 3.25Z"
-                                  fill="#121927" stroke="#121927" stroke-width="1.5" />
-                              <path
-                                  d="M9.99984 14.9165C10.5023 14.9165 10.9165 15.3307 10.9165 15.8332C10.9165 16.3356 10.5023 16.7498 9.99984 16.7498C9.49738 16.7498 9.08317 16.3356 9.08317 15.8332C9.08317 15.3307 9.49738 14.9165 9.99984 14.9165Z"
-                                  fill="#121927" stroke="#121927" stroke-width="1.5" />
-                              <path
-                                  d="M9.99984 9.0835C10.5023 9.0835 10.9165 9.49771 10.9165 10.0002C10.9165 10.5026 10.5023 10.9168 9.99984 10.9168C9.49738 10.9168 9.08317 10.5026 9.08317 10.0002C9.08317 9.49771 9.49738 9.0835 9.99984 9.0835Z"
-                                  fill="#121927" stroke="#121927" stroke-width="1.5" />
-                          </svg>
-                      </div>
-                  </div>
-                  <div class="box-noti">
-                      <a (click)="goJobDetail()" class="box-icon">
-                          <img src="assets/images/icon/google.png" alt="">
-                      </a>
-                      <div class="content">
-                          <div class="title">
-                              <div class="h7 text-dark"><a (click)="goJobDetail()">Product Design</a> <span
-                                      class="dot"></span><span class="body-6 text-dark-4">Google LLC</span></div>
-                          </div>
-                          <p class="desc body-4 text-dark-4">A strong interview strategy can boost your chances of
-                              success <span class="dot away"></span><span class="body-6 text-dark-4">18 hr ago</span>
-                          </p>
-                      </div>
-                      <div class="more">
-                          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                              xmlns="http://www.w3.org/2000/svg">
-                              <path
-                                  d="M9.99984 3.25C10.5023 3.25 10.9165 3.66421 10.9165 4.16667C10.9165 4.66912 10.5023 5.08333 9.99984 5.08333C9.49738 5.08333 9.08317 4.66912 9.08317 4.16667C9.08317 3.66421 9.49738 3.25 9.99984 3.25Z"
-                                  fill="#121927" stroke="#121927" stroke-width="1.5" />
-                              <path
-                                  d="M9.99984 14.9165C10.5023 14.9165 10.9165 15.3307 10.9165 15.8332C10.9165 16.3356 10.5023 16.7498 9.99984 16.7498C9.49738 16.7498 9.08317 16.3356 9.08317 15.8332C9.08317 15.3307 9.49738 14.9165 9.99984 14.9165Z"
-                                  fill="#121927" stroke="#121927" stroke-width="1.5" />
-                              <path
-                                  d="M9.99984 9.0835C10.5023 9.0835 10.9165 9.49771 10.9165 10.0002C10.9165 10.5026 10.5023 10.9168 9.99984 10.9168C9.49738 10.9168 9.08317 10.5026 9.08317 10.0002C9.08317 9.49771 9.49738 9.0835 9.99984 9.0835Z"
-                                  fill="#121927" stroke="#121927" stroke-width="1.5" />
-                          </svg>
-                      </div>
-                  </div>
-                  <div class="box-noti">
-                      <a (click)="goJobDetail()" class="box-icon">
-                          <img src="assets/images/icon/treehouse.png" alt="">
-                      </a>
-                      <div class="content">
-                          <div class="title">
-                              <div class="h7 text-dark"><a (click)="goJobDetail()">UX Researcher</a> <span
-                                      class="dot"></span><span class="body-6 text-dark-4">Treehouse</span></div>
-                          </div>
-                          <p class="desc body-4 text-dark-4">Congratulations, your application on Google has been
-                              accepted<span class="dot away"></span><span class="body-6 text-dark-4">1 day ago</span>
-                          </p>
-                      </div>
-                      <div class="more">
-                          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                              xmlns="http://www.w3.org/2000/svg">
-                              <path
-                                  d="M9.99984 3.25C10.5023 3.25 10.9165 3.66421 10.9165 4.16667C10.9165 4.66912 10.5023 5.08333 9.99984 5.08333C9.49738 5.08333 9.08317 4.66912 9.08317 4.16667C9.08317 3.66421 9.49738 3.25 9.99984 3.25Z"
-                                  fill="#121927" stroke="#121927" stroke-width="1.5" />
-                              <path
-                                  d="M9.99984 14.9165C10.5023 14.9165 10.9165 15.3307 10.9165 15.8332C10.9165 16.3356 10.5023 16.7498 9.99984 16.7498C9.49738 16.7498 9.08317 16.3356 9.08317 15.8332C9.08317 15.3307 9.49738 14.9165 9.99984 14.9165Z"
-                                  fill="#121927" stroke="#121927" stroke-width="1.5" />
-                              <path
-                                  d="M9.99984 9.0835C10.5023 9.0835 10.9165 9.49771 10.9165 10.0002C10.9165 10.5026 10.5023 10.9168 9.99984 10.9168C9.49738 10.9168 9.08317 10.5026 9.08317 10.0002C9.08317 9.49771 9.49738 9.0835 9.99984 9.0835Z"
-                                  fill="#121927" stroke="#121927" stroke-width="1.5" />
-                          </svg>
-                      </div>
-                  </div>
-                  <div class="box-noti">
-                      <a (click)="goJobDetail()" class="box-icon">
-                          <img src="assets/images/icon/microsoft.png" alt="">
-                      </a>
-                      <div class="content">
-                          <div class="title">
-                              <div class="h7 text-dark"><a (click)="goJobDetail()">Product Design</a> <span
-                                      class="dot"></span><span class="body-6 text-dark-4">Microsoft</span></div>
-                          </div>
-                          <p class="desc body-4 text-dark-4">Congratulations, your application on Microsoft has been
-                              accepted<span class="dot away"></span><span class="body-6 text-dark-4">1 week ago</span>
-                          </p>
-                      </div>
-                      <div class="more">
-                          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                              xmlns="http://www.w3.org/2000/svg">
-                              <path
-                                  d="M9.99984 3.25C10.5023 3.25 10.9165 3.66421 10.9165 4.16667C10.9165 4.66912 10.5023 5.08333 9.99984 5.08333C9.49738 5.08333 9.08317 4.66912 9.08317 4.16667C9.08317 3.66421 9.49738 3.25 9.99984 3.25Z"
-                                  fill="#121927" stroke="#121927" stroke-width="1.5" />
-                              <path
-                                  d="M9.99984 14.9165C10.5023 14.9165 10.9165 15.3307 10.9165 15.8332C10.9165 16.3356 10.5023 16.7498 9.99984 16.7498C9.49738 16.7498 9.08317 16.3356 9.08317 15.8332C9.08317 15.3307 9.49738 14.9165 9.99984 14.9165Z"
-                                  fill="#121927" stroke="#121927" stroke-width="1.5" />
-                              <path
-                                  d="M9.99984 9.0835C10.5023 9.0835 10.9165 9.49771 10.9165 10.0002C10.9165 10.5026 10.5023 10.9168 9.99984 10.9168C9.49738 10.9168 9.08317 10.5026 9.08317 10.0002C9.08317 9.49771 9.49738 9.0835 9.99984 9.0835Z"
-                                  fill="#121927" stroke="#121927" stroke-width="1.5" />
-                          </svg>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
-  </div>
 </ion-content>

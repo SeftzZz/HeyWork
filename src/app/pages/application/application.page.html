@@ -8,7 +8,7 @@
               </svg>
           </a>
       </div>
-      <h3>Your Applications</h3>
+      <h3>Your Attendance</h3>
       <div class="right">
           <a href="#notification" data-bs-toggle="offcanvas" class="icon noti-box">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -43,75 +43,89 @@
           <div class="list-app mt-24">
 
             <!-- EMPTY STATE -->
-            <div *ngIf="!applications.length" class="text-center body-4 text-dark-4 mt-24">
-              You don’t have any applications yet.
+            <div *ngIf="!attendanceGroups.length" class="text-center body-4 text-dark-4 mt-24">
+              You don’t have any attendance records yet.
             </div>
 
-            <!-- APPLICATION LIST -->
+            <!-- ATTENDANCE LIST -->
             <div
               class="box-app"
-              *ngFor="let app of applications"
+              *ngFor="let group of attendanceGroups"
             >
+
               <div class="info-box">
-                <a (click)="goJobDetailId(app.job)" class="logo">
-                  <img
-                    [src]="app.hotel?.logo || 'assets/images/jobs/default.png'"
-                    alt="logo"
-                  >
-                </a>
+
+                <div class="logo attendance-icon">
+                  <i class="icon icon-calendar text-primary"></i>
+                </div>
 
                 <div class="content">
+
+                  <!-- POSITION & HOTEL -->
                   <div class="h7 text-dark">
-                    <a (click)="goJobDetailId(app.job)">
-                      {{ app.job?.position || '-' }}
-                    </a>
+                    {{ group.position }}
                     <span class="dot"></span>
                     <span class="body-6 text-dark-4">
-                      {{ app.hotel?.hotel_name || '-' }}
+                      {{ group.hotel_name }}
                     </span>
                   </div>
 
-                  <div class="box-map-date">
-                    <div class="d-flex gap-4 align-items-center">
-                      <i class="icon icon-wallet-2 text-primary"></i>
-                      <span class="body-3 text-dark-4">
-                        {{ app.job?.fee | currency:'IDR':'symbol':'1.0-0' }}
-                      </span>
-                    </div>
-
-                    <div class="d-flex gap-4 align-items-center">
-                      <i class="icon icon-map text-secondary-yellow"></i>
-                      <span class="body-3 text-dark-4">
-                        {{ app.job?.location || '-' }}
-                      </span>
-                    </div>
+                  <!-- DATE -->
+                  <div class="body-6 text-dark-6 mt-4">
+                    {{ group.date }}
                   </div>
+
+                  <!-- CHECK IN -->
+                  <div class="body-6 mt-4">
+                    🟢 Check In :
+                    <span *ngIf="group.checkin">
+                      {{ formatTime(group.checkin.created_at) }}
+                    </span>
+                    <span *ngIf="!group.checkin">-</span>
+                  </div>
+
+                  <!-- LATE -->
+                  <div
+                    class="body-6 mt-2"
+                    *ngIf="group.checkin"
+                    [ngClass]="{
+                      'text-danger': getLateMinutesFromGroup(group),
+                      'text-success': !getLateMinutesFromGroup(group)
+                    }"
+                  >
+                    <span *ngIf="getLateMinutesFromGroup(group)">
+                      ⏱ Late {{ getLateMinutesFromGroup(group) }} min
+                    </span>
+                    <span *ngIf="!getLateMinutesFromGroup(group)">
+                      ✅ On Time
+                    </span>
+                  </div>
+
+                  <!-- CHECK OUT -->
+                  <div class="body-6 mt-4">
+                    🔵 Check Out :
+                    <span *ngIf="group.checkout">
+                      {{ formatTime(group.checkout.created_at) }}
+                    </span>
+                    <span *ngIf="!group.checkout">-</span>
+                  </div>
+
                 </div>
               </div>
 
-              <!-- STATUS & ACTION -->
+              <!-- BUTTONS -->
               <div class="box-btn">
-                <span
-                  class="btn-app button-1"
-                  [ngClass]="{
-                    'on-way': app.status === 'pending',
-                    'delivered': app.status === 'accepted',
-                    'canel': app.status === 'canceled' || app.status === 'completed'
-                  }"
-                >
-                  {{ app.status | titlecase }}
+                <span class="btn btn-primary button-1 delivered" *ngIf="group.checkin">
+                  Check In
                 </span>
 
-                <a
-                  class="btn-app button-1 view-app"
-                  (click)="goJobDetailId(app.job)"
-                >
-                  View Application
-                </a>
+                <span class="btn btn-secondary button-1 on-way" *ngIf="group.checkout">
+                  Check Out
+                </span>
               </div>
+
             </div>
           </div>
-
       </div>
   </div>
   <div class="menubar-footer footer-fixed">

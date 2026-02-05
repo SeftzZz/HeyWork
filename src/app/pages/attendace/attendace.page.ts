@@ -1,218 +1,593 @@
 import { Component, OnInit } from '@angular/core';
+import { ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import {
-  IonContent,
-  IonHeader,
-  IonTitle,
-  IonToolbar
-} from '@ionic/angular/standalone';
+import { IonContent, LoadingController, ToastController } from '@ionic/angular/standalone';
 import { NavController } from '@ionic/angular';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { firstValueFrom } from 'rxjs';
+import { Camera, CameraResultType, CameraSource, CameraDirection } from '@capacitor/camera';
+import { Geolocation } from '@capacitor/geolocation';
+import { Capacitor } from '@capacitor/core';
+import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { AuthStorage } from '../../services/auth-storage.service';
+import * as L from 'leaflet';
+
+delete (L.Icon.Default.prototype as any)._getIconUrl;
+
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'assets/leaflet/marker-icon-2x.png',
+  iconUrl: 'assets/leaflet/marker-icon.png',
+  shadowUrl: 'assets/leaflet/marker-shadow.png',
+});
 
 @Component({
   selector: 'app-attendace',
   templateUrl: './attendace.page.html',
   styleUrls: ['./attendace.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+  imports: [IonContent, CommonModule]
 })
 export class AttendacePage implements OnInit {
 
-  attendances: any[] = [];
-  loading = false;
-  attendanceGroups: any[] = [];
+  job: any = null;
+
+  selfieBase64: string | null = null;
+  latitude: number | null = null;
+  longitude: number | null = null;
+
+  submitting = false;
+
+  map!: L.Map;
+  userMarker!: L.Marker;
+  hotelMarker!: L.Marker;
+  radiusCircle!: L.Circle;
+
+  hotelLat!: number;
+  hotelLng!: number;
+
+  distance = 0;
+  MAX_DISTANCE = 100; // meter
+  distanceRounded: any;
+
+  @ViewChild('mapEl', { static: false })
+  mapEl!: ElementRef<HTMLDivElement>;
+
+  avatarUrl = 'assets/images/avt/avt-1.jpg';
 
   constructor(
     private nav: NavController,
     private http: HttpClient,
-    private authStorage: AuthStorage
+    private authStorage: AuthStorage,
+    private loadingCtrl: LoadingController,
+    private toastCtrl: ToastController
   ) {}
 
   async ngOnInit() {
-    await this.loadAttendances();
-  }
-
-  // ===============================
-  // LOAD ATTENDANCE LIST
-  // ===============================
-  async loadAttendances() {
-    const cacheKey = 'cache_attendances';
-
-    // 1️⃣ CACHE FIRST
-    const cached = this.getCache<any[]>(cacheKey);
-    if (cached && cached.length) {
-      this.attendances = cached;
-      this.groupAttendances(); // 🔥 WAJIB
+    const navState = history.state;
+    if (!navState?.job) {
+      this.nav.back();
       return;
     }
 
-    // 2️⃣ API
-    try {
-      this.loading = true;
-
-      const token = await this.authStorage.getToken();
-      if (!token) throw new Error('No auth token');
-
-      const headers = new HttpHeaders({
-        Authorization: `Bearer ${token}`
-      });
-
-      const data = await firstValueFrom(
-        this.http.get<any[]>(
-          `${environment.api_url}/worker/attendance`,
-          { headers }
-        )
-      );
-
-      this.attendances = data || [];
-      this.groupAttendances(); // 🔥 WAJIB
-      this.setCache(cacheKey, this.attendances);
-
-    } catch (err) {
-      console.error('Failed to load attendances', err);
-      this.attendances = [];
-      this.attendanceGroups = [];
-    } finally {
-      this.loading = false;
-    }
+    this.job = navState.job;
+    console.log('🧾 JOB DATA:', this.job);
+    this.loadHotelLocation();
   }
 
-  getLateMinutes(row: any): number {
-    if (row.type !== 'checkin') return 0;
-
-    const jobs = this.getCache<any[]>('cache_jobs') || [];
-    const job = jobs.find(j => String(j.id) === String(row.job_id));
-
-    if (!job || !job.start_time || job.start_time === '00:00:00') {
-      return 0;
-    }
-
-    const checkin = new Date(row.created_at);
-    const jobDate = row.created_at.substring(0, 10);
-    const start = new Date(`${jobDate}T${job.start_time}`);
-
-    const diff = Math.floor((checkin.getTime() - start.getTime()) / 60000);
-    return diff > 0 ? diff : 0;
+  async ionViewDidEnter() {
+    await this.getLocation();    
   }
 
-  groupAttendances() {
-    const jobs = this.getCache<any[]>('cache_jobs') || [];
-
-    const map: Record<string, any> = {};
-
-    for (const row of this.attendances) {
-      const date = row.created_at.substring(0, 10);
-      const key = `${row.job_id}_${date}`;
-
-      if (!map[key]) {
-        const job = jobs.find(j => String(j.id) === String(row.job_id));
-
-        map[key] = {
-          job_id: row.job_id,
-          date,
-          position: row.position,
-          hotel_name: row.hotel_name,
-          job_date_start: row.job_date_start,
-          job_date_end: row.job_date_end,
-          start_time: job?.start_time,
-          checkin: null,
-          checkout: null
-        };
-      }
-
-      if (row.type === 'checkin') {
-        map[key].checkin = row;
-      }
-
-      if (row.type === 'checkout') {
-        map[key].checkout = row;
-      }
-    }
-
-    this.attendanceGroups = Object.values(map);
-  }
-
-  getLateMinutesFromGroup(group: any): number {
-    if (!group.checkin || !group.start_time) return 0;
-
-    const checkinTime = new Date(group.checkin.created_at);
-    const start = new Date(`${group.date}T${group.start_time}`);
-
-    const diff = Math.floor((checkinTime.getTime() - start.getTime()) / 60000);
-    return diff > 0 ? diff : 0;
-  }
-
-  // ===============================
-  // HELPERS
-  // ===============================
-  isCheckIn(row: any) {
-    return row.type === 'checkin';
-  }
-
-  isCheckOut(row: any) {
-    return row.type === 'checkout';
-  }
-
-  formatTime(datetime?: string) {
-    if (!datetime) return '-';
-    return datetime.substring(11, 16); // HH:mm
-  }
-
-  // ===============================
-  // CACHE HELPERS
-  // ===============================
-  private getCache<T>(key: string): T | null {
-    try {
-      const raw = localStorage.getItem(key);
-      return raw ? JSON.parse(raw) as T : null;
-    } catch {
-      localStorage.removeItem(key);
-      return null;
-    }
-  }
-
-  private setCache<T>(key: string, value: T) {
-    localStorage.setItem(key, JSON.stringify(value));
-  }
-
-  // ===============================
-  // NAVIGATION
-  // ===============================
   goBack() {
     this.nav.back();
   }
 
-  goJobDetail() {
-    this.nav.navigateForward('/pages/job-detail');
+  /* ===============================
+   📸 CAMERA SELFIE
+  =============================== */
+  async takeSelfie() {
+    try {
+      const photo = await Camera.getPhoto({
+        quality: 80,
+        allowEditing: false,
+        resultType: CameraResultType.Base64,
+        source: CameraSource.Camera,
+        ...(Capacitor.getPlatform() === 'web'
+        ? { direction: CameraDirection.Front }
+        : {})
+      });
+
+      if (!photo.base64String) return;
+
+      // 🔥 tambahkan watermark
+      this.selfieBase64 = await this.addWatermark(
+        photo.base64String
+      );
+
+    } catch (err: any) {
+      // cancel → diam saja
+      if (err?.message?.includes('cancel')) return;
+      console.error(err);
+    }
   }
 
-  goJobDetailId(job: any) {
-    localStorage.setItem('selected_job', JSON.stringify(job));
-    this.nav.navigateForward(`/pages/job-detail/${job.id}`);
+  /* ===============================
+   📍 GET GPS + VALIDATION
+  =============================== */
+  async getLocation() {
+
+    // 🔴 CEK SUDAH ABSEN
+    if (this.isAlreadyCheckedIn()) {
+      await this.toast('Anda sudah melakukan check-in hari ini');
+      this.goBack();
+      return; // ⛔ STOP SEMUA FLOW
+    }
+
+    const pos = await Geolocation.getCurrentPosition({
+      enableHighAccuracy: true
+    });
+
+    this.latitude = pos.coords.latitude;
+    this.longitude = pos.coords.longitude;
+
+    // 📏 hitung jarak
+    if (this.hotelLat && this.hotelLng) {
+      this.distance = this.getDistanceMeter(
+        this.latitude,
+        this.longitude,
+        this.hotelLat,
+        this.hotelLng
+      );
+    }
+
+    // 🧾 LOG
+    console.group('📍 CHECK-IN LOCATION');
+    console.log('👤 YOU:', {
+      lat: this.latitude,
+      lng: this.longitude
+    });
+    console.log('🏨 HOTEL:', {
+      lat: this.hotelLat,
+      lng: this.hotelLng
+    });
+    console.log('📏 DISTANCE (m):', Math.round(this.distance));
+    console.groupEnd();
+
+    // ✅ dalam radius → tampilkan map
+    this.initMap();
+
+    // 🔴 JIKA DI LUAR RADIUS
+    if (this.distance > this.MAX_DISTANCE) {
+      await this.handleOutsideRadius();
+      return;
+    }
+
+    // 📸 lanjut kamera
+    await this.takeSelfie();
   }
 
-  goHome() {
-    this.nav.navigateForward('/pages/home');
+  getDistanceMeter(
+    lat1: number,
+    lon1: number,
+    lat2: number,
+    lon2: number
+  ): number {
+    const R = 6371e3;
+    const φ1 = lat1 * Math.PI / 180;
+    const φ2 = lat2 * Math.PI / 180;
+    const Δφ = (lat2 - lat1) * Math.PI / 180;
+    const Δλ = (lon2 - lon1) * Math.PI / 180;
+
+    const a =
+      Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+      Math.cos(φ1) * Math.cos(φ2) *
+      Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+
+    return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)));
   }
 
-  goApplication() {
-    this.nav.navigateForward('/pages/application');
+  /* ===============================
+   🚀 SUBMIT CHECK-IN
+  =============================== */
+  async confirmCheckIn() {
+
+    if (!this.selfieBase64) {
+      return this.toast('Selfie wajib diambil');
+    }
+
+    if (!this.latitude || !this.longitude) {
+      return this.toast('Lokasi GPS belum tersedia');
+    }
+
+    const distance = this.getDistanceMeter(
+      this.latitude,
+      this.longitude,
+      parseFloat(this.job.hotel_latitude),
+      parseFloat(this.job.hotel_longitude)
+    );
+
+    if (distance > this.MAX_DISTANCE) {
+      return this.toast(`Anda berada ${Math.round(distance)}m dari hotel`);
+    }
+
+    const loading = await this.loadingCtrl.create({
+      message: 'Submitting check-in...'
+    });
+    await loading.present();
+
+    try {
+      const token = await this.authStorage.getToken();
+
+      const payload = new FormData();
+      payload.append('job_id', this.job.id);
+      payload.append('application_id', this.job.application_id);
+      payload.append('latitude', String(this.latitude));
+      payload.append('longitude', String(this.longitude));
+      payload.append('selfie', this.selfieBase64);
+      payload.append('device_time', new Date().toISOString());
+
+      await this.http.post(
+        `${environment.api_url}/worker/attendance/checkin`,
+        payload,
+        { headers: { Authorization: `Bearer ${token}` } }
+      ).toPromise();
+
+      await loading.dismiss();
+
+      // 🔥 HAPUS CACHE ATTENDANCE
+      // localStorage.removeItem('cache_attendances');
+
+      this.toast('Check-in berhasil ✅');
+
+      // 🔥 KEMBALI KE SCHEDULE
+      this.nav.navigateBack('pages/schedule');
+
+    } catch (err) {
+      await loading.dismiss();
+      this.toast('Gagal check-in');
+      console.error(err);
+    }
   }
 
-  goMessage() {
-    this.nav.navigateForward('/pages/message');
+  async toast(msg: string) {
+    const t = await this.toastCtrl.create({
+      message: msg,
+      duration: 2500,
+      position: 'top', // 🔥 WAJIB
+      cssClass: 'camera-toast', // 🔥 custom class
+    });
+    await t.present();
   }
 
-  goProfile() {
-    this.nav.navigateForward('/pages/profile');
+  loadHotelLocation() {
+    if (!this.job?.hotel_latitude || !this.job?.hotel_longitude) {
+      console.error('❌ HOTEL COORDINATE MISSING IN JOB');
+      return false;
+    }
+
+    this.hotelLat = parseFloat(this.job.hotel_latitude);
+    this.hotelLng = parseFloat(this.job.hotel_longitude);
+
+    console.log('🏨 HOTEL FROM JOB:', {
+      lat: this.hotelLat,
+      lng: this.hotelLng,
+      name: this.job.hotel_name
+    });
+
+    return true;
   }
 
-  // ❌ APPLY JOB TIDAK DIPAKAI LAGI DI PAGE INI
-  goApplyJob() {
-    this.nav.navigateForward('/pages/home');
+  async initMap() {
+    if (!this.hasLocation() || !this.mapEl) return;
+    if (!this.hotelLat || !this.hotelLng) return;
+
+    if (this.map) this.map.remove();
+
+    this.map = L.map(this.mapEl.nativeElement).setView(
+      [this.latitude!, this.longitude!],
+      18
+    );
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png')
+      .addTo(this.map);
+
+    // 👤 USER MARKER
+    const userPhoto = await this.getProfilePhotoUrl();
+    this.userMarker = L.marker(
+      [this.latitude!, this.longitude!],
+      {
+        icon: this.createUserAvatarIcon(userPhoto, 40)
+      }
+    )
+    .addTo(this.map)
+    .bindPopup('You');
+
+    // 🏨 HOTEL MARKER (LOGO DINORMALISASI)
+    const hotel = this.getHotelFromCache();
+    if (!hotel) {
+      console.warn('❌ HOTEL NOT FOUND IN cache_hotels');
+      return;
+    }
+
+    this.hotelLat = parseFloat(hotel.latitude);
+    this.hotelLng = parseFloat(hotel.longitude);
+
+    const hotelLogo = this.normalizeHotelLogo(hotel);
+
+    this.hotelMarker = L.marker(
+      [this.hotelLat, this.hotelLng],
+      {
+        icon: this.createHotelAvatarIcon(hotelLogo, 40)
+      }
+    )
+    .addTo(this.map)
+    .bindPopup(this.job.hotel_name);
+
+    // 🔵 RADIUS
+    this.radiusCircle = L.circle(
+      [this.hotelLat, this.hotelLng],
+      { radius: this.MAX_DISTANCE }
+    ).addTo(this.map);
+
+    setTimeout(() => this.map.invalidateSize(), 300);
   }
+
+  hasLocation(): this is this & {
+    latitude: number;
+    longitude: number;
+  } {
+    return this.latitude !== null && this.longitude !== null;
+  }
+
+  async handleOutsideRadius() {
+    // ❌ batalkan selfie
+    this.selfieBase64 = null;
+
+    // 🔔 toast peringatan
+    await this.toast(
+      `Anda berada di luar radius ${this.MAX_DISTANCE}m dari hotel`
+    );
+
+    // // ⛔ opsional: langsung keluar halaman check-in
+    // setTimeout(() => {
+    //   this.nav.back();
+    // }, 500);
+  }
+
+  async addWatermark(base64: string): Promise<string> {
+    return new Promise((resolve) => {
+      const img = new Image();
+      const logo = new Image();
+
+      img.src = 'data:image/jpeg;base64,' + base64;
+      logo.src = 'assets/images/logo/LogoHW-1.png';
+
+      let imgLoaded = false;
+      let logoLoaded = false;
+
+      const tryDraw = () => {
+        if (!imgLoaded || !logoLoaded) return;
+
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d')!;
+
+        canvas.width = img.width;
+        canvas.height = img.height;
+
+        // =========================
+        // DRAW ORIGINAL PHOTO
+        // =========================
+        ctx.drawImage(img, 0, 0);
+
+        // =========================
+        // DRAW LOGO (BOTTOM LEFT)
+        // =========================
+        const padding = 24;
+        const logoMaxWidth = img.width * 0.22; // 🔥 22% dari lebar foto
+        const scale = logoMaxWidth / logo.width;
+
+        const logoWidth = logo.width * scale;
+        const logoHeight = logo.height * scale;
+
+        ctx.globalAlpha = 0.9; // transparansi logo
+        ctx.drawImage(
+          logo,
+          padding,
+          canvas.height - logoHeight - padding,
+          logoWidth,
+          logoHeight
+        );
+        ctx.globalAlpha = 1;
+
+        // =========================
+        // WATERMARK TEXT (BOTTOM RIGHT)
+        // =========================
+        const fontSize = Math.max(24, img.width * 0.035);
+
+        ctx.font = `bold ${fontSize}px Arial`;
+        ctx.fillStyle = 'rgba(255,255,255,0.9)';
+        ctx.textAlign = 'right';
+
+        // shadow biar kebaca
+        ctx.shadowColor = 'rgba(0,0,0,0.7)';
+        ctx.shadowBlur = 6;
+        ctx.shadowOffsetX = 2;
+        ctx.shadowOffsetY = 2;
+
+        const hotel = this.job?.hotel_name || '';
+        const time = new Date().toLocaleString();
+        const coords =
+          this.latitude && this.longitude
+            ? `Lat:${this.latitude.toFixed(5)} Lng:${this.longitude.toFixed(5)}`
+            : '';
+
+        const lines = [
+          hotel,
+          time,
+          coords
+        ];
+
+        lines.forEach((text, i) => {
+          ctx.fillText(
+            text,
+            canvas.width - padding,
+            canvas.height - padding - (lines.length - 1 - i) * (fontSize + 6)
+          );
+        });
+
+        // =========================
+        // EXPORT BASE64
+        // =========================
+        const result = canvas
+          .toDataURL('image/jpeg', 0.85)
+          .replace(/^data:image\/jpeg;base64,/, '');
+
+        resolve(result);
+      };
+
+      img.onload = () => {
+        imgLoaded = true;
+        tryDraw();
+      };
+
+      logo.onload = () => {
+        logoLoaded = true;
+        tryDraw();
+      };
+    });
+  }
+
+  isAlreadyCheckedIn(): boolean {
+    try {
+      const cached = localStorage.getItem('cache_attendances');
+      if (!cached) return false;
+
+      const attendances = JSON.parse(cached);
+
+      return attendances.some((a: any) =>
+        String(a.job_id) === String(this.job.id) &&
+        String(a.application_id) === String(this.job.application_id) &&
+        a.type === 'checkin' &&
+        a.created_at?.startsWith(this.job.job_date)
+      );
+
+    } catch (e) {
+      console.error('Failed to read cache_attendances', e);
+      return false;
+    }
+  }
+
+  async getProfilePhotoUrl(): Promise<string> {
+    const auth = await this.authStorage.getAuth();
+
+    // fallback avatar (WAJIB ADA)
+    const fallback = 'assets/images/avatar/default-user.png';
+
+    if (!auth || !auth.user) {
+      return fallback;
+    }
+
+    if (auth.user.photo) {
+      return `${environment.base_url}/${auth.user.photo}?t=${Date.now()}`;
+    }
+
+    return fallback;
+  }
+
+  createUserAvatarIcon(
+    photoUrl: string,
+    size: number = 20
+  ): L.DivIcon {
+    return L.divIcon({
+      className: 'user-avatar-marker',
+      html: `
+        <div
+          style="
+            width:${size}px;
+            height:${size}px;
+            border-radius:50%;
+            overflow:hidden;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            background:#fff;
+          "
+        >
+          <img
+            src="${photoUrl}"
+            style="
+              width:100%;
+              height:100%;
+              object-fit:cover;
+            "
+          />
+        </div>
+      `,
+      iconSize: [size, size],
+      iconAnchor: [size / 2, size],
+      popupAnchor: [0, -size]
+    });
+  }
+
+  createHotelAvatarIcon(
+    logoUrl: string,
+    size: number = 44
+  ): L.DivIcon {
+    return L.divIcon({
+      className: 'hotel-avatar-marker',
+      html: `
+        <div
+          style="
+            width:${size}px;
+            height:${size}px;
+            border-radius:50%;
+            overflow:hidden;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            background:#fff;
+          "
+        >
+          <img
+            src="${logoUrl}"
+            style="
+              width:100%;
+              height:100%;
+              object-fit:cover;
+            "
+          />
+        </div>
+      `,
+      iconSize: [size, size],
+      iconAnchor: [size / 2, size],
+      popupAnchor: [0, -size]
+    });
+  }
+
+  private normalizeHotelLogo(hotel: any, ts = Date.now()) {
+    if (!hotel.logo) {
+      return 'assets/images/hotels/default.png';
+    }
+
+    if (hotel.logo.startsWith('http://') || hotel.logo.startsWith('https://')) {
+      return hotel.logo;
+    }
+
+    return `${environment.base_url}/${hotel.logo}?t=${ts}`;
+  }
+
+  private getHotelFromCache(): any | null {
+    try {
+      const cached = localStorage.getItem('cache_hotels');
+      if (!cached) return null;
+
+      const hotels = JSON.parse(cached);
+      if (!Array.isArray(hotels) || hotels.length === 0) return null;
+
+      return hotels[0]; // asumsi 1 hotel aktif
+    } catch (e) {
+      console.error('❌ FAILED TO READ cache_hotels', e);
+      return null;
+    }
+  }
+
 }

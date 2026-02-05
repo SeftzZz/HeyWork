@@ -1,13 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import {
+  IonContent,
+  IonHeader,
+  IonTitle,
+  IonToolbar
+} from '@ionic/angular/standalone';
 import { NavController } from '@ionic/angular';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { environment } from '../../../environments/environment';
-
-import { AuthStorage, AuthData } from '../../services/auth-storage.service';
+import { AuthStorage } from '../../services/auth-storage.service';
 
 @Component({
   selector: 'app-application',
@@ -18,33 +22,35 @@ import { AuthStorage, AuthData } from '../../services/auth-storage.service';
 })
 export class ApplicationPage implements OnInit {
 
-  applications: any[] = [];
+  attendances: any[] = [];
   loading = false;
+  attendanceGroups: any[] = [];
 
   constructor(
     private nav: NavController,
     private http: HttpClient,
-    private authStorage: AuthStorage,
+    private authStorage: AuthStorage
   ) {}
 
-  ngOnInit() {
-    this.loadApplications();
+  async ngOnInit() {
+    await this.loadAttendances();
   }
 
   // ===============================
-  // LOAD APPLICATION LIST
+  // LOAD ATTENDANCE LIST
   // ===============================
-  async loadApplications() {
-    const cacheKey = 'cache_applications';
+  async loadAttendances() {
+    const cacheKey = 'cache_attendances';
 
-    // cache dulu
+    // 1️⃣ CACHE FIRST
     const cached = this.getCache<any[]>(cacheKey);
     if (cached && cached.length) {
-      this.applications = this.resolveJobAndHotel(cached);
+      this.attendances = cached;
+      this.groupAttendances(); // 🔥 WAJIB
       return;
     }
 
-    // API
+    // 2️⃣ API
     try {
       this.loading = true;
 
@@ -57,41 +63,103 @@ export class ApplicationPage implements OnInit {
 
       const data = await firstValueFrom(
         this.http.get<any[]>(
-          `${environment.api_url}/worker/application-list`,
+          `${environment.api_url}/worker/attendance`,
           { headers }
         )
       );
 
-      const resolved = this.resolveJobAndHotel(data);
-
-      this.setCache(cacheKey, resolved);
-      this.applications = resolved;
+      this.attendances = data || [];
+      this.groupAttendances(); // 🔥 WAJIB
+      this.setCache(cacheKey, this.attendances);
 
     } catch (err) {
-      console.error('Failed to load applications', err);
-      this.applications = [];
+      console.error('Failed to load attendances', err);
+      this.attendances = [];
+      this.attendanceGroups = [];
     } finally {
       this.loading = false;
     }
   }
 
-  // ===============================
-  // RESOLVE JOB + HOTEL FROM CACHE
-  // ===============================
-  private resolveJobAndHotel(apps: any[]) {
+  getLateMinutes(row: any): number {
+    if (row.type !== 'checkin') return 0;
+
     const jobs = this.getCache<any[]>('cache_jobs') || [];
-    const hotels = this.getCache<any[]>('cache_hotels') || [];
+    const job = jobs.find(j => String(j.id) === String(row.job_id));
 
-    return apps.map(app => {
-      const job = jobs.find(j => String(j.id) === String(app.job_id));
-      const hotel = hotels.find(h => String(h.id) === String(job?.hotel_id));
+    if (!job || !job.start_time || job.start_time === '00:00:00') {
+      return 0;
+    }
 
-      return {
-        ...app,
-        job: job || null,
-        hotel: hotel || null
-      };
-    });
+    const checkin = new Date(row.created_at);
+    const jobDate = row.created_at.substring(0, 10);
+    const start = new Date(`${jobDate}T${job.start_time}`);
+
+    const diff = Math.floor((checkin.getTime() - start.getTime()) / 60000);
+    return diff > 0 ? diff : 0;
+  }
+
+  groupAttendances() {
+    const jobs = this.getCache<any[]>('cache_jobs') || [];
+
+    const map: Record<string, any> = {};
+
+    for (const row of this.attendances) {
+      const date = row.created_at.substring(0, 10);
+      const key = `${row.job_id}_${date}`;
+
+      if (!map[key]) {
+        const job = jobs.find(j => String(j.id) === String(row.job_id));
+
+        map[key] = {
+          job_id: row.job_id,
+          date,
+          position: row.position,
+          hotel_name: row.hotel_name,
+          job_date_start: row.job_date_start,
+          job_date_end: row.job_date_end,
+          start_time: job?.start_time,
+          checkin: null,
+          checkout: null
+        };
+      }
+
+      if (row.type === 'checkin') {
+        map[key].checkin = row;
+      }
+
+      if (row.type === 'checkout') {
+        map[key].checkout = row;
+      }
+    }
+
+    this.attendanceGroups = Object.values(map);
+  }
+
+  getLateMinutesFromGroup(group: any): number {
+    if (!group.checkin || !group.start_time) return 0;
+
+    const checkinTime = new Date(group.checkin.created_at);
+    const start = new Date(`${group.date}T${group.start_time}`);
+
+    const diff = Math.floor((checkinTime.getTime() - start.getTime()) / 60000);
+    return diff > 0 ? diff : 0;
+  }
+
+  // ===============================
+  // HELPERS
+  // ===============================
+  isCheckIn(row: any) {
+    return row.type === 'checkin';
+  }
+
+  isCheckOut(row: any) {
+    return row.type === 'checkout';
+  }
+
+  formatTime(datetime?: string) {
+    if (!datetime) return '-';
+    return datetime.substring(11, 16); // HH:mm
   }
 
   // ===============================
