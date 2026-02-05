@@ -929,4 +929,8 @@ export class HomePage implements OnInit {
   goAttendance() {
     this.nav.navigateForward('/pages/attendance');
   }
+
+  goAttendanceList() {
+    this.nav.navigateForward('/pages/attendance-list');
+  }
 }
