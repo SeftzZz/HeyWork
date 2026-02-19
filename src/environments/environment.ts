@@ -4,9 +4,9 @@
 
 export const environment = {
   production: false,
-  api_url: "http://heywork.local/api",
-  base_url: "http://heywork.local",
-  ws_url: "ws://heywork.local/ws"
+  api_url: "https://devusers.heywork.id/api",
+  base_url: "https://devusers.heywork.id",
+  ws_url: "wss://devusers.heywork.id/ws"
 };
 
 /*

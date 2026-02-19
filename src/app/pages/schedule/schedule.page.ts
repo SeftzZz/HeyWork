@@ -430,7 +430,10 @@ export class SchedulePage implements OnInit {
       for (let d = 1; d <= lastDay.getDate(); d++) {
         const dateStr = `${year}-${this.pad(month + 1)}-${this.pad(d)}`;
 
+        const appliedJobIds = this.getAppliedJobIds();
+
         const jobsOnDay = this.jobs.filter(job =>
+          appliedJobIds.has(Number(job.id)) &&
           this.isDateInRange(dateStr, job.job_date_start, job.job_date_end)
         );
 
@@ -492,4 +495,12 @@ export class SchedulePage implements OnInit {
     this.selectDate(selectedDay);
   }
 
+  private getAppliedJobIds(): Set<number> {
+    return new Set(
+      this.applications
+        .filter(a => a.status === 'accepted')
+        .map(a => Number(a.job_id))
+        .filter(id => !isNaN(id))
+    );
+  }
 }

@@ -87,6 +87,7 @@
   justify-content: center;
 
   transition: all 0.15s ease-in-out;
+  margin: 3px;
 }
 
 .calendar-day:hover:not(.empty):not(.disabled) {

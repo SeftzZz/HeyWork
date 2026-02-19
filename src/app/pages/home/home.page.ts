@@ -122,7 +122,10 @@ export class HomePage implements OnInit {
   }
 
   private subscribeWebSocket() {
+
     this.wsSub = this.ws.events$.subscribe(event => {
+
+      if (!event || !event.type) return;
 
       switch (event.type) {
 
@@ -130,6 +133,11 @@ export class HomePage implements OnInit {
           console.log('[WS] handshake OK:', event.message);
           break;
 
+        /**
+         * =============================
+         * JOBS UPDATED
+         * =============================
+         */
         case 'jobs_updated': {
           const ts = Date.now();
           const jobs = (event.data || []).map((job: any) => ({
@@ -144,14 +152,50 @@ export class HomePage implements OnInit {
           break;
         }
 
-        case 'application_counts_updated':
-          localStorage.setItem('cache_app_counts', JSON.stringify(event.data));
+        /**
+         * =============================
+         * 🔥 APPLICATION COUNTS UPDATED
+         * =============================
+         */
+        case 'application_counts_updated': {
 
-          this.animateCount(event.data.pending   || 0, v => this.pendingCount = v);
-          this.animateCount(event.data.accepted  || 0, v => this.acceptedCount = v);
-          this.animateCount(event.data.completed || 0, v => this.completedCount = v);
+          if (!this.auth?.user?.id) return;
+          if (event.user_id && event.user_id !== this.auth.user.id) return;
+
+          const data = event.data || {};
+
+          // 🔥 pakai method yang sama seperti API
+          localStorage.removeItem('cache_app_counts');
+          this.setCache('cache_app_counts', data);
+
+          this.animateCount(data.pending   || 0, v => this.pendingCount = v);
+          this.animateCount(data.accepted  || 0, v => this.acceptedCount = v);
+          this.animateCount(data.completed || 0, v => this.completedCount = v);
+
           break;
+        }
 
+        /**
+         * =============================
+         * 🔥 APPLICATION STATUS UPDATE (GRANULAR)
+         * =============================
+         */
+        case 'application_status': {
+
+          if (!this.auth?.user?.id) return;
+          if (event.user_id && event.user_id !== this.auth.user.id) return;
+
+          localStorage.removeItem('cache_applications');
+          this.loadApplications();
+
+          break;
+        }
+
+        /**
+         * =============================
+         * MOST POPULAR JOBS
+         * =============================
+         */
         case 'most_popular_jobs_updated': {
           const ts = Date.now();
           const jobs = (event.data || []).map((job: any) => ({
@@ -166,6 +210,11 @@ export class HomePage implements OnInit {
           break;
         }
 
+        /**
+         * =============================
+         * HOTELS UPDATED
+         * =============================
+         */
         case 'hotels_updated': {
           const ts = Date.now();
           const hotels = (event.data || []).map((hotel: any) => ({
@@ -181,6 +230,7 @@ export class HomePage implements OnInit {
         default:
           console.log('[WS] unknown event', event);
       }
+
     });
   }
 
@@ -200,7 +250,7 @@ export class HomePage implements OnInit {
   }
 
   ionViewDidEnter() {
-    this.loadApplicationCounts();
+    this.loadApplicationCounts(true);
 
     setTimeout(() => {
       if (typeof initAllSwipers === 'function') {
@@ -386,19 +436,19 @@ export class HomePage implements OnInit {
       : text;
   }
 
-  async loadApplicationCounts() {
+  async loadApplicationCounts(force = false) {
     const cacheKey = 'cache_app_counts';
 
-    // 1️⃣ ambil dari cache
-    const cached = this.getCache<any>(cacheKey);
-    if (cached) {
-      this.animateCount(cached.pending   || 0, v => this.pendingCount = v);
-      this.animateCount(cached.accepted  || 0, v => this.acceptedCount = v);
-      this.animateCount(cached.completed || 0, v => this.completedCount = v);
-      return;
+    if (!force) {
+      const cached = this.getCache<any>(cacheKey);
+      if (cached) {
+        this.animateCount(cached.pending   || 0, v => this.pendingCount = v);
+        this.animateCount(cached.accepted  || 0, v => this.acceptedCount = v);
+        this.animateCount(cached.completed || 0, v => this.completedCount = v);
+        return;
+      }
     }
 
-    // 2️⃣ call API kalau belum ada
     try {
       const token = await this.authStorage.getToken();
       if (!token) throw new Error();
@@ -414,7 +464,6 @@ export class HomePage implements OnInit {
         )
       );
 
-      // 💾 simpan ke cache
       this.setCache(cacheKey, res);
 
       this.animateCount(res.pending   || 0, v => this.pendingCount = v);

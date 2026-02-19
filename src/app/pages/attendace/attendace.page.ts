@@ -74,7 +74,7 @@ export class AttendacePage implements OnInit {
   }
 
   async ionViewDidEnter() {
-    await this.getLocation();    
+    await this.getLocation();   
   }
 
   goBack() {
