@@ -41,6 +41,8 @@ export class SchedulePage implements OnInit {
 
   activeMonthIndex = 0;
 
+  shifts: any[] = [];
+
   constructor(
     private nav: NavController,
     private http: HttpClient,
@@ -72,7 +74,9 @@ export class SchedulePage implements OnInit {
 
   // 🔥 INI YANG PENTING
   async ionViewWillEnter() {
-    await this.loadAttendances(true); // force reload
+    await this.loadSchedule(true);
+    await this.loadAttendances(true);
+    this.buildYearCalendar();
     this.refreshSelectedJobs();
   }
 
@@ -131,7 +135,8 @@ export class SchedulePage implements OnInit {
   // DAY STYLE (HIGHLIGHT + DISABLE)
   // ===============================
   getDayStyle(day: any) {
-    if (day.empty) return {};
+
+    if (!day || day.empty) return {};
 
     if (day.isPast) {
       return {
@@ -141,18 +146,19 @@ export class SchedulePage implements OnInit {
       };
     }
 
-    if (!day.jobs || !day.jobs.length) return {};
+    if (!day.shifts || day.shifts.length === 0) return {};
 
-    if (day.jobs.length === 1) {
+    // 🔵 1 shift
+    if (day.shifts.length === 1) {
       return {
-        background: this.getJobColor(day.jobs[0].id),
+        background: '#2869FE',
         color: '#fff'
       };
     }
 
-    const colors = day.jobs.map((j: any) => this.getJobColor(j.id));
+    // 🟣 Multiple shifts (overtime case)
     return {
-      background: `linear-gradient(135deg, ${colors.join(',')})`,
+      background: '#9C27B0',
       color: '#fff'
     };
   }
@@ -165,31 +171,33 @@ export class SchedulePage implements OnInit {
 
     this.selectedDate = day.date;
 
-    this.selectedJobs = (day.jobs || []).map((job: any) => {
-      const app = this.applications.find(
-        a => Number(a.job_id) === Number(job.id)
-      );
+    this.selectedJobs = (day.shifts || []).map((shift: any) => {
+
+      console.log('SHIFT:', shift);
+      console.log('ATTENDANCES:', this.attendances);
 
       const records = this.attendances.filter(a =>
-        a.job_id === job.id &&
+        Number(a.job_id) === Number(shift.job_id) &&
+        Number(a.application_id) === Number(shift.application_id) &&
         a.created_at?.startsWith(day.date)
       );
 
-      console.log('Applications:', this.applications);
-      console.log('Job:', job.id);
-      console.log('Matched app:', app);
+      records.sort((a, b) =>
+        new Date(a.created_at).getTime() -
+        new Date(b.created_at).getTime()
+      );
 
       return {
-        ...job,
-        application_id: app?.application_id || null,
-        application_status: app?.status || null,
+        ...shift,
         attendance: {
           checkin: records.find(r => r.type === 'checkin') || null,
           checkout: records.find(r => r.type === 'checkout') || null
         },
-        lateSeconds: this.getLateSeconds(job)
+        lateSeconds: this.getLateSeconds(shift)
       };
     });
+
+    console.log('Selected Jobs:', this.selectedJobs);
 
     // 🔥 START REALTIME LATE TIMER
     this.startLateTimer();
@@ -254,37 +262,17 @@ export class SchedulePage implements OnInit {
   // ===============================
   // CHECK-IN WINDOW
   // ===============================
-  canCheckIn(job: any) {
+  canCheckIn(shift: any) {
     if (!this.selectedDate) return false;
 
-    // sudah check-in
-    if (job.attendance?.checkin) return false;
+    if (shift.attendance?.checkin) return false;
 
-    // harus accepted
-    if (job.application_status !== 'accepted') return false;
-
-    if (!job.application_id) return false;
-
-    // hanya di hari ini
     if (this.selectedDate !== this.today) return false;
 
     const now = new Date();
 
-    // =========================
-    // NORMALIZE START & END TIME
-    // =========================
-    const startTime =
-      job.start_time && job.start_time !== '00:00:00'
-        ? job.start_time
-        : '00:00:00';
-
-    const endTime =
-      job.end_time && job.end_time !== '00:00:00'
-        ? job.end_time
-        : '23:59:59';
-
-    const start = new Date(`${this.selectedDate}T${startTime}`);
-    const end   = new Date(`${this.selectedDate}T${endTime}`);
+    const start = new Date(`${this.selectedDate}T${shift.start_time}`);
+    const end   = new Date(`${this.selectedDate}T${shift.end_time}`);
 
     return now >= start && now <= end;
   }
@@ -319,42 +307,32 @@ export class SchedulePage implements OnInit {
   // ===============================
   // CHECK-IN ACTION
   // ===============================
-  async doCheckIn(job: any) {
-    if (!job.application_id) {
-      alert('Application ID tidak ditemukan');
+  async doCheckIn(shift: any) {
+
+    if (!shift.schedule_shift_id) {
+      alert('Shift ID tidak ditemukan');
       return;
     }
 
-    // 🔥 cari hotel dari cache
-    const hotel = this.hotels.find(
-      h =>
-        h.hotel_name?.toLowerCase().trim() ===
-        job.hotel_name?.toLowerCase().trim()
-    );
-
-    if (!hotel) {
-      alert('Hotel tidak ditemukan di cache');
-      console.error('HOTEL NOT FOUND', {
-        jobHotelName: job.hotel_name,
-        hotels: this.hotels
-      });
+    if (!shift.job_id || !shift.application_id) {
+      alert('Shift belum terhubung ke Job');
       return;
     }
 
-    // 🔥 KIRIM DATA LENGKAP
     this.nav.navigateForward('pages/attendance', {
       state: {
-        job: {
-          id: job.id,
-          application_id: job.application_id,
-          position: job.position,
-          hotel_id: hotel.id,
-          hotel_name: hotel.hotel_name,
-          hotel_latitude: hotel.latitude,
-          hotel_longitude: hotel.longitude,
-          start_time: job.start_time,
-          end_time: job.end_time,
-          job_date: this.selectedDate
+        shift: {
+          schedule_shift_id: shift.schedule_shift_id,
+          job_id: shift.job_id,
+          application_id: shift.application_id,
+          department: shift.department,
+          start_time: shift.start_time,
+          end_time: shift.end_time,
+          shift_date: this.selectedDate,
+          hotel_id: shift.hotel_id,
+          hotel_name: shift.hotel_name,
+          hotel_latitude: shift.hotel_latitude,
+          hotel_longitude: shift.hotel_longitude
         }
       }
     });
@@ -405,15 +383,27 @@ export class SchedulePage implements OnInit {
   }
 
   buildYearCalendar() {
+
     this.yearCalendars = [];
 
     const year = this.currentDate.getFullYear();
-
-    // 🔥 INI KUNCI
     const currentMonth = this.currentDate.getMonth();
     this.activeMonthIndex = currentMonth;
 
+    // 🔥 Safety: pastikan shifts array valid
+    const shiftMap: Record<string, any[]> = {};
+
+    // Convert shifts array menjadi map supaya lebih cepat & aman
+    if (Array.isArray(this.shifts)) {
+      for (const item of this.shifts) {
+        if (item?.shift_date) {
+          shiftMap[item.shift_date] = item.shifts || [];
+        }
+      }
+    }
+
     for (let month = 0; month < 12; month++) {
+
       const firstDay = new Date(year, month, 1);
       const lastDay  = new Date(year, month + 1, 0);
 
@@ -423,25 +413,23 @@ export class SchedulePage implements OnInit {
 
       const days: any[] = [];
 
+      // padding empty
       for (let i = 0; i < startWeekDay; i++) {
         days.push({ empty: true });
       }
 
       for (let d = 1; d <= lastDay.getDate(); d++) {
-        const dateStr = `${year}-${this.pad(month + 1)}-${this.pad(d)}`;
 
-        const appliedJobIds = this.getAppliedJobIds();
+        const dateStr =
+          `${year}-${this.pad(month + 1)}-${this.pad(d)}`;
 
-        const jobsOnDay = this.jobs.filter(job =>
-          appliedJobIds.has(Number(job.id)) &&
-          this.isDateInRange(dateStr, job.job_date_start, job.job_date_end)
-        );
+        const shiftsForDay = shiftMap[dateStr] || [];
 
         days.push({
           day: d,
           date: dateStr,
-          jobs: jobsOnDay,
-          hasJob: jobsOnDay.length > 0,
+          shifts: shiftsForDay,
+          hasShift: shiftsForDay.length > 0,
           isPast: dateStr < this.today
         });
       }
@@ -453,6 +441,8 @@ export class SchedulePage implements OnInit {
         days
       });
     }
+
+    console.log('Shifts Loaded:', this.shifts);
   }
 
   loadApplicationsFromCache() {
@@ -502,5 +492,58 @@ export class SchedulePage implements OnInit {
         .map(a => Number(a.job_id))
         .filter(id => !isNaN(id))
     );
+  }
+
+  async loadSchedule(force = false) {
+
+    const cacheKey = 'cache_schedule';
+
+    if (!force) {
+      try {
+        const cached = localStorage.getItem(cacheKey);
+        if (cached) {
+          this.shifts = JSON.parse(cached);
+          this.buildYearCalendar();   // 🔥 tambahkan ini
+          return;
+        }
+      } catch {
+        localStorage.removeItem(cacheKey);
+      }
+    }
+
+    try {
+      const token = await this.authStorage.getToken();
+      if (!token) return;
+
+      const headers = {
+        Authorization: `Bearer ${token}`
+      };
+
+      const res: any = await this.http
+        .get(`${environment.api_url}/worker/schedule`, { headers })
+        .toPromise();
+
+      this.shifts = res?.data || [];
+
+      console.log('Shifts Loaded:', this.shifts);
+
+      localStorage.setItem(cacheKey, JSON.stringify(this.shifts));
+
+      // 🔥 REBUILD CALENDAR SETELAH DATA MASUK
+      this.buildYearCalendar();
+
+    } catch (err) {
+      console.error('Failed to load schedule', err);
+    }
+  }
+
+  getShiftColor(type: string) {
+    switch (type) {
+      case 'regular': return '#4CAF50';
+      case 'overtime': return '#FF9800';
+      case 'leave': return '#9C27B0';
+      case 'off': return '#BDBDBD';
+      default: return '#2196F3';
+    }
   }
 }

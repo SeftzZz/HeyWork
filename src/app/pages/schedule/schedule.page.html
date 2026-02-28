@@ -70,72 +70,67 @@
       <div class="mt-24" *ngIf="selectedDate">
         <h6>Schedule on {{ selectedDate }}</h6>
 
-        <div *ngIf="!selectedJobs.length" class="text-dark-4 mt-12">
+        <div *ngIf="!selectedJobs?.length" class="text-dark-4 mt-12">
           No schedule on this day
         </div>
 
         <div
           class="box-app mt-12"
-          *ngFor="let job of selectedJobs"
+          *ngFor="let shift of selectedJobs"
         >
           <div class="info-box">
             <div class="content">
 
-              <!-- JOB TITLE -->
+              <!-- SHIFT TITLE -->
               <div class="h7 text-dark">
                 <span
                   class="color-dot"
-                  [style.background]="getJobColor(job.id)"
+                  [style.background]="getShiftColor(shift.shift_type)"
                 ></span>
-                {{ job.position }}
+                {{ shift.department }}
               </div>
 
+              <!-- SHIFT TIME -->
               <div class="body-4 text-dark-4">
-                {{ job.hotel_name || job.location }}
+                {{ shift.start_time }} - {{ shift.end_time }}
               </div>
 
+              <!-- SHIFT TYPE -->
               <div class="body-6 text-dark-6">
-                {{ job.job_date_start }} → {{ job.job_date_end || job.job_date_start }}
+                Type: {{ shift.shift_type | uppercase }}
               </div>
 
-              <!-- ATTENDANCE -->
+              <!-- ATTENDANCE STATUS -->
               <div class="mt-8 body-6">
                 <strong>Status:</strong>
-                {{ getAttendanceStatus(job) }}
+                {{ getAttendanceStatus(shift) }}
               </div>
 
-              <div class="body-6 text-dark-6" *ngIf="job.attendance?.checkin">
+              <!-- CHECK-IN -->
+              <div class="body-6 text-dark-6" *ngIf="shift.attendance?.checkin">
                 🟡 Check-in :
-                {{ job.attendance.checkin.created_at | date:'HH:mm' }}
+                {{ shift.attendance.checkin.created_at | date:'HH:mm' }}
               </div>
 
-              <div class="body-6 text-dark-6" *ngIf="job.attendance?.checkout">
+              <!-- CHECK-OUT -->
+              <div class="body-6 text-dark-6" *ngIf="shift.attendance?.checkout">
                 ✅ Check-out :
-                {{ job.attendance.checkout.created_at | date:'HH:mm' }}
-              </div>
-
-              <div class="body-6 text-dark-6">
-                {{ job.job_date_start }} → {{ job.job_date_end || job.job_date_start }}
-              </div>
-
-              <!-- STATUS -->
-              <div class="mt-6 body-6">
-                {{ getAttendanceStatus(job) }}
+                {{ shift.attendance.checkout.created_at | date:'HH:mm' }}
               </div>
 
               <!-- LATE INFO -->
               <div
                 class="mt-4 body-6 text-danger"
-                *ngIf="canCheckIn(job) && job.lateSeconds > 0"
+                *ngIf="canCheckIn(shift) && shift.lateSeconds > 0"
               >
-                ⏱ {{ formatSeconds(job.lateSeconds) }}
+                ⏱ {{ formatSeconds(shift.lateSeconds) }}
               </div>
 
               <!-- CHECK-IN BUTTON -->
               <button
                 class="btn btn-primary mt-8"
-                *ngIf="canCheckIn(job)"
-                (click)="doCheckIn(job)"
+                *ngIf="canCheckIn(shift)"
+                (click)="doCheckIn(shift)"
               >
                 Check In
               </button>

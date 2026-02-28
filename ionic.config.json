@@ -1,5 +1,7 @@
 {
   "name": "HeyWork",
-  "integrations": {},
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "angular-standalone"
 }

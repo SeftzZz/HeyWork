@@ -14,8 +14,5 @@ public class MainActivity extends BridgeActivity {
 
     WebView webView = this.bridge.getWebView();
     WebSettings settings = webView.getSettings();
-
-    // 🔓 BYPASS MIXED CONTENT (DEV ONLY)
-    settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
   }
 }

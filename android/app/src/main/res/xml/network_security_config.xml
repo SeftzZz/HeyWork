@@ -5,7 +5,7 @@
   <base-config cleartextTrafficPermitted="true" />
 
   <domain-config cleartextTrafficPermitted="true">
-    <domain includeSubdomains="true">heyworkapi.local</domain>
+    <domain includeSubdomains="true">devusers.heywork.id</domain>
   </domain-config>
 
 </network-security-config>

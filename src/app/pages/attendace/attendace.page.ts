@@ -63,12 +63,12 @@ export class AttendacePage implements OnInit {
 
   async ngOnInit() {
     const navState = history.state;
-    if (!navState?.job) {
+    if (!navState?.shift) {
       this.nav.back();
       return;
     }
 
-    this.job = navState.job;
+    this.job = navState.shift;
     console.log('🧾 JOB DATA:', this.job);
     this.loadHotelLocation();
   }
@@ -218,7 +218,7 @@ export class AttendacePage implements OnInit {
       const token = await this.authStorage.getToken();
 
       const payload = new FormData();
-      payload.append('job_id', this.job.id);
+      payload.append('job_id', this.job.job_id);
       payload.append('application_id', this.job.application_id);
       payload.append('latitude', String(this.latitude));
       payload.append('longitude', String(this.longitude));
@@ -234,7 +234,7 @@ export class AttendacePage implements OnInit {
       await loading.dismiss();
 
       // 🔥 HAPUS CACHE ATTENDANCE
-      // localStorage.removeItem('cache_attendances');
+      localStorage.removeItem('cache_attendances');
 
       this.toast('Check-in berhasil ✅');
 
